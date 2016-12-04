@@ -10,16 +10,16 @@ RUN echo "US/Central" > /etc/timezone \
 	&& dpkg-reconfigure --frontend=noninteractive tzdata
 
 # add files
-ADD ajenti/phpMyAdmin.json /etc/ajenti/phpMyAdmin.json
-ADD backup.d/ /etc/backup.d/
+ADD ../ajenti/phpMyAdmin.json /etc/ajenti/phpMyAdmin.json
+ADD ../backup.d/ /etc/backup.d/
 RUN chmod 0600 /etc/backup.* -R
 
 # run install
-ADD ajenti-install.sh ajenti-install.sh
+ADD ../ajenti-install.sh ajenti-install.sh
 RUN bash ajenti-install.sh
 
 # entrypoint
-ADD entrypoint.sh /usr/sbin/entrypoint.sh
+ADD ../entrypoint.sh /usr/sbin/entrypoint.sh
 RUN chmod +x /usr/sbin/entrypoint.sh
 
 EXPOSE 80 443 3306 8000
