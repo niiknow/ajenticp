@@ -41,14 +41,10 @@ This image expect all management through the web panel.  There is no ssh.  If yo
 https://yourip:8000
 ```
 
-## ajenti-udock-ftp
-This demonstrate ftp and ssh with ajenti-udock.
+## ajenti-udock-greedy
+So you want everything?  This demonstrate the greedy udock setup with: ajenti-udock, sftp, postgresql, mongodb, bind9, and disable https for Ajenti.
 
-## ajenti-udock-pg, ajenti-udock-mongo
-This demonstrate postgresql/mongo with udock.  I don't know why you would want this.  Just use another docker to host the database.
-
-## ajenti-udock-max
-ajenti-udock, ftp, postgresql, mongodb, bind9, and disable https for Ajenti.
+From this image, you can figure out how to simply setup your own from the base ajenti-udock panel.
 
 # Inspired by
 [WhatPanel] (https://github.com/paimpozhil/WhatPane)

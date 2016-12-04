@@ -37,9 +37,8 @@ else
     sleep 5s
 fi
 
-mkdir /var/www/sites
-chown www-data:www-data /var/www/sites
-chmod 775 /var/www/sites
+chown -R www-data:www-data /srv
+chmod 775 /srv
 
 service mysql start
 

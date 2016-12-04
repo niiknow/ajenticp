@@ -13,13 +13,15 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get -o Acquire::GzipIndexes=false update
 
 echo "1. apt updating for the first time" 1>&2
-apt-get update && apt-get -yq upgrade && apt-get install -yqf wget git curl nano apt-show-versions apt-utils
+apt-get update && apt-get -yq upgrade && apt-get install -yqf locale-gen wget git curl nano apt-show-versions apt-utils
 
 echo "2. applying Xenial specific fixes before apt update" 1>&2
 wget http://repo.ajenti.org/debian/key -O- | apt-key add -
 echo "deb http://repo.ajenti.org/debian main main ubuntu" > /etc/apt/sources.list.d/ajenti.list
 
 echo "3. configure and force update all: resolve apt-utils and apt-show-versions issues" 1>&2
+locale-gen "en_US.UTF-8"
+dpkg-reconfigure locales
 dpkg --configure -a
 apt-get update && apt-get -yq full-upgrade && apt-get install -yf
 
