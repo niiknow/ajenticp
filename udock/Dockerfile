@@ -5,7 +5,9 @@ MAINTAINER friends <friends@niiknow.org>
 ENV DEBIAN_FRONTEND noninteractive
 
 # everyone should be on UTC
-RUN timedatectl set-timezone Etc/UTC
+#RUN timedatectl set-timezone Etc/UTC
+RUN echo "US/Central" > /etc/timezone \
+	&& dpkg-reconfigure --frontend=noninteractive tzdata
 
 # add files
 ADD ../ajenti /etc/ajenti/
