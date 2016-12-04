@@ -10,7 +10,7 @@ RUN echo "US/Central" > /etc/timezone \
 	&& dpkg-reconfigure --frontend=noninteractive tzdata
 
 # add files
-ADD udock/ajenti /etc/ajenti/
+ADD ajenti /etc/ajenti/
 ADD backup.d/ /etc/backup.d/
 RUN chmod 0600 /etc/backup.* -R
 
