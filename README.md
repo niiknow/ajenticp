@@ -4,7 +4,7 @@ Ajenti Docker web panel with Ubuntu 16.04 LTS
 Build
 ```
 cd udock
-docker build -t niiknow/ajenti-udock:0.0.1 .
+docker build -t niiknow/ajenti-udock:0.0.1 udock
 docker tag niiknow/ajenti-udock:0.0.1 niiknow/ajenti-udock:latest
 ```
 
