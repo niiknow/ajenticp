@@ -10,8 +10,8 @@ RUN echo "US/Central" > /etc/timezone \
 	&& dpkg-reconfigure --frontend=noninteractive tzdata
 
 # add files
-ADD ajenti /etc/ajenti/
-ADD backup.d /etc/backup.d/
+ADD ajenti/ /etc/ajenti/
+ADD backup.d/ /etc/backup.d/
 RUN chmod 0600 /etc/backup.* -R
 
 # run install
