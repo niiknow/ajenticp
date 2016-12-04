@@ -25,6 +25,9 @@ RUN chmod +x /usr/sbin/entrypoint.sh
 
 # set root password
 RUN echo 'root:Ch@ng3m3' | chpasswd
+RUN echo "ajenti  ALL=(ALL) NOPASSWD:ALL" | tee -a /etc/sudoers
+
+USER test
 
 EXPOSE 80 443 3306 8000
 

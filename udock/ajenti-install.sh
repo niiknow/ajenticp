@@ -13,15 +13,13 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get -o Acquire::GzipIndexes=false update
 
 echo "1. apt updating for the first time" 1>&2
-apt-get update && apt-get -yq upgrade && apt-get install -yqf locale-gen wget git curl nano apt-show-versions apt-utils
+apt-get update && apt-get -yq upgrade && apt-get install -yqf locale-gen sudo wget git curl nano apt-show-versions apt-utils
 
 echo "2. applying Xenial specific fixes before apt update" 1>&2
 wget http://repo.ajenti.org/debian/key -O- | apt-key add -
 echo "deb http://repo.ajenti.org/debian main main ubuntu" > /etc/apt/sources.list.d/ajenti.list
 
 echo "3. configure and force update all: resolve apt-utils and apt-show-versions issues" 1>&2
-locale-gen "en_US.UTF-8"
-dpkg-reconfigure locales
 dpkg --configure -a
 apt-get update && apt-get -yq full-upgrade && apt-get install -yf
 
@@ -29,7 +27,7 @@ echo "4. adding php / nodejs / memcached / backupninja / duplicity" 1>&2
 apt-get install -y software-properties-common
 apt-add-repository -y ppa:ondrej/php
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
-apt-get update
+apt-get update && apt-get install -yq mariadb-server mariadb-client
 apt-get install -yq php5.6-fpm php5.6-mysql 
 apt-get install -yq php7.0-fpm php7.0-mysql memcached backupninja duplicity
 

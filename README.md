@@ -49,6 +49,9 @@ From this image, you can figure out how to simply setup your own from the base a
 # Inspired by
 [WhatPanel] (https://github.com/paimpozhil/WhatPane)
 
+# Signing Off
+Project is currently abandoned since parent project (Ajenti) also seem to be abandoned.  
+
 # LICENSE
 The MIT License (MIT)
 
