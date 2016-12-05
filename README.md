@@ -18,6 +18,9 @@ BROWSER
 https://yourip:8000
 ```
 
+Default Ajenti user/pass: root/admin
+For any issue or help with Ajenti: https://github.com/ajenti/ajenti
+
 ## ajenti-install.sh
 This script can be use to install Ajenti on Ubuntu 16.04 LTS.  It provides basic plugin and various fixes that make Ajenti possible on Ubuntu 16.04 LTS.
 
@@ -26,6 +29,7 @@ This script can be use to install Ajenti on Ubuntu 16.04 LTS.  It provides basic
 3. Add phpMyAdmin of course.
 4. If nodejs not exists, use apt-get to install default nodejs.  You can easily apt-get remove and/or reinstall from a different source later.  
 5. Install plugins: nginx mysql/MariaDB php5.6-fpm php7.0-fpm mail nodejs python-gunicorn ruby-unicorn.
+6. Also include tools that you need to be productive in a terminal like wget, curl, git, sudo, and nano.
 
 That should be enough for you to start your website hosting.  MySql is included for convienence, but it's best to host mysql on a separate container.
 
