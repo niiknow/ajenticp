@@ -21,13 +21,16 @@ RUN echo "ForceCommand internal-sftp" >> /etc/ssh/sshd_config
 RUN useradd -m -g www-data sftpuser
 
 # mongodb 27017
-apt-get install -yq mongodb-org
+RUN curl -s -o /tmp/percona-server-mongodb-3.2.9-2.1-rd497c75-xenial-x86_64-bundle.tar https://www.percona.com/downloads/percona-server-mongodb-3.2/percona-server-mongodb-3.2.9-2.1/binary/debian/xenial/x86_64/percona-server-mongodb-3.2.9-2.1-rd497c75-xenial-x86_64-bundle.tar && \
+    tar -xf /tmp/percona-server-mongodb-3.2.9-2.1-rd497c75-xenial-x86_64-bundle.tar -C /tmp/ && \
+    dpkg -i /tmp/percona-server-mongodb-*.deb
+RUN easy_install pymongo
 
 # postgresql 5432
-apt-get install -yq postgresql postgresql-contrib
+RUN apt-get install -yq postgresql postgresql-contrib
 
 # bind9 53
-apt-get install -yq bind9 bind9utils bind9-doc
+RUN apt-get install -yq bind9 bind9utils bind9-doc
 
 # Let swap out with a different nodejs
 RUN rm -rf /bin/node

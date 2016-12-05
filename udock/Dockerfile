@@ -16,8 +16,8 @@ RUN mkdir -p /installers
 ADD installers/ /installers/
 
 # run install
-ADD ajenti-install.sh ajenti-install.sh
-RUN bash ajenti-install.sh
+ADD ajenti-install.sh /tmp/ajenti-install.sh
+RUN bash /tmp/ajenti-install.sh
 
 # set root password
 RUN echo 'root:Ch@ng3m3' | chpasswd

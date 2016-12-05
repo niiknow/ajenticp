@@ -32,7 +32,7 @@ apt-get install -yq php5.6-fpm php5.6-mysql
 apt-get install -yq php7.0-fpm php7.0-mysql memcached backupninja duplicity
 
 # only install node if not exists, maybe you already have node from a different source
-if ! type "node -v" > /dev/null; then
+if ! type "nodejs -v" > /dev/null; then
   apt-get install -yq nodejs npm
   ln -sf /bin/node /usr/bin/nodejs
 fi
@@ -41,14 +41,14 @@ echo "5. install basic python for python-support_1.0.15_all.deb" 1>&2
 apt-get install -yq build-essential python-pip python-dev python-lxml libffi-dev libssl-dev libjpeg-dev libpng-dev uuid-dev python-dbus python-augeas python-apt 
 
 echo "6. installing python support" 1>&2
-wget http://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb
-dpkg -i python-support_1.0.15_all.deb
+curl -s -o /tmp/python-support_1.0.15_all.deb https://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb
+dpkg -i /tmp/python-support_1.0.15_all.deb
 
 echo "7. installing ajenti" 1>&2
 apt-get install -yq ajenti
 apt-get install -yq ajenti-v ajenti-v-nginx ajenti-v-mysql ajenti-v-php5.6-fpm ajenti-v-php7.0-fpm ajenti-v-mail ajenti-v-nodejs ajenti-v-python-gunicorn ajenti-v-ruby-unicorn 
 
 echo "8. installing phpMyAdmin" 1>&2
-wget https://files.phpmyadmin.net/phpMyAdmin/4.6.5.1/phpMyAdmin-4.6.5.1-all-languages.tar.gz
-tar -zxvf phpMyAdmin-4.6.5.1-all-languages.tar.gz -C /opt/
+curl -s -o /tmp/phpMyAdmin-4.6.5.1-all-languages.tar.gz https://files.phpmyadmin.net/phpMyAdmin/4.6.5.1/phpMyAdmin-4.6.5.1-all-languages.tar.gz
+tar -zxvf /tmp/phpMyAdmin-4.6.5.1-all-languages.tar.gz -C /opt/
 mv /opt/phpMyAdmin-4.6.5.1-all-languages /opt/phpMyAdmin
