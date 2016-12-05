@@ -4,16 +4,16 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
-echo "deb mirror://mirrors.ubuntu.com/mirrors.txt xenial main restricted universe multiverse" > /etc/apt/sources.list
-echo "deb mirror://mirrors.ubuntu.com/mirrors.txt xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list
-echo "deb mirror://mirrors.ubuntu.com/mirrors.txt xenial-backports main restricted universe multiverse" >> /etc/apt/sources.list
-echo "deb mirror://mirrors.ubuntu.com/mirrors.txt xenial-security main restricted universe multiverse" >> /etc/apt/sources.list
+#echo "deb mirror://mirrors.ubuntu.com/mirrors.txt xenial main restricted universe multiverse" > /etc/apt/sources.list
+#echo "deb mirror://mirrors.ubuntu.com/mirrors.txt xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list
+#echo "deb mirror://mirrors.ubuntu.com/mirrors.txt xenial-backports main restricted universe multiverse" >> /etc/apt/sources.list
+#echo "deb mirror://mirrors.ubuntu.com/mirrors.txt xenial-security main restricted universe multiverse" >> /etc/apt/sources.list
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get -o Acquire::GzipIndexes=false update
 
 echo "1. apt updating for the first time" 1>&2
-apt-get update && apt-get -yq upgrade && apt-get install -yqf sudo wget apt-show-versions apt-utils
+apt-get update && apt-get -yq upgrade && apt-get install -yqf wget apt-show-versions apt-utils
 
 echo "2. applying Xenial specific fixes before apt update" 1>&2
 wget http://repo.ajenti.org/debian/key -O- | apt-key add -
@@ -27,7 +27,7 @@ echo "4. adding php / nodejs / memcached / backupninja / duplicity" 1>&2
 apt-get install -y software-properties-common
 apt-add-repository -y ppa:ondrej/php
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
-apt-get update && apt-get install -yq git curl nano vim mariadb-server mariadb-client libmagickwand-dev imagemagick php-dev
+apt-get update && apt-get install -yq sudo git curl nano vim mariadb-server mariadb-client libmagickwand-dev imagemagick php-dev
 pecl install imagick 
 apt-get install -yq php5.6-fpm php5.6-mysql
 apt-get install -yq php7.0-fpm php7.0-mysql php-imagick memcached backupninja duplicity
