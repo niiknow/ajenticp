@@ -13,7 +13,8 @@ RUN echo "Etc/UTC" > /etc/timezone \
 RUN apt-get install -y locales && \
     sed -i -e "s/# $LANG.*/$LANG.UTF-8 UTF-8/" /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
-    update-locale LANG=$LANG
+    update-locale LANG=$LANG && \
+    locale-gen en_US en_US.UTF-8
 
 # add files
 ADD ajenti/ /etc/ajenti/

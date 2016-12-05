@@ -18,7 +18,8 @@ mkdir -p /srv/$SITE_DOMAIN
 cd /srv/$SITE_DOMAIN
 DBNAME=${SITE_DOMAIN//[^a-zA-Z09]/_} 
 wp --allow-root core download
-wp --allow-root core config --dbhost=localhost --dbname=$DBNAME --dbuser=root --dbpass=$MYSQL_ADMIN_PASSWORD
+wp --allow-root core config --dbhost=localhost --dbname=$DBNAME --dbuser=root --prompt=dbpass < /root/dbpass.txt
 chown -R www-data:www-data .
-chmod 644 wp-config.php
+find . -type d -exec chmod -R 775 {} \;
+find . -type f -exec chmod -R 664 {} \;
 
