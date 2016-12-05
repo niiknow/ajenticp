@@ -29,6 +29,9 @@ RUN easy_install pymongo
 # postgresql 5432
 RUN apt-get install -yq postgresql postgresql-contrib
 
+# openvpn 1194/udp
+RUN apt-get install -yq openvpn easy-rsa
+
 # bind9 53
 RUN apt-get install -yq bind9 bind9utils bind9-doc
 
@@ -39,4 +42,4 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 RUN apt-get install -y nodejs npm
 RUN npm install -g gulp express forever flatiron
 
-EXPOSE 80 443 3306 8000 22 27017 5432 53
+EXPOSE 80 443 3306 8000 22 27017 5432 1194/udp 53

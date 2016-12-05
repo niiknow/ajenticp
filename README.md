@@ -25,7 +25,7 @@ This script can be use to install Ajenti on Ubuntu 16.04 LTS.  It provides basic
 2. Install *apt-show-versions* and force update to prevent Ajenti dependency errors.
 3. Add phpMyAdmin of course.
 4. If nodejs not exists, use apt-get to install default nodejs.  You can easily apt-get remove and/or reinstall from a different source later.  
-5. Install plugins: nginx mysql php5.6-fpm php7.0-fpm mail nodejs python-gunicorn ruby-unicorn.
+5. Install plugins: nginx mysql/MariaDB php5.6-fpm php7.0-fpm mail nodejs python-gunicorn ruby-unicorn.
 
 That should be enough for you to start your website hosting.  MySql is included for convienence, but it's best to host mysql on a separate container.
 
@@ -42,9 +42,18 @@ https://yourip:8000
 ```
 
 ## ajenti-udock-greedy
-So you want everything?  This demonstrate the greedy udock setup with: ajenti-udock + sftp, postgresql, mongodb, and bind9.  Also swap out with latest nodejs 6.x and npm install gulp and express.
+So you want everything?  This demonstrate the greedy udock setup with: ajenti-udock + sftp, postgresql, mongodb, openvpn, and bind9.  Also swap out with latest nodejs 6.x and npm install gulp, express, forever, and flatiron.
 
 From this image, you can figure out how to simply setup your own from the base ajenti-udock panel.
+
+Since we're running docker, you can choose to expose as much or as little port as you like with your docker run port mapping.  Example below show just simply adding openvpn.
+
+```
+docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -p 1194:1194/udp -v /opt/ajenti-udock/www:/srv -v /opt/ajenti-udock/data:/data -v /opt/ajenti-udock/backup:/backup -v /opt/ajenti-udock/mysql:/var/lib/mysql -e MYSQL_ADMIN_PASSWORD=yourMySqlpass -d niiknow/ajenti-udock-greedy
+```
+
+TODO
+* I need to standardize Ajenti folder to keep data for all these apps to simplify volumn mapping.
 
 # Inspired by
 [WhatPanel] (https://github.com/paimpozhil/WhatPane)
