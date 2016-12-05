@@ -26,6 +26,8 @@ ADD installers/ /installers/
 # run install
 ADD ajenti-install.sh /tmp/ajenti-install.sh
 RUN bash /tmp/ajenti-install.sh
+RUN rm -f /var/lib/ajenti/plugins/vh-nginx/nginx_templates.pyc
+RUN sed -i -e "s/worker_rlimit_nofile 100000;/ /g" /var/lib/ajenti/plugins/vh-nginx/nginx_templates.py
 
 # set root password
 RUN echo 'root:Ch@ng3m3' | chpasswd
