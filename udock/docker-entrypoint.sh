@@ -44,5 +44,8 @@ chown -R www-data:www-data /data/sites
 echo $MYSQL_ADMIN_PASSWORD > /root/dbpass.txt
 systemctl enable ajenti
 service ajenti restart
+service php5.6-fpm restart
+service php7.0-fpm restart
+service nginx restart
 
 exec "$@"
