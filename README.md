@@ -4,8 +4,8 @@ Ajenti Docker web panel with Ubuntu 16.04 LTS
 Build
 ```
 cd udock
-docker build -t niiknow/ajenti-udock:0.0.1 udock
-docker tag niiknow/ajenti-udock:0.0.1 niiknow/ajenti-udock:latest
+docker build -t niiknow/ajenti-udock:0.1.0 udock
+docker tag niiknow/ajenti-udock:0.1.0 niiknow/ajenti-udock:latest
 ```
 
 RUN
@@ -19,7 +19,7 @@ https://yourip:8000
 ```
 
 ## ajenti-install.sh
-This script can be use to install Ajenti on Ubuntu 16.04 LTS.  It provides basic plugin and various fixes to make Ajenti possible on Ubuntu 16.04 LTS.
+This script can be use to install Ajenti on Ubuntu 16.04 LTS.  It provides basic plugin and various fixes that make Ajenti possible on Ubuntu 16.04 LTS.
 
 1. Install *apt-utils* early so it does not warn in later steps.
 2. Install *apt-show-versions* and force update to prevent Ajenti dependency errors.
@@ -32,10 +32,10 @@ That should be enough for you to start your website hosting.  MySql is included 
 ## ajenti-udock
 This is the base docker image of ajenti-udock with basic requirements:
 
-1. Set timezone to UTC activate Ajenti terminal.  You should be able to configure your timezone in your own Dockerfile. 
+1. Set timezone to UTC activate Ajenti terminal.  You should be able to configure your timezone in your own Dockerfile (see udock-greedy).
 2. Trigger *ajenti-install.sh* and expose 80/http, 443/https, 3306/mysql, and 8000/ajenti.
 
-This image expect all management through the web panel.  There is no ssh.  If you need terminal then go through the web panel, docker cloud, or rancher.
+This image expect all management through the web panel.  There is no ssh.  If you need terminal access then use the web panel, docker cloud, or even running with rancher.
 
 ```
 https://yourip:8000
@@ -46,7 +46,7 @@ So you want everything?  This demonstrate the greedy udock setup with: ajenti-ud
 
 From this image, you can figure out how to simply setup your own from the base ajenti-udock panel.
 
-Since we're running docker, you can choose to expose as much or as little port as you like with your docker run port mapping.  Example below show just simply adding openvpn.
+Since we're running docker, you can choose to expose as much or as little port as you like with your docker port mapping.  Example below show the addition of openvpn.
 
 ```
 docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -p 1194:1194/udp -v /opt/ajenti-udock/www:/srv -v /opt/ajenti-udock/data:/data -v /opt/ajenti-udock/backup:/backup -v /opt/ajenti-udock/mysql:/var/lib/mysql -e MYSQL_ADMIN_PASSWORD=yourMySqlpass -d niiknow/ajenti-udock-greedy
@@ -56,10 +56,22 @@ TODO
 * I need to standardize Ajenti folder to keep data for all these apps to simplify volumn mapping.
 
 # Inspired by
-[WhatPanel] (https://github.com/paimpozhil/WhatPane)
+[WhatPanel] (https://github.com/paimpozhil/WhatPane) - but instead of CentOS, I use focus on simplifying deployment with latest Ubuntu LTS.  I also want to provide directly for full blown Ajenti docker image.
+
+# Benefits
+So you purchased a cheap VPS hosting and setup your perfect and secure server.  Your VPS provider doesn't have snapshot kind of backup or provide little to no backup; and you don't want to mess with the server stability.  Docker comes to the rescue.  You can use this project or similar to provide a more flexible, stable, and secure environment for hosting.
+
+If you don't have docker but has access to Ubuntu 16.04, you can use the ajenti-install.sh directly.
+
+```
+wget https://raw.githubusercontent.com/niiknow/ajenti-udock/master/udock/ajenti-install.sh
+bash ajenti-install.sh
+```
 
 # Signing Off
-Project is currently abandoned since parent project (Ajenti) also seem to be abandoned.  
+Project is currently *not actively worked on* since parent project (Ajenti) also seem to be in the same status.  This make it difficult to justify running this in Production so I'm not actively using this project.  I'm just doing this as proof of concept.
+
+Otherwise, if you have any requests, create an issue/pull request and I will try to find the time.
 
 # LICENSE
 The MIT License (MIT)
