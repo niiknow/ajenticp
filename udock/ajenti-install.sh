@@ -13,7 +13,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get -o Acquire::GzipIndexes=false update
 
 echo "1. apt updating for the first time" 1>&2
-apt-get update && apt-get -yq upgrade && apt-get install -yqf sudo wget git curl nano apt-show-versions apt-utils
+apt-get update && apt-get -yq upgrade && apt-get install -yqf sudo wget git curl vi nano apt-show-versions apt-utils
 
 echo "2. applying Xenial specific fixes before apt update" 1>&2
 wget http://repo.ajenti.org/debian/key -O- | apt-key add -
