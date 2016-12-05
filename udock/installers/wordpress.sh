@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script demonstrate install wordpress on ajenti-udock/ajenti
-# ask for domain name, install to /srv/domainname.com
+# ask for domain name, install to /ajenti/sites/domainname.com
 # 
 
 SITE_DOMAIN=yourblog.com
@@ -14,8 +14,8 @@ if [ ! -f /usr/local/bin/wp ];  then
 	mv wp-cli.phar /usr/local/bin/wp
 fi
 
-mkdir -p /srv/$SITE_DOMAIN
-cd /srv/$SITE_DOMAIN
+mkdir -p /ajenti/sites/$SITE_DOMAIN
+cd /ajenti/sites/$SITE_DOMAIN
 DBNAME=${SITE_DOMAIN//[^a-zA-Z09]/_} 
 wp --allow-root core download
 wp --allow-root core config --dbhost=localhost --dbname=$DBNAME --dbuser=root --prompt=dbpass < /root/dbpass.txt

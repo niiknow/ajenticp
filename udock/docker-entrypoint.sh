@@ -37,8 +37,8 @@ else
     sleep 5s
 fi
 
-chown -R www-data:www-data /srv
-chmod 775 /srv
+mkdir -p /ajenti/sites
+chown -R www-data:www-data /ajenti
 
 echo $MYSQL_ADMIN_PASSWORD > /root/dbpass.txt
 systemctl enable ajenti

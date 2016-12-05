@@ -52,3 +52,7 @@ echo "8. installing phpMyAdmin" 1>&2
 curl -s -o /tmp/phpMyAdmin-4.6.5.1-all-languages.tar.gz https://files.phpmyadmin.net/phpMyAdmin/4.6.5.1/phpMyAdmin-4.6.5.1-all-languages.tar.gz
 tar -zxvf /tmp/phpMyAdmin-4.6.5.1-all-languages.tar.gz -C /opt/
 mv /opt/phpMyAdmin-4.6.5.1-all-languages /opt/phpMyAdmin
+
+echo "9. making changes to ajenti" 1>&2
+rm -f /var/lib/ajenti/plugins/vh/api.pyc
+sed "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py

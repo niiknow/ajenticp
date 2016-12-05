@@ -10,7 +10,7 @@ docker tag niiknow/ajenti-udock:0.1.0 niiknow/ajenti-udock:latest
 
 RUN
 ```
-docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -v /opt/ajenti-udock/www:/srv -v /opt/ajenti-udock/data:/data -v /opt/ajenti-udock/backup:/backup -v /opt/ajenti-udock/mysql:/var/lib/mysql -e MYSQL_ADMIN_PASSWORD=yourMySqlpass -d niiknow/ajenti-udock
+docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -v /opt/ajenti-udock/sites:/ajenti/sites -v /opt/ajenti-udock/mysql:/var/lib/mysql -e MYSQL_ADMIN_PASSWORD=yourMySqlpass -d niiknow/ajenti-udock
 ```
 
 BROWSER
@@ -53,7 +53,7 @@ From this image, you can figure out how to simply setup your own from the base a
 Since we're running docker, you can choose to expose as much or as little port as you like with your docker port mapping.  Example below show the addition of openvpn.
 
 ```
-docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -p 1194:1194/udp -v /opt/ajenti-udock/www:/srv -v /opt/ajenti-udock/data:/data -v /opt/ajenti-udock/backup:/backup -v /opt/ajenti-udock/mysql:/var/lib/mysql -e MYSQL_ADMIN_PASSWORD=yourMySqlpass -d niiknow/ajenti-udock-greedy
+docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -p 1194:1194/udp -v /opt/ajenti-udock/sites:/ajenti/sites -v /opt/ajenti-udock/mysql:/var/lib/mysql -e MYSQL_ADMIN_PASSWORD=yourMySqlpass -d niiknow/ajenti-udock-greedy
 ```
 
 TODO
