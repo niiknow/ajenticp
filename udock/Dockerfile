@@ -39,6 +39,6 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-EXPOSE 80 443 3306 8000
+EXPOSE 80 443 3306 8000 8001
 
 CMD ["mysqld"]

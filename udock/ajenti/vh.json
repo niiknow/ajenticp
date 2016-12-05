@@ -18,7 +18,7 @@
                     "php_flags": "",
                     "pm": "dynamic"
                 },
-                "type": "php-fcgi"
+                "type": "php5.6-fcgi"
             }
         }],
         "owner": "root",
@@ -38,7 +38,7 @@
             "spdy": false,
             "ssl": false,
             "host": "*",
-            "port": 80,
+            "port": 8001,
             "default": false
         }],
         "enabled": true
