@@ -14,7 +14,7 @@ RUN apt-get install -yq openssh-server
 RUN grep -v "Subsystem sftp /usr/lib/openssh/sftp-server" /etc/ssh/sshd_config > /etc/ssh/sshd_config2 && mv /etc/ssh/sshd_config2 /etc/ssh/sshd_config
 RUN echo "Subsystem sftp internal-sftp" >> /etc/ssh/sshd_config
 RUN echo "Match group www-data" >> /etc/ssh/sshd_config
-RUN echo "ChrootDirectory /ajenti/sites/" >> /etc/ssh/sshd_config
+RUN echo "ChrootDirectory /data/sites/" >> /etc/ssh/sshd_config
 RUN echo "X11Forwarding no" >> /etc/ssh/sshd_config
 RUN echo "AllowTcpForwarding no" >> /etc/ssh/sshd_config
 RUN echo "ForceCommand internal-sftp" >> /etc/ssh/sshd_config

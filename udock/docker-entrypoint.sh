@@ -37,8 +37,9 @@ else
     sleep 5s
 fi
 
-mkdir -p /ajenti/sites
-chown -R www-data:www-data /ajenti
+mkdir -p /data/sites
+mkdir -p /data/backups
+chown -R www-data:www-data /data/sites
 
 echo $MYSQL_ADMIN_PASSWORD > /root/dbpass.txt
 systemctl enable ajenti

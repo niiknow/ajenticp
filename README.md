@@ -10,7 +10,7 @@ docker tag niiknow/ajenti-udock:0.1.0 niiknow/ajenti-udock:latest
 
 RUN
 ```
-docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -v /opt/ajenti-udock/sites:/ajenti/sites -v /opt/ajenti-udock/mysql:/var/lib/mysql -e MYSQL_ADMIN_PASSWORD=yourMySqlpass -d niiknow/ajenti-udock
+docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -v /opt/ajenti-udock/sites:/data/sites -v /opt/ajenti-udock/mysql:/var/lib/mysql -e MYSQL_ADMIN_PASSWORD=yourMySqlpass -d niiknow/ajenti-udock
 ```
 
 BROWSER
@@ -30,6 +30,7 @@ This script can be use to install Ajenti on Ubuntu 16.04 LTS.  It provides basic
 4. If nodejs not exists, use apt-get to install default nodejs.  You can easily apt-get remove and/or reinstall from a different source later.  
 5. Install plugins: nginx mysql/MariaDB php5.6-fpm php7.0-fpm mail nodejs python-gunicorn ruby-unicorn.
 6. Also include tools that you need to be productive in a terminal like wget, curl, git, sudo, and nano.
+7. Modify Ajenti default website folder from /srv/new-website to /data/sites/new-website.
 
 That should be enough for you to start your website hosting.  MySql is included for convienence, but it's best to host mysql on a separate container.
 
@@ -53,7 +54,7 @@ From this image, you can figure out how to simply setup your own from the base a
 Since we're running docker, you can choose to expose as much or as little port as you like with your docker port mapping.  Example below show the addition of openvpn.
 
 ```
-docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -p 1194:1194/udp -v /opt/ajenti-udock/sites:/ajenti/sites -v /opt/ajenti-udock/mysql:/var/lib/mysql -e MYSQL_ADMIN_PASSWORD=yourMySqlpass -d niiknow/ajenti-udock-greedy
+docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -p 1194:1194/udp -v /opt/ajenti-udock/sites:/data/sites -v /opt/ajenti-udock/mysql:/var/lib/mysql -e MYSQL_ADMIN_PASSWORD=yourMySqlpass -d niiknow/ajenti-udock-greedy
 ```
 
 TODO

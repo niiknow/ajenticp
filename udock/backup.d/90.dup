@@ -79,9 +79,10 @@ password = whatpanelbackup
 #    taken into account.
 
 # files to include in the backup
-include = /backup
-include = /var/www
-include = /data
+include = /data/backups
+include = /data/sites
+include = /var/lib/mysql
+include = /etc/ajenti
 
 # If vservers = yes in /etc/backupninja.conf then the following variables can
 # be used:

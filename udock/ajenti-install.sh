@@ -27,9 +27,9 @@ echo "4. adding php / nodejs / memcached / backupninja / duplicity" 1>&2
 apt-get install -y software-properties-common
 apt-add-repository -y ppa:ondrej/php
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
-apt-get update && apt-get install -yq mariadb-server mariadb-client
-apt-get install -yq php5.6-fpm php5.6-mysql 
-apt-get install -yq php7.0-fpm php7.0-mysql memcached backupninja duplicity
+apt-get update && apt-get install -yq mariadb-server mariadb-client imagemagick 
+apt-get install -yq php5.6-fpm php5.6-mysql
+apt-get install -yq php7.0-fpm php7.0-mysql php-imagick memcached backupninja duplicity
 
 # only install node if not exists, maybe you already have node from a different source
 if ! type "nodejs -v" > /dev/null; then
@@ -56,3 +56,5 @@ mv /opt/phpMyAdmin-4.6.5.1-all-languages /opt/phpMyAdmin
 echo "9. making changes to ajenti" 1>&2
 rm -f /var/lib/ajenti/plugins/vh/api.pyc
 sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py
+rm -f /var/lib/ajenti/plugins/vh-nginx/nginx_templates.pyc
+sed -i -e "s/worker_rlimit_nofile 100000;/ /g" /var/lib/ajenti/plugins/vh-nginx/nginx_templates.py
