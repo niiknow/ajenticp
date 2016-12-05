@@ -3,7 +3,7 @@ MAINTAINER friends <friends@niiknow.org>
 
 # make it non-interactive
 ENV DEBIAN_FRONTEND noninteractive
-ENV LANG=en_US.UTF-8
+ENV LANG=C.UTF-8
 
 # everyone should be on UTC
 RUN echo "Etc/UTC" > /etc/timezone \
