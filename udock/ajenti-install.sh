@@ -27,7 +27,8 @@ echo "4. adding php / nodejs / memcached / backupninja / duplicity" 1>&2
 apt-get install -y software-properties-common
 apt-add-repository -y ppa:ondrej/php
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
-apt-get update && apt-get install -yq mariadb-server mariadb-client imagemagick 
+apt-get update && apt-get install -yq mariadb-server mariadb-client libmagickwand-dev imagemagick php-dev
+pecl install imagick 
 apt-get install -yq php5.6-fpm php5.6-mysql
 apt-get install -yq php7.0-fpm php7.0-mysql php-imagick memcached backupninja duplicity
 
