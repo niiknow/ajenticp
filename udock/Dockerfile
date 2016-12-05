@@ -3,10 +3,17 @@ MAINTAINER friends <friends@niiknow.org>
 
 # make it non-interactive
 ENV DEBIAN_FRONTEND noninteractive
+ENV LANG=en_US.UTF-8
 
 # everyone should be on UTC
 RUN echo "Etc/UTC" > /etc/timezone \
 	&& dpkg-reconfigure --frontend=noninteractive tzdata
+
+# fix locales warning on Ajenti Terminal
+RUN apt-get install -y locales && \
+    sed -i -e "s/# $LANG.*/$LANG.UTF-8 UTF-8/" /etc/locale.gen && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
+    update-locale LANG=$LANG
 
 # add files
 ADD ajenti/ /etc/ajenti/

@@ -40,6 +40,7 @@ fi
 chown -R www-data:www-data /srv
 chmod 775 /srv
 
+systemctl enable ajenti
 service ajenti restart
 
 exec "$@"
