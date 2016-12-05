@@ -34,6 +34,7 @@ apt-get install -yq php7.0-fpm php7.0-mysql memcached backupninja duplicity
 # only install node if not exists, maybe you already have node from a different source
 if ! type "node -v" > /dev/null; then
   apt-get install -yq nodejs npm
+  ln -sf /bin/node /usr/bin/nodejs
 fi
 
 echo "5. install basic python for python-support_1.0.15_all.deb" 1>&2
