@@ -40,6 +40,6 @@ fi
 chown -R www-data:www-data /srv
 chmod 775 /srv
 
-service mysql start
+service ajenti restart
 
-/usr/bin/ajenti-panel
+exec "$@"

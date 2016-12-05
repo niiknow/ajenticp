@@ -30,9 +30,10 @@ apt-get install -yq postgresql postgresql-contrib
 apt-get install -yq bind9 bind9utils bind9-doc
 
 # Let swap out with a different nodejs
-RUN apt-get remove -yq node npm
+RUN rm -rf /bin/node
+RUN apt-get remove -yq nodejs npm
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-RUN apt-get install -y nodejs
+RUN apt-get install -y nodejs npm
 RUN npm install -g gulp express forever flatiron
 
 EXPOSE 80 443 3306 8000 22 27017 5432 53

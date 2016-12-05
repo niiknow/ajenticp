@@ -19,16 +19,18 @@ ADD installers/ /installers/
 ADD ajenti-install.sh ajenti-install.sh
 RUN bash ajenti-install.sh
 
-# entrypoint
-ADD entrypoint.sh /usr/sbin/entrypoint.sh
-RUN chmod +x /usr/sbin/entrypoint.sh
-
 # set root password
 RUN echo 'root:Ch@ng3m3' | chpasswd
 RUN echo "ajenti  ALL=(ALL) NOPASSWD:ALL" | tee -a /etc/sudoers
 
 # USER test
 
+# entrypoint
+ADD docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
 EXPOSE 80 443 3306 8000
 
-CMD ["/usr/sbin/entrypoint.sh"]
+CMD ["mysqld"]
