@@ -10,20 +10,20 @@ mkdir -p /data/nginx/global-conf
 mkdir -p /data/nginx/main-conf
 
 if [ ! -f /data/nginx/main-conf/nginx.conf ];  then
-    mv /etc/nginx /data/nginx/conf
+    mv /etc/nginx/** /data/nginx/main-conf
 fi
 
-rm -f /etc/nginx
+rm /etc/nginx
 ln -sf /etc/nginx /data/nginx/main-conf
-rm -f /etc/nginx.custom.d
+rm /etc/nginx.custom.d
 ln -sf /etc/nginx.custom.d /data/nginx/http-conf
-rm -f /etc/nginx.custom.global.d
+rm /etc/nginx.custom.global.d
 ln -sf /etc/nginx.custom.global.d /data/nginx/global-conf
 
 if [ ! -f /data/ajenti/vh.json ];  then
-    mv /etc/ajenti /data/ajenti
+    mv /etc/ajenti/** /data/ajenti
 fi
-rm -f /etc/ajenti
+rm /etc/ajenti
 ln -sf /etc/ajenti /data/ajenti
 
 echo $MYSQL_ADMIN_PASSWORD > /root/dbpass.txt
