@@ -30,7 +30,7 @@ curl -sS https://getcomposer.org/installer | php -- --version=1.2.1 --install-di
 # only install node if not exists, maybe you already have node from a different source
 if ! type "nodejs -v" > /dev/null; then
   apt-get install -yq nodejs npm
-  ln -sf /bin/node /usr/bin/nodejs
+  ln -sf /usr/bin/nodejs /bin/node 
 fi
 
 echo "5. install basic python for python-support_1.0.15_all.deb" 1>&2
@@ -61,4 +61,3 @@ systemctl disable mysql
 systemctl disable nginx
 systemctl disable php5.6-fpm
 systemctl disable php7.0-fpm
-systemctl disable supervisor

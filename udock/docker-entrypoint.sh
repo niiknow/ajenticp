@@ -13,13 +13,13 @@ mv -n /etc/nginx/** /data/nginx/main-conf
 mv -n /etc/ajenti/** /data/ajenti
 
 rm -rf /etc/nginx
-ln -sf /etc/nginx /data/nginx/main-conf
+ln -sdf /data/nginx/main-conf /etc/nginx 
 rm -rf /etc/nginx.custom.d
-ln -sf /etc/nginx.custom.d /data/nginx/http-conf
+ln -sdf /data/nginx/http-conf /etc/nginx.custom.d 
 rm -rf /etc/nginx.custom.global.d
-ln -sf /etc/nginx.custom.global.d /data/nginx/global-conf
+ln -sdf /data/nginx/global-conf /etc/nginx.custom.global.d 
 rm -rf /etc/ajenti
-ln -sf /etc/ajenti /data/ajenti
+ln -sdf /data/ajenti /etc/ajenti 
 
 echo $MYSQL_ADMIN_PASSWORD > /root/dbpass.txt
 
