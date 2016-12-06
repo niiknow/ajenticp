@@ -1,51 +1,31 @@
 #!/bin/bash
-VOLUME_HOME="/var/lib/mysql"
-export TERM=linux
-if [[ ! -d $VOLUME_HOME/mysql ]]; then
-    
-    echo "=> An empty or uninitialized MySQL volume is detected in $VOLUME_HOME"
-    echo "=> Installing MySQL ..."
-    mysql_install_db --user=mysql
-
-    echo "=> Reconfiguring MySQL ..."
-    TERM=linux dpkg-reconfigure mysql-server
-    PASSWD="$(grep -m 1 --only-matching --perl-regex "(?<=password \= ).*" /etc/mysql/debian.cnf)"
-    /usr/bin/mysqld_safe &
-    sleep 5s
-    echo "=>executing   GRANT ALL PRIVILEGES ON *.* TO 'debian-sys-maint'@'localhost' IDENTIFIED BY '$PASSWD';"
-    echo "GRANT ALL PRIVILEGES ON *.* TO 'debian-sys-maint'@'localhost' IDENTIFIED BY '$PASSWD';" | mysql
-
-    /usr/bin/mysqladmin -u root password $MYSQL_ADMIN_PASSWORD
-    
-    killall mysqld    
-    sleep 5s
-    
-    echo "=> Done!"  
-else
-    echo "=> Using an existing volume of MySQL"
-    echo "=> Updating root and debian-sys-maint passwords"
-    PASSWD="$(grep -m 1 --only-matching --perl-regex "(?<=password \= ).*" /etc/mysql/debian.cnf)"
-
-    /usr/bin/mysqld_safe &
-    sleep 5s
-
-    /usr/bin/mysqladmin -u root password $MYSQL_ADMIN_PASSWORD
-    
-    echo "SET PASSWORD FOR 'debian-sys-maint'@'localhost' = PASSWORD('$PASSWD');" |mysql -u root --password=$MYSQL_ADMIN_PASSWORD
-
-    killall mysqld    
-    sleep 5s
-fi
-
-mkdir -p /data/sites
+mkdir -p /data/ajenti
+mkdir -p /data/mysql
 mkdir -p /data/backups
+mkdir -p /data/sites
 chown -R www-data:www-data /data/sites
 
+mkdir -p /data/nginx/http-conf
+mkdir -p /data/nginx/global-conf
+mkdir -p /data/nginx/main-conf
+
+if [ ! -f /data/nginx/main-conf/nginx.conf ];  then
+    mv /etc/nginx /data/nginx/conf
+fi
+
+rm -f /etc/nginx
+ln -sf /etc/nginx /data/nginx/main-conf
+rm -f /etc/nginx.custom.d
+ln -sf /etc/nginx.custom.d /data/nginx/http-conf
+rm -f /etc/nginx.custom.global.d
+ln -sf /etc/nginx.custom.global.d /data/nginx/global-conf
+
+if [ ! -f /data/ajenti/vh.json ];  then
+    mv /etc/ajenti /data/ajenti
+fi
+rm -f /etc/ajenti
+ln -sf /etc/ajenti /data/ajenti
+
 echo $MYSQL_ADMIN_PASSWORD > /root/dbpass.txt
-systemctl enable ajenti
-service ajenti restart
-service php5.6-fpm restart
-service php7.0-fpm restart
-service nginx restart
 
 exec "$@"

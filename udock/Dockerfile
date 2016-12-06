@@ -31,6 +31,10 @@ RUN bash /tmp/ajenti-install.sh
 RUN rm -f /var/lib/ajenti/plugins/vh-nginx/nginx_templates.pyc
 RUN sed -i -e "s/worker_rlimit_nofile 100000;/ /g" /var/lib/ajenti/plugins/vh-nginx/nginx_templates.py
 
+# update supervisor
+RUN sed -i -e "s/\[supervisord\]/\[supervisord\]\nnodaemon=true;\n/g" /etc/supervisor/supervisord.conf
+ADD supervisor/conf.d /etc/supervisor/conf.d
+
 # set root password
 RUN echo 'root:Ch@ng3m3' | chpasswd
 RUN echo "ajenti  ALL=(ALL) NOPASSWD:ALL" | tee -a /etc/sudoers
@@ -45,4 +49,4 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 80 443 3306 8000 8001
 
-CMD ["mysqld"]
+CMD ["/usr/bin/supervisord"]
