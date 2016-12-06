@@ -52,23 +52,3 @@ mv /opt/phpMyAdmin-4.6.5.1-all-languages /opt/phpMyAdmin
 echo "9. making changes to ajenti" 1>&2
 rm -f /var/lib/ajenti/plugins/vh/api.pyc
 sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py
-
-systemctl disable apache-htcacheclean
-rm -f /etc/init.d/apache-htcacheclean
-rm -f /etc/rc3.d/*apache-htcacheclean
-
-systemctl disable cron
-rm -f /etc/init.d/cron
-rm -f /etc/rc3.d/*cron
-
-systemctl disable nginx
-rm -f /etc/init.d/nginx
-rm -f /etc/rc3.d/*nginx
-
-systemctl disable ajenti
-rm -f /etc/init.d/ajenti
-rm -f /etc/rc3.d/*ajenti
-
-systemctl disable memcached
-rm -f /etc/init.d/memcached
-rm -f /etc/rc3.d/*memcached
