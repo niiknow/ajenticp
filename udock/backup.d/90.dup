@@ -80,6 +80,7 @@ password = whatpanelbackup
 
 # files to include in the backup
 include = /data
+include = /var/lib/mysql
 
 # If vservers = yes in /etc/backupninja.conf then the following variables can
 # be used:

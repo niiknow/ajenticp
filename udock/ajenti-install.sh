@@ -25,7 +25,7 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
 apt-get update && apt-get install -yq sudo git curl nano vim mariadb-server mariadb-client libmagickwand-dev imagemagick php-dev php-pear memcached backupninja duplicity
 pecl install imagick 
 apt-get install -yq php5.6-fpm php5.6-mysql mcrypt php-mbstring libapache2-mod-php5.6 php5.6-cli php5.6-readline php5.6-mbstring php5.6-zip php5.6-intl php5.6-xml php5.6-json php5.6-curl php5.6-mcrypt php5.6-gd php5.6-pgsql php5.6-mongodb
-apt-get install -yq php7.0-fpm php7.0-mysql php-imagick libapache2-mod-php7.0 php7.0-cli php7.0-readline php7.0-mbstring php7.0-zip php7.0-intl php7.0-xml php7.0-json php7.0-curl php7.0-mcrypt php7.0-gd php7.0-pgsql php7.0-mongodb
+apt-get install -yq php7.0-fpm php7.0-mysql php-imagick php-apc libapache2-mod-php7.0 php7.0-cli php7.0-readline php7.0-mbstring php7.0-zip php7.0-intl php7.0-xml php7.0-json php7.0-curl php7.0-mcrypt php7.0-gd php7.0-pgsql php7.0-mongodb
 curl -sS https://getcomposer.org/installer | php -- --version=1.2.1 --install-dir=/usr/local/bin --filename=composer
 # only install node if not exists, maybe you already have node from a different source
 if ! type "nodejs -v" > /dev/null; then
@@ -52,12 +52,3 @@ mv /opt/phpMyAdmin-4.6.5.1-all-languages /opt/phpMyAdmin
 echo "9. making changes to ajenti" 1>&2
 rm -f /var/lib/ajenti/plugins/vh/api.pyc
 sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py
-
-echo "10. disabling service and use supervisor instead"
-systemctl disable ajenti
-systemctl disable apache-htcacheclean
-systemctl disable memcached
-systemctl disable mysql
-systemctl disable nginx
-systemctl disable php5.6-fpm
-systemctl disable php7.0-fpm
