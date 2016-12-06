@@ -52,3 +52,13 @@ mv /opt/phpMyAdmin-4.6.5.1-all-languages /opt/phpMyAdmin
 echo "9. making changes to ajenti" 1>&2
 rm -f /var/lib/ajenti/plugins/vh/api.pyc
 sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py
+
+echo "10. disabling service and use supervisor instead"
+systemctl disable ajenti
+systemctl disable apache-htcacheclean
+systemctl disable memcached
+systemctl disable mysql
+systemctl disable nginx
+systemctl disable php5.6-fpm
+systemctl disable php7.0-fpm
+systemctl disable supervisor
