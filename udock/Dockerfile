@@ -35,23 +35,23 @@ RUN sed -i -e "s/worker_rlimit_nofile 100000;/ /g" /var/lib/ajenti/plugins/vh-ng
 RUN sed -i -e "s/\[supervisord\]/\[supervisord\]\nnodaemon=true\n/g" /etc/supervisor/supervisord.conf
 ADD supervisor/conf.d /etc/supervisor/conf.d
 
-RUN systemd-sysv-install disable apache-htcacheclean && \
+RUN systemctl disable apache-htcacheclean && \
 	rm -f /etc/init.d/apache-htcacheclean && \
 	rm -f /etc/rc3.d/*apache-htcacheclean
 
-RUN systemd-sysv-install disable cron && \
+RUN systemctl disable cron && \
 	rm -f /etc/init.d/cron && \
 	rm -f /etc/rc3.d/*cron
 
-RUN systemd-sysv-install disable nginx && \ 
+RUN systemctl disable nginx && \ 
 	rm -f /etc/init.d/nginx && \
 	rm -f /etc/rc3.d/*nginx
 
-RUN systemd-sysv-install disable ajenti && \
+RUN systemctl disable ajenti && \
 	rm -f /etc/init.d/ajenti && \
 	rm -f /etc/rc3.d/*ajenti
 
-RUN systemd-sysv-install disable memcached && \
+RUN systemctl disable memcached && \
 	rm -f /etc/init.d/memcached && \
 	rm -f /etc/rc3.d/*memcached
 
