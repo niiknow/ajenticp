@@ -9,9 +9,8 @@ mkdir -p /data/nginx/http-conf
 mkdir -p /data/nginx/global-conf
 mkdir -p /data/nginx/main-conf
 
-if [ ! -f /data/nginx/main-conf/nginx.conf ];  then
-    mv /etc/nginx/** /data/nginx/main-conf
-fi
+mv -n /etc/nginx/** /data/nginx/main-conf
+mv -n /etc/ajenti/** /data/ajenti
 
 rm /etc/nginx
 ln -sf /etc/nginx /data/nginx/main-conf
@@ -19,10 +18,6 @@ rm /etc/nginx.custom.d
 ln -sf /etc/nginx.custom.d /data/nginx/http-conf
 rm /etc/nginx.custom.global.d
 ln -sf /etc/nginx.custom.global.d /data/nginx/global-conf
-
-if [ ! -f /data/ajenti/vh.json ];  then
-    mv /etc/ajenti/** /data/ajenti
-fi
 rm /etc/ajenti
 ln -sf /etc/ajenti /data/ajenti
 

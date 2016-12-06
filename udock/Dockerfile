@@ -32,7 +32,7 @@ RUN rm -f /var/lib/ajenti/plugins/vh-nginx/nginx_templates.pyc
 RUN sed -i -e "s/worker_rlimit_nofile 100000;/ /g" /var/lib/ajenti/plugins/vh-nginx/nginx_templates.py
 
 # update supervisor
-RUN sed -i -e "s/\[supervisord\]/\[supervisord\]\nnodaemon=true;\n/g" /etc/supervisor/supervisord.conf
+RUN sed -i -e "s/\[supervisord\]/\[supervisord\]\nnodaemon=true\n/g" /etc/supervisor/supervisord.conf
 ADD supervisor/conf.d /etc/supervisor/conf.d
 
 # set root password
@@ -49,4 +49,4 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 80 443 3306 8000 8001
 
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord -c /etc/supervisor/supervisord.conf"]
