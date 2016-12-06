@@ -60,4 +60,7 @@ else
     sleep 5s
 fi
 
+service php5.6-fpm restart
+service php7.0-fpm restart
+
 exec "$@"
