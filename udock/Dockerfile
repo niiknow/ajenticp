@@ -35,6 +35,9 @@ RUN sed -i -e "s/worker_rlimit_nofile 100000;/ /g" /var/lib/ajenti/plugins/vh-ng
 RUN sed -i -e "s/\[supervisord\]/\[supervisord\]\nnodaemon=true\n/g" /etc/supervisor/supervisord.conf
 ADD supervisor/conf.d /etc/supervisor/conf.d
 
+# update mysql
+RUN sed -i -e "s/\/var\/lib\/mysql/\/data\/mysql/g" /etc/mysql/mariadb.conf.d/50-server.cnf
+
 RUN systemctl disable apache-htcacheclean || true && \
 	rm -f /etc/init.d/apache-htcacheclean && \
 	rm -f /etc/rc3.d/*apache-htcacheclean
@@ -64,6 +67,8 @@ RUN echo "ajenti  ALL=(ALL) NOPASSWD:ALL" | tee -a /etc/sudoers
 # entrypoint
 ADD docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+VOLUME ["/var/lib/mysql", "/data", "/etc/nginx", "/backups"]
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
