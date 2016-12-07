@@ -66,7 +66,9 @@ service php7.0-fpm restart
 
 # override conf exists, change nginx conf location
 if [[ ! -f /data/nginx/main-conf/nginx.conf ]]; then
-    sed -i -e 's/-c "/data/nginx/main-conf/nginx.conf"//g' /etc/supervisor/conf.d/nginx.conf
+    sed -i -e 's/\-c "\/data\/nginx\/main-conf\/nginx.conf"//g' /etc/supervisor/conf.d/nginx.conf
 fi
+
+service mysql restart
 
 exec "$@"
