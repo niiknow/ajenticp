@@ -39,7 +39,7 @@ ADD supervisor/conf.d /etc/supervisor/conf.d
 RUN sed -i -e "s/\/var\/lib\/mysql/\/data\/mysql/g" /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # update redis
-RUN sed -i -e "s/dir \.\//dir \/data/\redis\/db/g" /etc/redis/redis.conf
+RUN sed -i -e "s/dir \./dir \/data\/redis\/db/g" /etc/redis/redis.conf
 
 RUN systemctl disable apache-htcacheclean || true && \
 	rm -f /etc/init.d/apache-htcacheclean && \
