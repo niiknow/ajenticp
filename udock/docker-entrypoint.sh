@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 mkdir -p /data/ajenti
 mkdir -p /data/mysqldump
 mkdir -p /data/mysql
@@ -28,10 +29,10 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
     PASSWD="$(grep -m 1 --only-matching --perl-regex "(?<=password \= ).*" /etc/mysql/debian.cnf)"
     /usr/bin/mysqld_safe &
     sleep 5s
-    echo "=>executing   GRANT ALL PRIVILEGES ON *.* TO 'udock-admin'@'localhost' IDENTIFIED BY '$PASSWD';"
-    echo "GRANT ALL PRIVILEGES ON *.* TO 'udock-admin'@'localhost' IDENTIFIED BY '$PASSWD';" | mysql
+    echo "=>executing   GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '$PASSWD';"
+    echo "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '$PASSWD';" | mysql
 
-    /usr/bin/mysqladmin -u root password $MYSQL_ADMIN_PASSWORD
+    /usr/bin/mysqladmin -u root password $MYSQL_ROOT_PASSWORD
     
     killall mysqld    
     sleep 5s
@@ -39,19 +40,21 @@ if [[ ! -d $VOLUME_HOME/mysql ]]; then
     echo "=> Done!"  
 else
     echo "=> Using an existing volume of MySQL"
-    echo "=> Updating root and admin passwords"
+    echo "=> Updating root passwords"
     PASSWD="$(grep -m 1 --only-matching --perl-regex "(?<=password \= ).*" /etc/mysql/debian.cnf)"
 
     /usr/bin/mysqld_safe &
     sleep 5s
 
-    /usr/bin/mysqladmin -u root password $MYSQL_ADMIN_PASSWORD
+    /usr/bin/mysqladmin -u root password $MYSQL_ROOT_PASSWORD
     
-    echo "SET PASSWORD FOR 'udock-admin'@'localhost' = PASSWORD('$PASSWD');" |mysql -u root --password=$MYSQL_ADMIN_PASSWORD
+    echo "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$PASSWD');" |mysql -u root --password=$MYSQL_ROOT_PASSWORD
 
     killall mysqld    
     sleep 5s
 fi
+
+chown -R mysql:mysql "$DATADIR"
 
 service php5.6-fpm restart
 service php7.0-fpm restart

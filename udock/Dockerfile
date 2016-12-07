@@ -55,10 +55,12 @@ RUN echo 'root:Ch@ng3m3' | chpasswd
 ADD docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-VOLUME ["/var/lib/mysql", "/data", "/backups"]
+VOLUME ["/data", "/backups"]
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 80 443 3306 8000 8001
 
+# using mysqld because mysql is the most stable app here
+# if it die, then we should restart docker
 CMD ["mysqld"]
