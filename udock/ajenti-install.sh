@@ -9,8 +9,11 @@ apt-get -o Acquire::GzipIndexes=false update
 
 echo "1. apt updating for the first time" 1>&2
 apt-get update && apt-get -yq upgrade 
-apt-get install -yqf wget apt-show-versions apt-utils software-properties-common build-essential python-dev python-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev
-apt-get install -yq sudo git curl nano vim mariadb-server mariadb-client libmagickwand-dev imagemagick php-dev php-pear memcached backupninja duplicity
+apt-get install -yqf wget apt-show-versions apt-utils software-properties-common build-essential  \
+	python-dev python-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev \
+	sudo git curl nano vim mariadb-server mariadb-client libmagickwand-dev imagemagick \
+	php-dev php-pear memcached backupninja duplicity
+
 pecl install imagick 
 
 echo "2. applying Xenial specific fixes before apt update" 1>&2
