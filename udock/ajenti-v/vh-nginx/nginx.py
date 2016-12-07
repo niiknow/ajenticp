@@ -156,11 +156,12 @@ class NginxWebserver (WebserverComponent):
         return TEMPLATE_WEBSITE % params
 
     def create_configuration(self, config):
-        if not os.path.exists(self.config_file):
-            os.mkdir(self.config_root, 755)
+        if not os.path.exists(self.config_vhost_root):
             os.mkdir(self.config_vhost_root, 755)
+        if not os.path.exists(self.config_custom_root):
             os.mkdir(self.config_custom_root, 755)
 
+        if not os.path.exists(self.config_file):
             open(self.config_file, 'w').write(TEMPLATE_CONFIG_FILE)
             open(self.config_file_mime, 'w').write(TEMPLATE_CONFIG_MIME)
             open(self.config_file_fastcgi, 'w').write(TEMPLATE_CONFIG_FCGI)
