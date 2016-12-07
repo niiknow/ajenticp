@@ -39,7 +39,7 @@ That should be enough for you to start your website hosting.  MySql is included 
 This is the base docker image of ajenti-udock with basic requirements:
 
 1. Set timezone to UTC as default but you should be able to configure your timezone in your own Dockerfile (see udock-greedy).
-2. Trigger *ajenti-install.sh* and expose 80/http, 443/https, 3306/mysql, 8000/ajenti, and 8001/phpMyAdmin.
+2. Trigger *ajenti-install.sh* and expose 80/http, 443/https, 3306/mysql, 6379/redis, 8000/ajenti, and 8001/phpMyAdmin.
 
 This image expect all management through the web panel.  There is no ssh.  If you need terminal access then use the web panel, docker cloud, or even running with rancher.
 

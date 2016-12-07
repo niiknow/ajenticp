@@ -38,13 +38,16 @@ ADD supervisor/conf.d /etc/supervisor/conf.d
 # update mysql
 RUN sed -i -e "s/\/var\/lib\/mysql/\/data\/mysql/g" /etc/mysql/mariadb.conf.d/50-server.cnf
 
+# update redis
+RUN sed -i -e "s/dir \.\//dir \/data/\redis\/db/g" /etc/redis/redis.conf
+
 RUN systemctl disable apache-htcacheclean || true && \
 	rm -f /etc/init.d/apache-htcacheclean && \
 	rm -f /etc/rc3.d/*apache-htcacheclean
 
-RUN systemctl disable memcached || true && \
-	rm -f /etc/init.d/memcached && \
-	rm -f /etc/rc3.d/*memcached
+RUN systemctl disable redis || true && \
+	rm -f /etc/init.d/redis && \
+	rm -f /etc/rc3.d/*redis
 
 RUN systemctl disable ajenti || true && \
 	rm -f /etc/init.d/ajenti && \
@@ -55,7 +58,6 @@ RUN systemctl enable php7.0-fpm || true
 RUN systemctl enable nginx || true
 RUN systemctl enable supervisor || true
 RUN systemctl enable cron || true
-
 
 # set root password
 RUN echo 'root:Ch@ng3m3' | chpasswd

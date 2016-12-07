@@ -12,7 +12,7 @@ apt-get update && apt-get -yq upgrade
 apt-get install -yqf wget apt-show-versions apt-utils software-properties-common build-essential  \
 	python-dev python-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev \
 	sudo git curl nano vim mariadb-server mariadb-client libmagickwand-dev imagemagick \
-	php-dev php-pear mcrypt pwgen memcached backupninja duplicity 
+	php-dev php-pear mcrypt pwgen backupninja duplicity tcl redis-server
 
 pecl install imagick 
 
@@ -26,9 +26,9 @@ echo "3. configure and force update all: resolve apt-utils and apt-show-versions
 dpkg --configure -a
 apt-get update && apt-get -yq upgrade && apt-get install -yf
 
-# echo "4. adding php / nodejs / memcached / backupninja / duplicity" 1>&2
+# echo "4. adding php / nodejs / backupninja / duplicity" 1>&2
 # apt-get install -y software-properties-common
-#apt-get update && apt-get install -yq sudo git curl nano vim mariadb-server mariadb-client libmagickwand-dev imagemagick php-dev php-pear memcached backupninja duplicity
+#apt-get update && apt-get install -yq sudo git curl nano vim mariadb-server mariadb-client libmagickwand-dev imagemagick php-dev php-pear backupninja duplicity
 
 #echo "5. install basic python for python-support_1.0.15_all.deb" 1>&2
 #apt-get install -yq build-essential python-pip python-dev python-lxml libffi-dev libssl-dev libjpeg-dev libpng-dev uuid-dev python-dbus python-augeas python-apt 
@@ -46,12 +46,12 @@ apt-get install -yq ajenti-v ajenti-v-nginx ajenti-v-mysql ajenti-v-php5.6-fpm a
 apt-get install -yq php5.6-fpm php5.6-cgi php5.6-cli php5.6-dev php5.6-geoip php5.6-common \
 	php5.6-curl php5.6-enchant php5.6-gd php5.6-imap php5.6-mysql php5.6-mysqlnd php5.6-pspell php5.6-sqlite3 \
 	php5.6-tidy php5.6-opcache php5.6-json php5.6-bz2 php5.6-mcrypt php5.6-readline php5.6-xmlrpc \
-	php5.6-intl php5.6-xml php5.6-xsl php5.6-ldap php5.6-imagick php5.6-memcache php5.6-pgsql
+	php5.6-intl php5.6-xml php5.6-xsl php5.6-ldap php5.6-imagick php5.6-pgsql php5.6-redis
 
 apt-get install -yq php7.0-fpm php7.0-cgi php7.0-cli php7.0-dev php7.0-geoip php7.0-common \
 	php7.0-curl php7.0-enchant php7.0-gd php7.0-imap php7.0-mysql php7.0-mysqlnd php7.0-pspell php7.0-sqlite3 \
 	php7.0-tidy php7.0-opcache php7.0-json php7.0-bz2 php7.0-mcrypt php7.0-readline php7.0-xmlrpc \
-	php7.0-intl php7.0-xml php7.0-xsl php7.0-ldap php7.0-imagick php7.0-memcache php7.0-pgsql
+	php7.0-intl php7.0-xml php7.0-xsl php7.0-ldap php7.0-imagick php7.0-pgsql php7.0-redis
 
 # install composer
 curl -sS https://getcomposer.org/installer | php -- --version=1.2.1 --install-dir=/usr/local/bin --filename=composer

@@ -4,6 +4,7 @@ mkdir -p /data/mysqldump
 mkdir -p /data/mysql
 mkdir -p /data/sites
 mkdir -p /data/nginx
+mkdir -p /data/redis/db
 chown -R www-data:www-data /data/sites
 
 mv -n /etc/ajenti/** /data/ajenti
@@ -12,6 +13,8 @@ ln -sdf /data/ajenti /etc/ajenti
 
 rm -rf /etc/nginx
 ln -sdf /data/nginx /etc/nginx
+
+mv -n /etc/redis/** /data/redis
 
 # make sure supervisor service is running
 # so it start ajenti
