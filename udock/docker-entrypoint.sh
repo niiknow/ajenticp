@@ -3,23 +3,15 @@ mkdir -p /data/ajenti
 mkdir -p /data/mysqldump
 mkdir -p /data/mysql
 mkdir -p /data/sites
+mkdir -p /data/nginx
 chown -R www-data:www-data /data/sites
 
-mkdir -p /data/nginx/http-conf
-mkdir -p /data/nginx/global-conf
-mkdir -p /data/nginx/main-conf
-
-# mv -n /etc/nginx/** /data/nginx/main-conf
 mv -n /etc/ajenti/** /data/ajenti
-
-# rm -rf /etc/nginx
-# ln -sdf /data/nginx/main-conf /etc/nginx 
-rm -rf /etc/nginx.custom.d
-ln -sdf /data/nginx/http-conf /etc/nginx.custom.d 
-rm -rf /etc/nginx.custom.global.d
-ln -sdf /data/nginx/global-conf /etc/nginx.custom.global.d 
 rm -rf /etc/ajenti
 ln -sdf /data/ajenti /etc/ajenti 
+
+rm -rf /etc/nginx
+ln -sdf /data/nginx /etc/nginx
 
 echo $MYSQL_ADMIN_PASSWORD > /root/dbpass.txt
 
@@ -63,10 +55,6 @@ fi
 
 service php5.6-fpm restart
 service php7.0-fpm restart
-
-# override conf exists, change nginx conf location
-if [[ ! -f /data/nginx/main-conf/nginx.conf ]]; then
-    sed -i -e 's/\-c "\/data\/nginx\/main-conf\/nginx.conf"//g' /etc/supervisor/conf.d/nginx.conf
-fi
+service nginx restart
 
 exec "$@"

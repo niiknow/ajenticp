@@ -55,7 +55,7 @@ RUN echo 'root:Ch@ng3m3' | chpasswd
 ADD docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-VOLUME ["/var/lib/mysql", "/data", "/etc/nginx", "/backups"]
+VOLUME ["/var/lib/mysql", "/data", "/backups"]
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
