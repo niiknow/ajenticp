@@ -44,9 +44,9 @@ RUN systemctl disable memcached || true && \
 	rm -f /etc/init.d/memcached && \
 	rm -f /etc/rc3.d/*memcached
 
-RUN systemctl disable mysql || true && \
-	rm -f /etc/init.d/mysql && \
-	rm -f /etc/rc3.d/*mysql
+RUN systemctl disable ajenti || true && \
+	rm -f /etc/init.d/ajenti && \
+	rm -f /etc/rc3.d/*ajenti
 
 # set root password
 RUN echo 'root:Ch@ng3m3' | chpasswd
@@ -63,4 +63,4 @@ EXPOSE 80 443 3306 8000 8001
 
 # using mysqld because mysql is the most stable app here
 # if it die, then we should restart docker
-CMD ["mysqld"]
+CMD ["/usr/bin/supervisord"]
