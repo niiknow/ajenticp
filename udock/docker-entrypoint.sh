@@ -59,6 +59,6 @@ chown -R mysql:mysql "$VOLUME_HOME"
 service php5.6-fpm restart
 service php7.0-fpm restart
 service nginx restart
-service mysql restart
+service supervisor restart
 
 exec "$@"
