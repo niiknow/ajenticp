@@ -177,7 +177,10 @@ class NginxWebserver (WebserverComponent):
         ])
 
     def apply_configuration(self):
-        NGINXRestartable.get().schedule()
+        # reload instead of restart
+        p = subprocess.Popen(['nginx', 'reload'], stderr=subprocess.PIPE)
+        o, self.message = p.communicate()
+        return p.returncode == 0
 
     def get_checks(self):
         return [NginxConfigTest.new(), NginxServiceTest.new()]
