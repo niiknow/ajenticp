@@ -60,5 +60,6 @@ service php5.6-fpm restart
 service php7.0-fpm restart
 service ajenti restart
 service nginx restart
+service supervisor start
 
 exec "$@"
