@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 mkdir -p /data/ajenti
 mkdir -p /data/mysqldump
 mkdir -p /data/mysql
