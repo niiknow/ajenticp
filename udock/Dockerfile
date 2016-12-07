@@ -28,8 +28,8 @@ ADD ajenti-install.sh /tmp/ajenti-install.sh
 RUN bash /tmp/ajenti-install.sh
 
 # special for docker, we can't set rlimit
-RUN rm -f /var/lib/ajenti/plugins/vh-nginx/nginx_templates.pyc
-RUN sed -i -e "s/worker_rlimit_nofile 100000;/ /g" /var/lib/ajenti/plugins/vh-nginx/nginx_templates.py
+RUN rm -f /var/lib/ajenti/plugins/vh-nginx/*.*
+ADD ajenti-v/vh-gninx /var/lib/ajenti/plugins/vh-nginx
 
 # update supervisor
 RUN sed -i -e "s/\[supervisord\]/\[supervisord\]\nnodaemon=true\n/g" /etc/supervisor/supervisord.conf
@@ -50,9 +50,6 @@ RUN systemctl disable mysql || true && \
 
 # set root password
 RUN echo 'root:Ch@ng3m3' | chpasswd
-RUN echo "ajenti  ALL=(ALL) NOPASSWD:ALL" | tee -a /etc/sudoers
-
-# USER test
 
 # entrypoint
 ADD docker-entrypoint.sh /usr/local/bin/

@@ -1,0 +1,8 @@
+PACKAGE=ajenti-v-nginx
+VERSION=0.1.44
+DEB_DEPENDS="ajenti-v (>=0.2.26), nginx"
+RPM_DEPENDS="ajenti-v >= 0.2.26, nginx >= 1.4.0"
+PROVIDES=ajenti-v-webserver
+DESCRIPTION="NGINX support for Ajenti V"
+read -d '' POSTINST <<END
+END

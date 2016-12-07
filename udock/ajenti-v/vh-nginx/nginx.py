@@ -156,8 +156,7 @@ class NginxWebserver (WebserverComponent):
         return TEMPLATE_WEBSITE % params
 
     def create_configuration(self, config):
-        if not os.path.exists(self.config_custom_root):
-            shutil.rmtree(self.config_root)
+        if not os.path.exists(self.config_file):
             os.mkdir(self.config_root, 755)
             os.mkdir(self.config_vhost_root, 755)
             os.mkdir(self.config_custom_root, 755)
@@ -188,4 +187,3 @@ class NGINXRestartable (Restartable):
     def restart(self):
         s = ServiceMultiplexor.get().get_one('nginx')
         s.restart()
-
