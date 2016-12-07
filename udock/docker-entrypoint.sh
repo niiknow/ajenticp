@@ -55,13 +55,16 @@ fi
 
 chown -R mysql:mysql "$VOLUME_HOME"
 
+# start mysql
+service mysql start
+
+# make sure supervisor service is running
+# so it start ajenti
+service supervisor start
+
+# load web server after supervisor start
 service php5.6-fpm restart
 service php7.0-fpm restart
 service nginx restart
-service mysql start
-
-# lastly, make sure supervisor service is running
-# so it start ajenti
-service supervisor start
 
 exec "$@"
