@@ -54,7 +54,7 @@ else
     sleep 5s
 fi
 
-chown -R mysql:mysql "$DATADIR"
+chown -R mysql:mysql "$VOLUME_HOME"
 
 service php5.6-fpm restart
 service php7.0-fpm restart
