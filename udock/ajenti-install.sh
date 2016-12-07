@@ -53,3 +53,4 @@ mv /opt/phpMyAdmin-4.6.5.1-all-languages /opt/phpMyAdmin
 echo "9. making changes to ajenti" 1>&2
 rm -f /var/lib/ajenti/plugins/vh/api.pyc
 sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py
+rm -rf /etc/nginx/**
