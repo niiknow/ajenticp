@@ -29,7 +29,7 @@ RUN bash /tmp/ajenti-install.sh
 
 # special for docker, we can't set rlimit
 RUN rm -f /var/lib/ajenti/plugins/vh-nginx/*.*
-ADD ajenti-v/vh-gninx /var/lib/ajenti/plugins/vh-nginx
+ADD ajenti-v/vh-nginx /var/lib/ajenti/plugins/vh-nginx
 
 # update supervisor
 RUN sed -i -e "s/\[supervisord\]/\[supervisord\]\nnodaemon=true\n/g" /etc/supervisor/supervisord.conf
