@@ -32,7 +32,7 @@ RUN rm -f /var/lib/ajenti/plugins/vh-nginx/*.*
 ADD ajenti-v/vh-nginx /var/lib/ajenti/plugins/vh-nginx
 
 # update supervisor
-RUN sed -i -e "s/\[supervisord\]/\[supervisord\]\nnodaemon=true\n/g" /etc/supervisor/supervisord.conf
+# RUN sed -i -e "s/\[supervisord\]/\[supervisord\]\nnodaemon=true\n/g" /etc/supervisor/supervisord.conf
 ADD supervisor/conf.d /etc/supervisor/conf.d
 
 # update mysql
@@ -44,13 +44,9 @@ RUN systemctl disable memcached || true && \
 	rm -f /etc/init.d/memcached && \
 	rm -f /etc/rc3.d/*memcached
 
-RUN systemctl disable ajenti || true && \
-	rm -f /etc/init.d/ajenti && \
-	rm -f /etc/rc3.d/*ajenti
-
-RUN systemctl disable supervisor || true && \
-	rm -f /etc/init.d/supervisor && \
-	rm -f /etc/rc3.d/*supervisor
+RUN systemctl disable mysql || true && \
+	rm -f /etc/init.d/mysql && \
+	rm -f /etc/rc3.d/*mysql
 
 # set root password
 RUN echo 'root:Ch@ng3m3' | chpasswd
@@ -68,4 +64,4 @@ EXPOSE 80 443 3306 8000 8001
 # using mysqld because mysql is the most stable app here
 # if it die, then we should restart docker
 
-CMD ["/usr/bin/supervisord"]
+CMD ["mysqld"]
