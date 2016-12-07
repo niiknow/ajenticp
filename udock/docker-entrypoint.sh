@@ -13,6 +13,15 @@ ln -sdf /data/ajenti /etc/ajenti
 rm -rf /etc/nginx
 ln -sdf /data/nginx /etc/nginx
 
+# make sure supervisor service is running
+# so it start ajenti
+service supervisor start
+
+# load web server after supervisor start
+service php5.6-fpm start
+service php7.0-fpm start
+service nginx start
+
 echo $MYSQL_ADMIN_PASSWORD > /root/dbpass.txt
 
 VOLUME_HOME="/data/mysql"
@@ -57,14 +66,5 @@ chown -R mysql:mysql "$VOLUME_HOME"
 
 # start mysql
 service mysql start
-
-# make sure supervisor service is running
-# so it start ajenti
-service supervisor start
-
-# load web server after supervisor start
-service php5.6-fpm start
-service php7.0-fpm start
-service nginx start
 
 exec "$@"
