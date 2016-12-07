@@ -38,25 +38,15 @@ ADD supervisor/conf.d /etc/supervisor/conf.d
 # update mysql
 RUN sed -i -e "s/\/var\/lib\/mysql/\/data\/mysql/g" /etc/mysql/mariadb.conf.d/50-server.cnf
 
-RUN systemctl disable apache-htcacheclean || true && \
-	rm -f /etc/init.d/apache-htcacheclean && \
-	rm -f /etc/rc3.d/*apache-htcacheclean
-
-RUN systemctl disable cron || true && \
-	rm -f /etc/init.d/cron && \
-	rm -f /etc/rc3.d/*cron
-
-RUN systemctl disable nginx || true && \ 
-	rm -f /etc/init.d/nginx && \
-	rm -f /etc/rc3.d/*nginx
-
-RUN systemctl disable ajenti || true && \
-	rm -f /etc/init.d/ajenti && \
-	rm -f /etc/rc3.d/*ajenti
+RUN systemctl disable apache-htcacheclean || true
 
 RUN systemctl disable memcached || true && \
 	rm -f /etc/init.d/memcached && \
 	rm -f /etc/rc3.d/*memcached
+
+RUN systemctl disable mysql || true && \
+	rm -f /etc/init.d/mysql && \
+	rm -f /etc/rc3.d/*mysql
 
 # set root password
 RUN echo 'root:Ch@ng3m3' | chpasswd
@@ -74,4 +64,4 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 80 443 3306 8000 8001
 
-CMD ["/usr/bin/supervisord"]
+CMD ["mysqld"]

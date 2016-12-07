@@ -17,7 +17,7 @@ sqldump = yes
 
 # compress = < yes | no > (default = yes)
 # if yes, compress the sqldump output.
-compress = no
+compress = yes
 
 # dbhost      = <host> (default = localhost)
 
@@ -32,7 +32,7 @@ backupdir = /data/mysqldump
 # space separated list of database names.
 databases = all
 
-dbusername = root
+dbusername = udock-admin
 dbpassword = changeme
 
-configfile = /etc/my.cnf
+configfile = /etc/mysql/my.cnf

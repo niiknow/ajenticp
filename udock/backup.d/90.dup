@@ -54,7 +54,7 @@ signkey =
 
 # password --- CHANGE THIS or you are dead .
 # NB: neither quote this, nor should it include any quotes
-password = whatpanelbackup
+password = udockbackup
 
 ######################################################
 ## source section
