@@ -58,6 +58,6 @@ chown -R mysql:mysql "$DATADIR"
 
 service php5.6-fpm restart
 service php7.0-fpm restart
-service nginx restart
+service ajenti restart
 
 exec "$@"
