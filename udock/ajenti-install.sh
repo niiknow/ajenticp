@@ -26,13 +26,6 @@ echo "3. configure and force update all: resolve apt-utils and apt-show-versions
 dpkg --configure -a
 apt-get update && apt-get -yq upgrade && apt-get install -yf
 
-# echo "4. adding php / nodejs / backupninja / duplicity" 1>&2
-# apt-get install -y software-properties-common
-#apt-get update && apt-get install -yq sudo git curl nano vim mariadb-server mariadb-client libmagickwand-dev imagemagick php-dev php-pear backupninja duplicity
-
-#echo "5. install basic python for python-support_1.0.15_all.deb" 1>&2
-#apt-get install -yq build-essential python-pip python-dev python-lxml libffi-dev libssl-dev libjpeg-dev libpng-dev uuid-dev python-dbus python-augeas python-apt 
-
 echo "4. installing python support" 1>&2
 curl -s -o /tmp/python-support_1.0.15_all.deb https://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb
 dpkg -i /tmp/python-support_1.0.15_all.deb
