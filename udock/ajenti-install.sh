@@ -58,12 +58,7 @@ if ! type "nodejs -v" > /dev/null; then
   ln -sf /usr/bin/nodejs /bin/node 
 fi
 
-echo "6. installing phpMyAdmin" 1>&2
-curl -s -o /tmp/phpMyAdmin-4.6.5.1-all-languages.tar.gz https://files.phpmyadmin.net/phpMyAdmin/4.6.5.1/phpMyAdmin-4.6.5.1-all-languages.tar.gz
-tar -zxvf /tmp/phpMyAdmin-4.6.5.1-all-languages.tar.gz -C /opt/
-mv /opt/phpMyAdmin-4.6.5.1-all-languages /opt/phpMyAdmin
-
-echo "7. making changes to ajenti" 1>&2
+echo "6. making changes to ajenti" 1>&2
 sed -i -e "s/;always_populate_raw_post_data = -1/always_populate_raw_post_data = -1/g" /etc/php/5.6/fpm/php.ini
 
 rm -f /var/lib/ajenti/plugins/vh/api.pyc

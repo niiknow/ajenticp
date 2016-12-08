@@ -168,7 +168,7 @@ TEMPLATE_WEBSITE = """
 %(custom_conf_toplevel)s
 
 server {
-    include /data/nginx/sites/%(server_name)s/*.conf;
+    include /data/nginx/sites-conf/%(server_name)s/*.conf;
     %(ports)s
     %(ssl_cert)s
     %(ssl_key)s

@@ -3,7 +3,7 @@ mkdir -p /data/ajenti
 mkdir -p /data/mysqldump
 mkdir -p /data/mysql
 mkdir -p /data/sites
-mkdir -p /data/nginx/sites
+mkdir -p /data/nginx/sites-conf
 mkdir -p /data/redis/db
 mkdir -p /data/php/5.6/fpm/conf.d
 mkdir -p /data/php/7.0/fpm/conf.d
@@ -64,6 +64,14 @@ else
 
     killall mysqld    
     sleep 5s
+fi
+
+# install phpMyAdmin if not exists
+if [[ ! -d /data/nginx/sites/phpMyAdmin ]]; then
+    echo "installing phpMyAdmin" 1>&2
+    curl -s -o /tmp/phpMyAdmin-4.6.5.1-all-languages.tar.gz https://files.phpmyadmin.net/phpMyAdmin/4.6.5.1/phpMyAdmin-4.6.5.1-all-languages.tar.gz
+    tar -zxvf /tmp/phpMyAdmin-4.6.5.1-all-languages.tar.gz -C /opt/
+    mv /opt/phpMyAdmin-4.6.5.1-all-languages /data/sites/phpMyAdmin
 fi
 
 chown -R mysql:mysql "$VOLUME_HOME"

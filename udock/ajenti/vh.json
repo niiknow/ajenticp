@@ -33,7 +33,7 @@
         },
         "custom_conf": "",
         "domains": [],
-        "root": "/opt/phpMyAdmin",
+        "root": "/data/sites/phpMyAdmin",
         "ports": [{
             "spdy": false,
             "ssl": false,
