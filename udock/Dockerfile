@@ -29,13 +29,13 @@ RUN bash /tmp/ajenti-install.sh
 
 # special ajenti-v for docker
 RUN rm -f /var/lib/ajenti/plugins/vh-nginx/ng*.*
-ADD ajenti-v/vh-nginx/ng*.* /var/lib/ajenti/plugins/vh-nginx
+ADD ajenti-v/vh-nginx/ng*.* /var/lib/ajenti/plugins/vh-nginx/
 
 RUN rm -f /var/lib/ajenti/plugins/vh-php5.6-fpm/php*.*
-ADD ajenti-v/vh-php5.6-fpm/php*.* /var/lib/ajenti/plugins/vh-php5.6-fpm
+ADD ajenti-v/vh-php5.6-fpm/php*.* /var/lib/ajenti/plugins/vh-php5.6-fpm/
 
 RUN rm -f /var/lib/ajenti/plugins/vh-php7.0-fpm/php*.*
-ADD ajenti-v/vh-php7.0-fpm/php*.* /var/lib/ajenti/plugins/vh-php7.0-fpm
+ADD ajenti-v/vh-php7.0-fpm/php*.* /var/lib/ajenti/plugins/vh-php7.0-fpm/
 
 # RUN mkdir -p /var/lib/ajenti/plugins/vh-php7.1-fpm && rm -f /var/lib/ajenti/plugins/vh-php7.1-fpm/*.*
 # ADD ajenti-v/vh-php7.1-fpm /var/lib/ajenti/plugins/vh-php7.1-fpm
