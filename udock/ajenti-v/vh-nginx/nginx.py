@@ -189,5 +189,8 @@ class NginxWebserver (WebserverComponent):
 @plugin
 class NGINXRestartable (Restartable):
     def restart(self):
-        s = ServiceMultiplexor.get().get_one('nginx')
-        s.restart()
+        # s = ServiceMultiplexor.get().get_one('nginx')
+        # s.restart()
+        p = subprocess.Popen(['service', 'nginx', 'restart'], stderr=subprocess.PIPE)
+        o, self.message = p.communicate()
+        return p.returncode == 0
