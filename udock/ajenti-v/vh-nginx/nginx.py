@@ -37,7 +37,7 @@ class NginxWebserver (WebserverComponent):
         self.config_file_mime = '/data/nginx/mime.conf'
         self.config_file_fastcgi = '/data/nginx/fcgi.conf'
         self.config_file_proxy = '/data/nginx/proxy.conf'
-        self.config_vhost_root = '/data/nginx/conf.d'
+        self.config_vhost_root = '/data/nginx/pool.d'
         self.config_custom_root = '/data/nginx/nginx.custom.d'
         self.lib_path = '/var/lib/nginx'
 

@@ -5,9 +5,9 @@ mkdir -p /data/mysql
 mkdir -p /data/sites
 mkdir -p /data/nginx/sites-conf
 mkdir -p /data/redis/db
-mkdir -p /data/php/5.6/fpm/conf.d
-mkdir -p /data/php/7.0/fpm/conf.d
-mkdir -p /data/php/7.1/fpm/conf.d
+mkdir -p /data/php/5.6/fpm/pool.d
+mkdir -p /data/php/7.0/fpm/pool.d
+mkdir -p /data/php/7.1/fpm/pool.d
 chown -R www-data:www-data /data/sites
 
 mv -n /etc/ajenti/** /data/ajenti
@@ -18,9 +18,9 @@ rm -rf /etc/nginx
 ln -sdf /data/nginx /etc/nginx
 
 mv -n /etc/redis/** /data/redis
-mv -n /etc/php/5.6/fpm/pool.d/*.conf /data/php/5.6/fpm/conf.d
-mv -n /etc/php/7.0/fpm/pool.d/*.conf /data/php/7.0/fpm/conf.d
-mv -n /etc/php/7.1/fpm/pool.d/*.conf /data/php/7.1/fpm/conf.d
+mv -n /etc/php/5.6/fpm/pool.d/*.conf /data/php/5.6/fpm/pool.d
+mv -n /etc/php/7.0/fpm/pool.d/*.conf /data/php/7.0/fpm/pool.d
+mv -n /etc/php/7.1/fpm/pool.d/*.conf /data/php/7.1/fpm/pool.d
 
 # make sure supervisor service is running
 # so it start ajenti

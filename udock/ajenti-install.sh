@@ -50,7 +50,9 @@ apt-get install -yq php7.1-mbstring php7.1-cgi php7.1-cli php7.1-dev php7.1-geoi
 	php7.1-intl php7.1-sqlite3 php7.1-ldap php7.1-xml php7.1-redis php7.1-imagick
 
 # install composer
-curl -sS https://getcomposer.org/installer | php -- --version=1.2.4 --install-dir=/usr/local/bin --filename=composer
+if [ ! -f /usr/local/bin/composer ];  then
+	curl -sS https://getcomposer.org/installer | php -- --version=1.2.4 --install-dir=/usr/local/bin --filename=composer
+fi
 
 # only install node if not exists, maybe you already have node from a different source
 if ! type "nodejs -v" > /dev/null; then

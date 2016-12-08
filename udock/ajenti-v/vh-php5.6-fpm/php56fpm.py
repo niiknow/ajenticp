@@ -44,7 +44,7 @@ class PHP56FPM (ApplicationGatewayComponent):
     title = 'PHP 5.6 FastCGI'
 
     def init(self):
-        self.config_path = '/data/php/5.6/fpm/conf.d'
+        self.config_path = '/data/php/5.6/fpm/pool.d'
 
     def __generate_pool(self, location, backend, name):
         pm_min = backend.params.get('pm_min', 1) or 1
