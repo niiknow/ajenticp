@@ -157,9 +157,9 @@ class NginxWebserver (WebserverComponent):
 
     def create_configuration(self, config):
         if not os.path.exists(self.config_vhost_root):
-            os.mkdir(self.config_vhost_root, 755)
+            os.mkdir(self.config_vhost_root, 0755)
         if not os.path.exists(self.config_custom_root):
-            os.mkdir(self.config_custom_root, 755)
+            os.mkdir(self.config_custom_root, 0755)
 
         if not os.path.exists(self.config_file):
             open(self.config_file, 'w').write(TEMPLATE_CONFIG_FILE)

@@ -68,7 +68,10 @@ tar -zxvf /tmp/phpMyAdmin-4.6.5.1-all-languages.tar.gz -C /opt/
 mv /opt/phpMyAdmin-4.6.5.1-all-languages /opt/phpMyAdmin
 
 echo "7. making changes to ajenti" 1>&2
-rm -f /var/lib/ajenti/plugins/vh/api.pyc
-sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py
 sed -i -e "s/;always_populate_raw_post_data = -1/always_populate_raw_post_data = -1/g" /etc/php/5.6/fpm/php.ini
 
+rm -f /var/lib/ajenti/plugins/vh/api.pyc
+sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py
+
+rm -f /var/lib/ajenti/plugins/vh/process.pyc
+sed -i -e "s/'reload'/'update'/g" /var/lib/ajenti/plugins/vh/process.py
