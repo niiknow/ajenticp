@@ -3,7 +3,7 @@ mkdir -p /data/ajenti
 mkdir -p /data/mysqldump
 mkdir -p /data/mysql
 mkdir -p /data/sites
-mkdir -p /data/nginx
+mkdir -p /data/nginx/letsencrypt
 mkdir -p /data/redis/db
 mkdir -p /data/php/5.6/fpm/conf.d
 mkdir -p /data/php/7.0/fpm/conf.d

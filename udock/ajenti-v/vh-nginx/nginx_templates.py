@@ -54,10 +54,10 @@ http {
     include fcgi.conf;
 
     include conf.d/*.conf;
-    include /etc/data/nginx.custom.d/*.conf;
+    include /data/nginx/nginx.custom.d/*.conf;
 }
 
-include /etc/data/nginx.custom.global.d/*.conf;
+include /data/nginx/nginx.custom.global.d/*.conf;
 
 """ % {
     'workers': multiprocessing.cpu_count(),
@@ -168,6 +168,7 @@ TEMPLATE_WEBSITE = """
 %(custom_conf_toplevel)s
 
 server {
+    include /data/nginx/letsencrypt/%(server_name)s.conf;
     %(ports)s
     %(ssl_cert)s
     %(ssl_key)s
