@@ -37,8 +37,8 @@ ADD ajenti-v/vh-php5.6-fpm /var/lib/ajenti/plugins/vh-php5.6-fpm
 RUN rm -f /var/lib/ajenti/plugins/vh-php7.0-fpm/*.*
 ADD ajenti-v/vh-php7.0-fpm /var/lib/ajenti/plugins/vh-php7.0-fpm
 
-#RUN rm -f /var/lib/ajenti/plugins/vh/main.*
-#ADD ajenti-v/vh/main.py /var/lib/ajenti/plugins/vh/main.py
+RUN rm -f /var/lib/ajenti/plugins/vh/main.*
+ADD ajenti-v/vh/main.py /var/lib/ajenti/plugins/vh/main.py
 
 # update supervisor
 # RUN sed -i -e "s/\[supervisord\]/\[supervisord\]\nnodaemon=true\n/g" /etc/supervisor/supervisord.conf
@@ -53,7 +53,7 @@ RUN sed -i -e "s/dir \./dir \/data\/redis\/db/g" /etc/redis/redis.conf
 # update fpm
 RUN sed -i -e "s/\/etc\/php\/5\.6\/fpm\/pool\.d/\/data\/php\/5\.6\/fpm\/pool\.d/g" /etc/php/5.6/fpm/php-fpm.conf
 RUN sed -i -e "s/\/etc\/php\/7\.0\/fpm\/pool\.d/\/data\/php\/7\.0\/fpm\/pool\.d/g" /etc/php/7.0/fpm/php-fpm.conf
-RUN sed -i -e "s/\/etc\/php\/7\.1\/fpm\/pool\.d/\/data\/php\/7\.1\/fpm\/pool\.d/g" /etc/php/7.1/fpm/php-fpm.conf
+#RUN sed -i -e "s/\/etc\/php\/7\.1\/fpm\/pool\.d/\/data\/php\/7\.1\/fpm\/pool\.d/g" /etc/php/7.1/fpm/php-fpm.conf
 
 RUN systemctl disable apache-htcacheclean || true && \
 	rm -f /etc/init.d/apache-htcacheclean && \

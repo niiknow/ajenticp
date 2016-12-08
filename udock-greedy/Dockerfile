@@ -40,6 +40,6 @@ RUN rm -rf /bin/node
 RUN apt-get remove -yq nodejs npm
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 RUN apt-get install -y nodejs npm
-RUN npm install -g gulp express forever flatiron
+RUN npm install -g gulp express
 
 EXPOSE 80 443 3306 8000 22 27017 5432 1194/udp 53
