@@ -5,9 +5,9 @@ mkdir -p /data/mysql
 mkdir -p /data/sites
 mkdir -p /data/nginx
 mkdir -p /data/redis/db
-mkdir -p /data/php/fpm/5.6/conf.d
-mkdir -p /data/php/fpm/7.0/conf.d
-mkdir -p /data/php/fpm/7.1/conf.d
+mkdir -p /data/php/5.6/fpm/conf.d
+mkdir -p /data/php/7.0/fpm/conf.d
+mkdir -p /data/php/7.1/fpm/conf.d
 chown -R www-data:www-data /data/sites
 
 mv -n /etc/ajenti/** /data/ajenti
