@@ -73,5 +73,5 @@ sed -i -e "s/;always_populate_raw_post_data = -1/always_populate_raw_post_data =
 rm -f /var/lib/ajenti/plugins/vh/api.pyc
 sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py
 
-rm -f /var/lib/ajenti/plugins/vh/process.pyc
-sed -i -e "s/'reload'/'update'/g" /var/lib/ajenti/plugins/vh/process.py
+#rm -f /var/lib/ajenti/plugins/vh/process.*
+#sed -i -e "s/'reload'/'update'/g" /var/lib/ajenti/plugins/vh/process.py
