@@ -20,7 +20,7 @@ ln -sdf /data/nginx /etc/nginx
 mv -n /etc/redis/** /data/redis
 mv -n /etc/php/5.6/fpm/pool.d/*.conf /data/php/5.6/fpm/pool.d
 mv -n /etc/php/7.0/fpm/pool.d/*.conf /data/php/7.0/fpm/pool.d
-mv -n /etc/php/7.1/fpm/pool.d/*.conf /data/php/7.1/fpm/pool.d
+# mv -n /etc/php/7.1/fpm/pool.d/*.conf /data/php/7.1/fpm/pool.d
 
 # make sure supervisor service is running
 # so it start ajenti
