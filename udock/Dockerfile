@@ -37,8 +37,8 @@ ADD ajenti-v/vh-php5.6-fpm /var/lib/ajenti/plugins/vh-php5.6-fpm
 RUN rm -f /var/lib/ajenti/plugins/vh-php7.0-fpm/*.*
 ADD ajenti-v/vh-php7.0-fpm /var/lib/ajenti/plugins/vh-php7.0-fpm
 
-RUN rm -f /var/lib/ajenti/plugins/vh/main.*
-ADD ajenti-v/vh/main.py /var/lib/ajenti/plugins/vh/main.py
+#RUN rm -f /var/lib/ajenti/plugins/vh/main.*
+#ADD ajenti-v/vh/main.py /var/lib/ajenti/plugins/vh/main.py
 
 # update supervisor
 # RUN sed -i -e "s/\[supervisord\]/\[supervisord\]\nnodaemon=true\n/g" /etc/supervisor/supervisord.conf
