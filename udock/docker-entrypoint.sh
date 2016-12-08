@@ -7,7 +7,7 @@ mkdir -p /data/nginx/sites-conf
 mkdir -p /data/redis/db
 mkdir -p /data/php/5.6/fpm/pool.d
 mkdir -p /data/php/7.0/fpm/pool.d
-mkdir -p /data/php/7.1/fpm/pool.d
+# mkdir -p /data/php/7.1/fpm/pool.d
 chown -R www-data:www-data /data/sites
 
 mv -n /etc/ajenti/** /data/ajenti
@@ -82,7 +82,7 @@ service mysql start
 # load web server after supervisor start
 service php5.6-fpm start
 service php7.0-fpm start
-service php7.1-fpm start
+# service php7.1-fpm start
 service nginx start
 
 exec "$@"
