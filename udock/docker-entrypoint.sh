@@ -74,6 +74,7 @@ service mysql start
 # load web server after supervisor start
 service php5.6-fpm start
 service php7.0-fpm start
+service php7.1-fpm start
 service nginx start
 
 exec "$@"
