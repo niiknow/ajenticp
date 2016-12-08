@@ -67,7 +67,7 @@ else
 fi
 
 # install phpMyAdmin if not exists
-if [[ ! -d /data/nginx/sites/phpMyAdmin ]]; then
+if [[ ! -d /data/sites/phpMyAdmin ]]; then
     echo "installing phpMyAdmin" 1>&2
     curl -s -o /tmp/phpMyAdmin-4.6.5.1-all-languages.tar.gz https://files.phpmyadmin.net/phpMyAdmin/4.6.5.1/phpMyAdmin-4.6.5.1-all-languages.tar.gz
     tar -zxvf /tmp/phpMyAdmin-4.6.5.1-all-languages.tar.gz -C /opt/
