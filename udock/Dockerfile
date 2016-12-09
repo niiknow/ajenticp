@@ -67,6 +67,8 @@ RUN sed -i -e "s/\/etc\/php\/5\.6\/fpm\/pool\.d/\/data\/php\/5\.6\/fpm\/pool\.d/
 RUN sed -i -e "s/\/etc\/php\/7\.0\/fpm\/pool\.d/\/data\/php\/7\.0\/fpm\/pool\.d/g" /etc/php/7.0/fpm/php-fpm.conf
 # RUN sed -i -e "s/\/etc\/php\/7\.1\/fpm\/pool\.d/\/data\/php\/7\.1\/fpm\/pool\.d/g" /etc/php/7.1/fpm/php-fpm.conf
 
+RUN echo "\nDAEMON_OPTS=-c /data/nginx/nginx.conf\nDAEMON_ARGS=$DAEMON_OPTS" >> /etc/default/nginx
+
 RUN systemctl disable apache-htcacheclean || true && \
 	rm -f /etc/init.d/apache-htcacheclean && \
 	rm -f /etc/rc3.d/*apache-htcacheclean
@@ -75,9 +77,9 @@ RUN systemctl disable redis || true && \
 	rm -f /etc/init.d/redis && \
 	rm -f /etc/rc3.d/*redis
 
-RUN systemctl disable ajenti || true && \
-	rm -f /etc/init.d/ajenti && \
-	rm -f /etc/rc3.d/*ajenti
+#RUN systemctl disable ajenti || true && \
+#	rm -f /etc/init.d/ajenti && \
+#	rm -f /etc/rc3.d/*ajenti
 
 RUN systemctl enable php5.6-fpm || true
 RUN systemctl enable php7.0-fpm || true
@@ -85,6 +87,7 @@ RUN systemctl enable php7.0-fpm || true
 RUN systemctl enable nginx || true
 RUN systemctl enable supervisor || true
 RUN systemctl enable cron || true
+RUN systemctl enable ajenti || true
 
 # set root password
 RUN echo 'root:Ch@ng3m3' | chpasswd

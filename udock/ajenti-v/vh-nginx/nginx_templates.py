@@ -39,7 +39,7 @@ http {
 
     server_names_hash_bucket_size 128;
 
-    include mime.conf;
+    include /data/nginx/mime.conf;
     charset UTF-8;
 
     open_file_cache max=100000 inactive=20s;
@@ -50,10 +50,10 @@ http {
     server_tokens off;
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 
-    include proxy.conf;
-    include fcgi.conf;
+    include /data/nginx/proxy.conf;
+    include /data/nginx/fcgi.conf;
 
-    include conf.d/*.conf;
+    include /data/nginx/conf.d/*.conf;
     include /data/nginx/nginx.custom.d/*.conf;
 }
 

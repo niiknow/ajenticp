@@ -114,7 +114,9 @@ class PHP70FPM (ApplicationGatewayComponent):
         #    'pools': '\n'.join(self.__generate_website(_) for _ in config.websites if _.enabled)
         #}
         #open(self.config_file, 'w').write(cfg)
-        self.__generate_website(_) for _ in config.websites if _.enabled
+        for website in config.websites:
+            if website.enabled:
+                self.__generate_website(website)
 
     def apply_configuration(self):
         PHP70FPMRestartable.get().schedule()

@@ -19,4 +19,4 @@ def init():
     from ajenti.plugins.vh import destroyed_configs
     destroyed_configs.append('php7.1-fpm')
 
-    import php70fpm
+    import php71fpm

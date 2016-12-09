@@ -53,7 +53,7 @@ fpm_service_name = 'php5.6-fpm'
 
 
 @plugin
-class PHP70FPMServiceTest (SanityCheck):
+class PHP56FPMServiceTest (SanityCheck):
     def __init__(self):
         self.type = _('PHP5.6-FPM service')
 
@@ -62,7 +62,7 @@ class PHP70FPMServiceTest (SanityCheck):
 
 
 @plugin
-class PHP70FPM (ApplicationGatewayComponent):
+class PHP56FPM (ApplicationGatewayComponent):
     id = 'php5.6-fcgi'
     title = 'PHP 5.6 FastCGI'
 
@@ -114,17 +114,19 @@ class PHP70FPM (ApplicationGatewayComponent):
         #    'pools': '\n'.join(self.__generate_website(_) for _ in config.websites if _.enabled)
         #}
         #open(self.config_file, 'w').write(cfg)
-        self.__generate_website(_) for _ in config.websites if _.enabled
+        for website in config.websites:
+            if website.enabled:
+                self.__generate_website(website)
 
     def apply_configuration(self):
-        PHP70FPMRestartable.get().schedule()
+        PHP56FPMRestartable.get().schedule()
 
     def get_checks(self):
-        return [PHP70FPMServiceTest.new()]
+        return [PHP56FPMServiceTest.new()]
 
 
 @plugin
-class PHP70FPMRestartable (Restartable):
+class PHP56FPMRestartable (Restartable):
     def restart(self):
         s = ServiceMultiplexor.get().get_one(fpm_service_name)
         print fpm_service_name, s, s.running

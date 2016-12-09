@@ -6,6 +6,30 @@ from ajenti.plugins.vh.api import ApplicationGatewayComponent, SanityCheck, Rest
 from ajenti.plugins.vh.processes import SupervisorRestartable
 from ajenti.util import platform_select
 
+
+TEMPLATE_CONFIG_FILE = """
+[global]
+pid = %(pidfile)s
+error_log = /var/log/php7.1-fpm.log
+
+[global-pool]
+user = www-data
+group = www-data
+
+listen = /var/run/php/php7.1-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+listen.mode = 0660
+
+pm = dynamic
+pm.start_servers = 1
+pm.max_children = 5
+pm.min_spare_servers = 1
+pm.max_spare_servers = 5
+
+%(pools)s
+"""
+
 TEMPLATE_POOL = """
 [%(name)s]
 user = %(user)s
@@ -25,11 +49,11 @@ pm.max_spare_servers = %(sp_max)s
 %(php_extras)s
 """
 
-fpm_service_name = 'php7.1-fpm'
+fpm_service_name = 'php7.2-fpm'
 
 
 @plugin
-class PHP70FPMServiceTest (SanityCheck):
+class PHP71FPMServiceTest (SanityCheck):
     def __init__(self):
         self.type = _('PHP7.1-FPM service')
 
@@ -38,12 +62,13 @@ class PHP70FPMServiceTest (SanityCheck):
 
 
 @plugin
-class PHP70FPM (ApplicationGatewayComponent):
+class PHP71FPM (ApplicationGatewayComponent):
     id = 'php7.1-fcgi'
-    title = 'PHP 7.1 FastCGI'
+    title = 'PHP 7.0 FastCGI'
 
     def init(self):
-        self.config_path = '/data/php/7.1/fpm/pool.d'
+        self.config_file = '/etc/php/7.0/fpm/php-fpm.conf'
+        self.config_path = '/data/php/7.0/fpm/pool.d'
 
     def __generate_pool(self, location, backend, name):
         pm_min = backend.params.get('pm_min', 1) or 1
@@ -82,18 +107,26 @@ class PHP70FPM (ApplicationGatewayComponent):
                     .write(self.__generate_pool(location, location.backend, location.backend.id))
 
     def create_configuration(self, config):
-        self.__generate_website(_) for _ in config.websites if _.enabled
-
+        #if os.path.exists(self.config_file):
+        #    os.unlink(self.config_file)
+        #cfg = TEMPLATE_CONFIG_FILE % {
+        #    'pidfile': '/var/run/php/php7.1-fpm.pid',
+        #    'pools': '\n'.join(self.__generate_website(_) for _ in config.websites if _.enabled)
+        #}
+        #open(self.config_file, 'w').write(cfg)
+        for website in config.websites:
+            if website.enabled:
+                self.__generate_website(website)
 
     def apply_configuration(self):
-        PHP70FPMRestartable.get().schedule()
+        PHP71FPMRestartable.get().schedule()
 
     def get_checks(self):
-        return [PHP70FPMServiceTest.new()]
+        return [PHP71FPMServiceTest.new()]
 
 
 @plugin
-class PHP70FPMRestartable (Restartable):
+class PHP71FPMRestartable (Restartable):
     def restart(self):
         s = ServiceMultiplexor.get().get_one(fpm_service_name)
         print fpm_service_name, s, s.running
@@ -101,3 +134,4 @@ class PHP70FPMRestartable (Restartable):
             s.start()
         else:
             s.restart()
+

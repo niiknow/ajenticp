@@ -25,6 +25,7 @@ mv -n /etc/php/7.0/fpm/pool.d/*.conf /data/php/7.0/fpm/pool.d
 # make sure supervisor service is running
 # so it start ajenti
 service supervisor start
+service ajenti start
 
 echo $MYSQL_ADMIN_PASSWORD > /root/dbpass.txt
 
