@@ -30,12 +30,15 @@ RUN bash /tmp/ajenti-install.sh
 # special ajenti-v for docker
 RUN rm -f /var/lib/ajenti/plugins/vh-nginx/ng*.*
 ADD ajenti-v/vh-nginx/ng*.* /var/lib/ajenti/plugins/vh-nginx/
+RUN chown 1000:1000 /var/lib/ajenti/plugins/vh-nginx/ng*.py
 
 RUN rm -f /var/lib/ajenti/plugins/vh-php5.6-fpm/php*.*
 ADD ajenti-v/vh-php5.6-fpm/php*.* /var/lib/ajenti/plugins/vh-php5.6-fpm/
+RUN chown 1000:1000 /var/lib/ajenti/plugins/vh-php5.6-fpm/php*.*
 
 RUN rm -f /var/lib/ajenti/plugins/vh-php7.0-fpm/php*.*
 ADD ajenti-v/vh-php7.0-fpm/php*.* /var/lib/ajenti/plugins/vh-php7.0-fpm/
+RUN chown 1000:1000 /var/lib/ajenti/plugins/vh-php7.0-fpm/php*.*
 
 # RUN mkdir -p /var/lib/ajenti/plugins/vh-php7.1-fpm && rm -f /var/lib/ajenti/plugins/vh-php7.1-fpm/*.*
 # ADD ajenti-v/vh-php7.1-fpm /var/lib/ajenti/plugins/vh-php7.1-fpm
@@ -43,6 +46,7 @@ ADD ajenti-v/vh-php7.0-fpm/php*.* /var/lib/ajenti/plugins/vh-php7.0-fpm/
 
 RUN rm -f /var/lib/ajenti/plugins/vh/main.*
 ADD ajenti-v/vh/main.py /var/lib/ajenti/plugins/vh/main.py
+ADD chown 1000:1000 /var/lib/ajenti/plugins/vh/main.py
 
 # update supervisor
 # RUN sed -i -e "s/\[supervisord\]/\[supervisord\]\nnodaemon=true\n/g" /etc/supervisor/supervisord.conf
