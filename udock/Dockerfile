@@ -77,6 +77,10 @@ RUN systemctl disable redis || true && \
 	rm -f /etc/init.d/redis && \
 	rm -f /etc/rc3.d/*redis
 
+RUN systemctl disable nginx || true && \
+	rm -f /etc/init.d/nginx && \
+	rm -f /etc/rc3.d/*nginx
+
 #RUN systemctl disable ajenti || true && \
 #	rm -f /etc/init.d/ajenti && \
 #	rm -f /etc/rc3.d/*ajenti
