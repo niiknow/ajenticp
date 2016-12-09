@@ -64,11 +64,11 @@ class PHP71FPMServiceTest (SanityCheck):
 @plugin
 class PHP71FPM (ApplicationGatewayComponent):
     id = 'php7.1-fcgi'
-    title = 'PHP 7.0 FastCGI'
+    title = 'PHP 7.1 FastCGI'
 
     def init(self):
-        self.config_file = '/etc/php/7.0/fpm/php-fpm.conf'
-        self.config_path = '/data/php/7.0/fpm/pool.d'
+        self.config_file = '/etc/php/7.1/fpm/php-fpm.conf'
+        self.config_path = '/data/php/7.1/fpm/pool.d'
 
     def __generate_pool(self, location, backend, name):
         pm_min = backend.params.get('pm_min', 1) or 1

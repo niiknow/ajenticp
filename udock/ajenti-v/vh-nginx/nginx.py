@@ -15,7 +15,7 @@ class NginxConfigTest (SanityCheck):
         self.type = _('NGINX config test')
 
     def check(self):
-        p = subprocess.Popen(['nginx', '-t'], stderr=subprocess.PIPE)
+        p = subprocess.Popen(['nginx', '-t', '-c', '/data/nginx/nginx.conf'], stderr=subprocess.PIPE)
         o, self.message = p.communicate()
         return p.returncode == 0
 
@@ -71,6 +71,11 @@ class NginxWebserver (WebserverComponent):
 
         if location.backend.type == 'php7.0-fcgi':
             content = TEMPLATE_LOCATION_CONTENT_PHP70_FCGI % {
+                'id': location.backend.id,
+            }
+
+        if location.backend.type == 'php7.1-fcgi':
+            content = TEMPLATE_LOCATION_CONTENT_PHP71_FCGI % {
                 'id': location.backend.id,
             }
 
@@ -189,8 +194,5 @@ class NginxWebserver (WebserverComponent):
 @plugin
 class NGINXRestartable (Restartable):
     def restart(self):
-        # s = ServiceMultiplexor.get().get_one('nginx')
-        # s.restart()
-        p = subprocess.Popen(['service', 'nginx', 'restart'], stderr=subprocess.PIPE)
-        o, self.message = p.communicate()
-        return p.returncode == 0
+        s = ServiceMultiplexor.get().get_one('nginx')
+        s.restart()
