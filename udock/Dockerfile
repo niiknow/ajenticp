@@ -50,7 +50,7 @@ RUN chown 1000:1000 /var/lib/ajenti/plugins/vh-php7.0-fpm/php*.*
 RUN rm -f /var/lib/ajenti/plugins/vh/main.*
 RUN rm -f /var/lib/ajenti/plugins/vh/*.pyc
 ADD ajenti-v/vh/main.py /var/lib/ajenti/plugins/vh/main.py
-ADD chown 1000:1000 /var/lib/ajenti/plugins/vh/*.py
+RUN chown 1000:1000 /var/lib/ajenti/plugins/vh/*.py
 
 # update supervisor
 # RUN sed -i -e "s/\[supervisord\]/\[supervisord\]\nnodaemon=true\n/g" /etc/supervisor/supervisord.conf
