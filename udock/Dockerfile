@@ -43,9 +43,12 @@ RUN rm -f /var/lib/ajenti/plugins/vh-php7.0-fpm/*.pyc
 ADD ajenti-v/vh-php7.0-fpm/php*.* /var/lib/ajenti/plugins/vh-php7.0-fpm/
 RUN chown 1000:1000 /var/lib/ajenti/plugins/vh-php7.0-fpm/php*.*
 
-# RUN mkdir -p /var/lib/ajenti/plugins/vh-php7.1-fpm && rm -f /var/lib/ajenti/plugins/vh-php7.1-fpm/*.*
-# ADD ajenti-v/vh-php7.1-fpm /var/lib/ajenti/plugins/vh-php7.1-fpm
-# ADD ajenti-v/vh/layout/main-backend-params-php7.1-fcgi.xml /var/lib/ajenti/plugins/vh/layout/main-backend-params-php7.1-fcgi.xml
+RUN mkdir -p /var/lib/ajenti/plugins/vh-php7.1-fpm && rm -f /var/lib/ajenti/plugins/vh-php7.1-fpm/*.*
+ADD ajenti-v/vh-php7.1-fpm /var/lib/ajenti/plugins/vh-php7.1-fpm
+RUN chown 1000:1000 /var/lib/ajenti/plugins/vh-php7.1-fpm/*.*
+
+ADD ajenti-v/vh/layout/main-backend-params-php7.1-fcgi.xml /var/lib/ajenti/plugins/vh/layout/main-backend-params-php7.1-fcgi.xml
+RUN chown 1000:1000 /var/lib/ajenti/plugins/vh/layout/main-backend-params-php7.1-fcgi.xml
 
 RUN rm -f /var/lib/ajenti/plugins/vh/main.*
 RUN rm -f /var/lib/ajenti/plugins/vh/*.pyc
@@ -65,7 +68,7 @@ RUN sed -i -e "s/dir \./dir \/data\/redis\/db/g" /etc/redis/redis.conf
 # update fpm
 RUN sed -i -e "s/\/etc\/php\/5\.6\/fpm\/pool\.d/\/data\/php\/5\.6\/fpm\/pool\.d/g" /etc/php/5.6/fpm/php-fpm.conf
 RUN sed -i -e "s/\/etc\/php\/7\.0\/fpm\/pool\.d/\/data\/php\/7\.0\/fpm\/pool\.d/g" /etc/php/7.0/fpm/php-fpm.conf
-# RUN sed -i -e "s/\/etc\/php\/7\.1\/fpm\/pool\.d/\/data\/php\/7\.1\/fpm\/pool\.d/g" /etc/php/7.1/fpm/php-fpm.conf
+RUN sed -i -e "s/\/etc\/php\/7\.1\/fpm\/pool\.d/\/data\/php\/7\.1\/fpm\/pool\.d/g" /etc/php/7.1/fpm/php-fpm.conf
 
 RUN echo "\nDAEMON_OPTS=-c /data/nginx/nginx.conf\nDAEMON_ARGS=$DAEMON_OPTS" >> /etc/default/nginx
 
@@ -87,7 +90,7 @@ RUN systemctl disable nginx || true && \
 
 RUN systemctl enable php5.6-fpm || true
 RUN systemctl enable php7.0-fpm || true
-# RUN systemctl enable php7.1-fpm || true
+RUN systemctl enable php7.1-fpm || true
 RUN systemctl enable nginx || true
 RUN systemctl enable supervisor || true
 RUN systemctl enable cron || true

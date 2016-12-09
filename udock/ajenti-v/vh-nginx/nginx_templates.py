@@ -168,7 +168,6 @@ TEMPLATE_WEBSITE = """
 %(custom_conf_toplevel)s
 
 server {
-    include /data/nginx/sites-conf/%(server_name)s/*.conf;
     %(ports)s
     %(ssl_cert)s
     %(ssl_key)s
@@ -231,7 +230,7 @@ TEMPLATE_LOCATION_CONTENT_PROXY = """
 """
 
 TEMPLATE_LOCATION_CONTENT_FCGI = """
-        include fcgi.conf;
+        include /data/nginx/fcgi.conf;
         fastcgi_pass %(url)s;
 """
 
@@ -244,21 +243,21 @@ TEMPLATE_LOCATION_CONTENT_PHP_FCGI = """
 
 TEMPLATE_LOCATION_CONTENT_PHP56_FCGI = """
         fastcgi_index index.php;
-        include fcgi.conf;
+        include /data/nginx/fcgi.conf;
         fastcgi_pass unix:/var/run/ajenti-v-php5.6-fcgi-%(id)s.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 """
 
 TEMPLATE_LOCATION_CONTENT_PHP70_FCGI = """
         fastcgi_index index.php;
-        include fcgi.conf;
+        include /data/nginx/fcgi.conf;
         fastcgi_pass unix:/var/run/ajenti-v-php7.0-fcgi-%(id)s.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 """
 
 TEMPLATE_LOCATION_CONTENT_PHP71_FCGI = """
         fastcgi_index index.php;
-        include fcgi.conf;
+        include /data/nginx/fcgi.conf;
         fastcgi_pass unix:/var/run/ajenti-v-php7.1-fcgi-%(id)s.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 """
