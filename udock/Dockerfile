@@ -29,14 +29,17 @@ RUN bash /tmp/ajenti-install.sh
 
 # special ajenti-v for docker
 RUN rm -f /var/lib/ajenti/plugins/vh-nginx/ng*.*
+RUN rm -f /var/lib/ajenti/plugins/vh-nginx/*.pyc
 ADD ajenti-v/vh-nginx/ng*.* /var/lib/ajenti/plugins/vh-nginx/
 RUN chown 1000:1000 /var/lib/ajenti/plugins/vh-nginx/ng*.py
 
 RUN rm -f /var/lib/ajenti/plugins/vh-php5.6-fpm/php*.*
+RUN rm -f /var/lib/ajenti/plugins/vh-php5.6-fpm/*.pyc
 ADD ajenti-v/vh-php5.6-fpm/php*.* /var/lib/ajenti/plugins/vh-php5.6-fpm/
 RUN chown 1000:1000 /var/lib/ajenti/plugins/vh-php5.6-fpm/php*.*
 
 RUN rm -f /var/lib/ajenti/plugins/vh-php7.0-fpm/php*.*
+RUN rm -f /var/lib/ajenti/plugins/vh-php7.0-fpm/*.pyc
 ADD ajenti-v/vh-php7.0-fpm/php*.* /var/lib/ajenti/plugins/vh-php7.0-fpm/
 RUN chown 1000:1000 /var/lib/ajenti/plugins/vh-php7.0-fpm/php*.*
 
@@ -45,6 +48,7 @@ RUN chown 1000:1000 /var/lib/ajenti/plugins/vh-php7.0-fpm/php*.*
 # ADD ajenti-v/vh/layout/main-backend-params-php7.1-fcgi.xml /var/lib/ajenti/plugins/vh/layout/main-backend-params-php7.1-fcgi.xml
 
 RUN rm -f /var/lib/ajenti/plugins/vh/main.*
+RUN rm -f /var/lib/ajenti/plugins/vh/*.pyc
 ADD ajenti-v/vh/main.py /var/lib/ajenti/plugins/vh/main.py
 ADD chown 1000:1000 /var/lib/ajenti/plugins/vh/main.py
 
