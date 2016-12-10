@@ -45,6 +45,18 @@ if [[ ! -d /data/sites/phpMyAdmin ]]; then
     sed -i -e "s/BLOWFISH_SECRET/$blowfish/g" /data/sites/phpMyAdmin/config.inc.php
 fi
 
+VOLUME_HOME="/data/mysql"
+export TERM=linux
+if [[ ! -d $VOLUME_HOME/mysql ]]; then
+    
+    echo "=> An empty or uninitialized MySQL volume is detected in $VOLUME_HOME"
+    echo "=> Installing MySQL ..."
+    mysql_install_db --user=mysql
+fi
+
+killall mysqld    
+sleep 5s
+
 chown -R mysql:mysql "$VOLUME_HOME"
 
 chown -R www-data:www-data /data/sites
