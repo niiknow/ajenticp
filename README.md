@@ -1,13 +1,6 @@
 # ajenti docker
 Ajenti Docker web panel with Ubuntu 16.04 LTS
 
-Build
-```
-cd udock
-docker build -t niiknow/ajenti-udock:0.1.0 udock
-docker tag niiknow/ajenti-udock:0.1.0 niiknow/ajenti-udock:latest
-```
-
 RUN
 ```
 docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -p 8001:8001 -v /opt/ajenti-udock/data:/data -d niiknow/ajenti-udock
