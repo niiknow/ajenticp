@@ -13,7 +13,7 @@ $i++;
 $cfg['Servers'][$i]['verbose']      = '';
 $cfg['Servers'][$i]['host']         = 'localhost';
 $cfg['Servers'][$i]['port']         = 3306;
-$cfg['Servers'][$i]['socket']       = '/tmp/mysql.sock';
+$cfg['Servers'][$i]['socket']       = '/var/run/mysqld/mysqld.sock';
 $cfg['Servers'][$i]['connect_type'] = 'socket';
 $cfg['Servers'][$i]['auth_type']    = 'cookie';
 $cfg['Servers'][$i]['user']         = '';
