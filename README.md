@@ -10,7 +10,7 @@ docker tag niiknow/ajenti-udock:0.1.0 niiknow/ajenti-udock:latest
 
 RUN
 ```
-docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -p 8001:8001 -v /opt/ajenti-udock/data:/data -e MYSQL_ROOT_PASSWORD=yourMySqlpass -d niiknow/ajenti-udock
+docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -p 8001:8001 -v /opt/ajenti-udock/data:/data -d niiknow/ajenti-udock
 ```
 
 BROWSER
@@ -31,7 +31,7 @@ This script can be use to install Ajenti on Ubuntu 16.04 LTS.  It provides basic
 5. Also include tools that you need to be productive in a terminal like wget, curl, git, sudo, and nano.
 6. Modify Ajenti default website folder from /srv/new-website to /data/sites/new-website.
 7. Rework ajenti-v/vh-nginx plugin to provide better stability and reuse.  This is an experiment of mine, and if it work, then I will try to get a change request to Ajenti.
-8. phpMyAdmin is setup as a Website on port 8001.  In order to use phpMyAdmin, you will need to go to Ajenti Websites tab, apply the config so that Ajenti generate the nginx config for this site.
+8. phpMyAdmin is setup as a Website on port 8001.  In order to use phpMyAdmin for the first time, you will need to go to Ajenti Websites tab, apply the config so that Ajenti generate the nginx config for this site.  Then restart php7.0-fpm service and start nginx service.  Goto MySQL tab and create a new user, let say 'ajenti'@'localhost' with your own password and "RUN" the statement: "GRANT ALL PRIVILEGES ON *.* TO 'ajenti'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;" and now you can login with user ajenti on port 8001.
 
 That should be enough for you to start your website hosting.  MySql is included for convienence, but it's best to host mysql on a separate container.
 
@@ -55,7 +55,7 @@ From this image, you can figure out how to simply setup your own Dockerfile with
 Since we're running docker, you can choose to expose as much or as little port as you like with your docker port mapping.  Example below show the addition of openvpn.
 
 ```
-docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -p 8000:8000 -p 1194:1194/udp -v /opt/ajenti-udock/data:/data -e MYSQL_ROOT_PASSWORD=yourMySqlpass -d niiknow/ajenti-udock-greedy
+docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -p 8001:8001 -p 1194:1194/udp -v /opt/ajenti-udock/data:/data -d niiknow/ajenti-udock-greedy
 ```
 
 # Inspired by
