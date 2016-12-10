@@ -54,6 +54,7 @@ RUN rm -f /var/lib/ajenti/plugins/vh/main.*
 RUN rm -f /var/lib/ajenti/plugins/vh/*.pyc
 ADD ajenti-v/vh/main.py /var/lib/ajenti/plugins/vh/main.py
 RUN chown 1000:1000 /var/lib/ajenti/plugins/vh/*.py
+ADD phpMyAdmin/config.inc.php /tmp/config.inc.php
 
 # update supervisor
 # RUN sed -i -e "s/\[supervisord\]/\[supervisord\]\nnodaemon=true\n/g" /etc/supervisor/supervisord.conf
