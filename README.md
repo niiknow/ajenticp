@@ -42,7 +42,7 @@ https://yourip:8000
 ```
 
 ## ajenti-udock-greedy
-So you want everything?  This demonstrate the greedy udock setup with: ajenti-udock + sftp, postgresql, mongodb, openvpn, and bind9.  Also swap out with latest nodejs 6.x and npm install gulp, express, forever, and flatiron.
+So you want everything?  This demonstrate the greedy udock setup with: ajenti-udock + sftp, postgresql, mongodb, openvpn, and bind9.  Also swap out with latest nodejs 6.x and npm install gulp and express.
 
 From this image, you can figure out how to simply setup your own Dockerfile with the base ajenti-udock panel.
 
