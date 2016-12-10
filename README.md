@@ -32,7 +32,7 @@ This script can be use to install Ajenti on Ubuntu 16.04 LTS.  It provides basic
 6. Modify Ajenti default website folder from /srv/new-website to /data/sites/new-website.
 7. Rework ajenti-v/vh-nginx plugin to provide better stability and reuse.  This is an experiment of mine, and if it work, then I will try to get a change request to Ajenti.
 8. phpMyAdmin is setup as a Website on port 8001.  In order to use phpMyAdmin for the first time, you will need to go to Ajenti Websites tab, apply the config so that Ajenti generate the nginx config for this site.  Then restart php7.0-fpm service and start nginx service.  Goto MySQL tab and create a new user, let say 'ajenti'@'localhost' with your own password and "RUN" the statement: "GRANT ALL PRIVILEGES ON *.* TO 'ajenti'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;" and now you can login with user ajenti on port 8001.
-9. Everything has been redirected to your "/data" VOLUME.  Just backup your mounted volumn on a regular basis and you are good to go.
+9. For backup conveniences, almost everything has been redirected to your "/data" VOLUME.  Just backup your mounted volume on a regular basis and you are good to go.  Or create a data container and run regular snapshot on the container for easy rollback.
  
 That should be enough for you to start your website hosting.  MySql is included for convienence, but it's best to host mysql on a separate container.
 
