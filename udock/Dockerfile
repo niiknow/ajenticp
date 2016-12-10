@@ -108,7 +108,7 @@ VOLUME ["/data", "/backups"]
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-EXPOSE 80 443 3306 8000 8001
+EXPOSE 80 443 3306 8000 8001 6379
 
 # this ensure that we don't exit the docker, ever
 CMD ["tail", "-f", "/dev/null"]

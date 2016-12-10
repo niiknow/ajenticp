@@ -37,9 +37,11 @@ RUN apt-get install -yq bind9 bind9utils bind9-doc
 
 # Let swap out with a different nodejs
 RUN rm -rf /bin/node
-RUN apt-get remove -yq nodejs npm
+RUN apt-get remove -yq nodejs npm && \
+	dpkg --configure -a && \
+	apt-get update && apt-get -yq upgrade && apt-get install -yf
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 RUN apt-get install -y nodejs npm
 RUN npm install -g gulp express
 
-EXPOSE 80 443 3306 8000 22 27017 5432 1194/udp 53
+EXPOSE 80 443 3306 8000 8001 6379 22 27017 5432 1194/udp 53
