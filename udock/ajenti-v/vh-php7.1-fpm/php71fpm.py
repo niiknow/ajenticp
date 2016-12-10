@@ -49,7 +49,7 @@ pm.max_spare_servers = %(sp_max)s
 %(php_extras)s
 """
 
-fpm_service_name = 'php7.2-fpm'
+fpm_service_name = 'php7.1-fpm'
 
 
 @plugin
@@ -107,13 +107,6 @@ class PHP71FPM (ApplicationGatewayComponent):
                     .write(self.__generate_pool(location, location.backend, location.backend.id))
 
     def create_configuration(self, config):
-        #if os.path.exists(self.config_file):
-        #    os.unlink(self.config_file)
-        #cfg = TEMPLATE_CONFIG_FILE % {
-        #    'pidfile': '/var/run/php/php7.1-fpm.pid',
-        #    'pools': '\n'.join(self.__generate_website(_) for _ in config.websites if _.enabled)
-        #}
-        #open(self.config_file, 'w').write(cfg)
         for website in config.websites:
             if website.enabled:
                 self.__generate_website(website)
