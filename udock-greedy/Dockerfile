@@ -1,4 +1,4 @@
-FROM niiknow:ajenti-udock
+FROM niiknow/ajenti-udock
 MAINTAINER friends <friends@niiknow.org>
 
 # Let say your want to change this to CST
