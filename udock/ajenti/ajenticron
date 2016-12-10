@@ -1,0 +1,6 @@
+# /etc/cron.d/ajenticron -- cron tab entry for your custom configuration
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+# example of running something every hour on the hour
+# 0 * * * * root /usr/bin/dosomething

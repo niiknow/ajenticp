@@ -80,7 +80,6 @@ password = udockbackup
 
 # files to include in the backup
 include = /data
-include = /etc/nginx
 
 # If vservers = yes in /etc/backupninja.conf then the following variables can
 # be used:

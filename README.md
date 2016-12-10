@@ -1,14 +1,30 @@
 # ajenti docker
-Ajenti Docker web panel with Ubuntu 16.04 LTS
+Ajenti Docker web panel with Ubuntu 16.04 LTS.
 
 RUN
 ```
 docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -p 8001:8001 -v /opt/ajenti-udock/data:/data -d niiknow/ajenti-udock
 ```
 
+It is important that you have the data volume mounted externally or to a data container.  This will be your data persistent folder
+
 BROWSER
 ```
 https://yourip:8000
+```
+
+VOLUME "/data"
+```
+/data/ajenti - persist Ajenti configs across restart
+/data/backup.d - allow for customizing backupninja configuration
+/data/nginx - all your nginx configs
+/data/mysql - mysql raw data folder
+/data/mysqldump - mysql dump backup folder
+/data/php - php and fpm configurations
+/data/redis - redis configuration
+/data/redis/db - redis persistent configuration
+/data/sites - website files
+/data/supervisor - supervisor configs
 ```
 
 Default Ajenti user/pass: root/admin
@@ -25,8 +41,8 @@ This script can be use to install Ajenti on Ubuntu 16.04 LTS.  It provides basic
 6. Modify Ajenti default website folder from /srv/new-website to /data/sites/new-website.
 7. Rework ajenti-v/vh-nginx plugin to provide better stability and reuse.  This is an experiment of mine, and if it work, then I will try to get a change request to Ajenti.
 8. phpMyAdmin is setup as a Website on port 8001.  In order to use phpMyAdmin for the first time, you will need to go to Ajenti Websites tab, apply the config so that Ajenti generate the nginx config for this site.  Then restart php7.0-fpm service and start nginx service.  Goto MySQL tab and create a new user, let say 'ajenti'@'localhost' with your own password and "RUN" the statement: "GRANT ALL PRIVILEGES ON *.* TO 'ajenti'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;" and now you can login with user ajenti on port 8001.
-9. For backup conveniences, almost everything has been redirected to your "/data" VOLUME.  Just backup your mounted volume on a regular basis and you are good to go.  Or create a data container and run regular snapshot on the container for easy rollback.
- 
+9. For backup conveniences, almost everything has been redirected to your "/data" VOLUME.  Just backup your mounted volume on a regular basis and you are good to go.  Or create a data container and run regular snapshot on the container for easy rollback.  Backupninja has also been configured to send file to /backup volume with daily default schedule at 1AM.  Just mount the volume externally to get access.
+
 That should be enough for you to start your website hosting.  MySql is included for convienence, but it's best to host mysql on a separate container.
 
 ## ajenti-udock
@@ -41,8 +57,8 @@ This image expect all management through the web panel.  There is no ssh.  If yo
 https://yourip:8000
 ```
 
-## ajenti-udock-greedy
-So you want everything?  This demonstrate the greedy udock setup with: ajenti-udock + sftp, postgresql, mongodb, openvpn, and bind9.  Also swap out with latest nodejs 6.x and npm install gulp and express.
+## ajenti-udock:greedy
+So you want everything?  This demonstrate the greedy udock setup with: ajenti-udock + sftp, postgresql, mongodb, openvpn, and bind9.  Also swap out with latest nodejs 6.x with npm install gulp and express.
 
 From this image, you can figure out how to simply setup your own Dockerfile with the base ajenti-udock panel.
 
@@ -53,10 +69,10 @@ docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -p 8001:8001 -p 1194:11
 ```
 
 # Inspired by
-[WhatPanel] (https://github.com/paimpozhil/WhatPane) - but instead of CentOS, I use focus on simplifying deployment with latest Ubuntu LTS.  I also want to provide directly for full blown Ajenti docker image.
+[WhatPanel] (https://github.com/paimpozhil/WhatPane) - but instead of CentOS, I focus on simplifying deployment with latest Ubuntu LTS.  I also want to provide the base for full blown Ajenti docker image: ajenti-udock:greedy.
 
 # Benefits
-So you purchased a cheap VPS hosting and setup your perfect server.  Your VPS provider doesn't have snapshot backup or provide little to no backup; and you don't want to mess with the server stability.  Docker comes to the rescue.  You can use this project or similar to provide a more stable and secure environment for hosting.
+So you own a cheap VPS and has setuped your perfect server.  Your VPS provider doesn't have snapshot backup or provide little to no backup; and you don't want to mess with your server current configuration.  Docker comes to the rescue.  You can use this project or similar to provide a stable and secure environment for hosting.
 
 If you don't have docker but has access to Ubuntu 16.04, you can use the ajenti-install.sh directly.
 
@@ -64,19 +80,3 @@ If you don't have docker but has access to Ubuntu 16.04, you can use the ajenti-
 wget https://raw.githubusercontent.com/niiknow/ajenti-udock/master/udock/ajenti-install.sh
 bash ajenti-install.sh
 ```
-
-# Signing Off
-Project is currently *not actively worked on* since parent project (Ajenti) also seem to be in the same status.  This make it difficult to justify running this in Production.  I'm just doing this as proof of concept.
-
-Otherwise, if you have any requests, create an issue/pull request and I will try to find the time.
-
-# LICENSE
-The MIT License (MIT)
-
-Copyright (c) 2016 niiknow
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

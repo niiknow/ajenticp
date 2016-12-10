@@ -32,7 +32,7 @@ backupdir = /data/mysqldump
 # space separated list of database names.
 databases = all
 
-dbusername = udock-admin
-dbpassword = changeme
+dbusername = root
+dbpassword =
 
 configfile = /etc/mysql/my.cnf

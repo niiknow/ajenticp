@@ -32,7 +32,8 @@ dpkg -i /tmp/python-support_1.0.15_all.deb
 
 echo "5. installing ajenti" 1>&2
 apt-get install -yq ajenti php-all-dev pkg-php-tools
-apt-get install -yq ajenti-v ajenti-v-nginx ajenti-v-mysql ajenti-v-php5.6-fpm ajenti-v-php7.0-fpm ajenti-v-mail ajenti-v-nodejs ajenti-v-python-gunicorn ajenti-v-ruby-unicorn 
+apt-get install -yq ajenti-v ajenti-v-nginx ajenti-v-mysql ajenti-v-php5.6-fpm \
+	ajenti-v-php7.0-fpm ajenti-v-mail ajenti-v-nodejs ajenti-v-python-gunicorn ajenti-v-ruby-unicorn 
 
 apt-get install -yq php5.6-mbstring php5.6-cgi php5.6-cli php5.6-dev php5.6-geoip php5.6-common \
 	php5.6-curl php5.6-enchant php5.6-imap php5.6-xsl php5.6-mysql php5.6-mysqlnd php5.6-pspell php5.6-gd \
@@ -72,4 +73,3 @@ sed -i -e "s/'php-fcgi'/'php7.1-fcgi'/g" /var/lib/ajenti/plugins/vh/api.py
 # https://github.com/Eugeny/ajenti-v/pull/185
 rm -f /var/lib/ajenti/plugins/vh/processes.pyc
 sed -i -e "s/'reload'/'update'/g" /var/lib/ajenti/plugins/vh/processes.py
-

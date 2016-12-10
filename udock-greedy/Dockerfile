@@ -11,14 +11,14 @@ RUN apt-get update && apt-get upgrade -yq
 
 # sftp 22
 RUN apt-get install -yq openssh-server 
-RUN grep -v "Subsystem sftp /usr/lib/openssh/sftp-server" /etc/ssh/sshd_config > /etc/ssh/sshd_config2 && mv /etc/ssh/sshd_config2 /etc/ssh/sshd_config
-RUN echo "Subsystem sftp internal-sftp" >> /etc/ssh/sshd_config
-RUN echo "Match group www-data" >> /etc/ssh/sshd_config
-RUN echo "ChrootDirectory /data/sites/" >> /etc/ssh/sshd_config
-RUN echo "X11Forwarding no" >> /etc/ssh/sshd_config
-RUN echo "AllowTcpForwarding no" >> /etc/ssh/sshd_config
-RUN echo "ForceCommand internal-sftp" >> /etc/ssh/sshd_config
-RUN useradd -m -g www-data sftpuser
+RUN grep -v "Subsystem sftp /usr/lib/openssh/sftp-server" /etc/ssh/sshd_config > /etc/ssh/sshd_config2 && mv /etc/ssh/sshd_config2 /etc/ssh/sshd_config && \
+	echo "Subsystem sftp internal-sftp" >> /etc/ssh/sshd_config && \
+	echo "Match group www-data" >> /etc/ssh/sshd_config && \
+	echo "ChrootDirectory /data/sites/" >> /etc/ssh/sshd_config && \
+	echo "X11Forwarding no" >> /etc/ssh/sshd_config && \
+	echo "AllowTcpForwarding no" >> /etc/ssh/sshd_config && \
+	echo "ForceCommand internal-sftp" >> /etc/ssh/sshd_config && \
+	useradd -m -g www-data sftpuser
 
 # mongodb 27017
 RUN curl -s -o /tmp/percona-server-mongodb-3.2.9-2.1-rd497c75-xenial-x86_64-bundle.tar https://www.percona.com/downloads/percona-server-mongodb-3.2/percona-server-mongodb-3.2.9-2.1/binary/debian/xenial/x86_64/percona-server-mongodb-3.2.9-2.1-rd497c75-xenial-x86_64-bundle.tar && \
@@ -26,17 +26,11 @@ RUN curl -s -o /tmp/percona-server-mongodb-3.2.9-2.1-rd497c75-xenial-x86_64-bund
     dpkg -i /tmp/percona-server-mongodb-*.deb
 RUN easy_install pymongo
 
-# postgresql 5432
-RUN apt-get install -yq postgresql postgresql-contrib
+# postgresql 5432, openvpn 1194/udp, bind9 53
+RUN apt-get install -yq postgresql postgresql-contrib openvpn easy-rsa bind9 bind9utils bind9-doc
 
-# openvpn 1194/udp
-RUN apt-get install -yq openvpn easy-rsa
-
-# bind9 53
-RUN apt-get install -yq bind9 bind9utils bind9-doc
-
-# Let swap out with a different nodejs
-RUN rm -rf /bin/node
+# swap out with newer nodejs
+RUN rm -f /bin/node
 RUN apt-get remove -yq nodejs npm && \
 	dpkg --configure -a && \
 	apt-get update && apt-get -yq upgrade && apt-get install -yf
