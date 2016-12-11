@@ -42,3 +42,6 @@ RUN chmod +x /usr/local/bin/docker-entrypoint-greedy.sh
 EXPOSE 80 443 3306 9000 9001 6379 22 27017 28017 5432 1194/udp 53
 
 ENTRYPOINT ["docker-entrypoint-greedy.sh"]
+
+# this ensure that we don't exit the docker, ever
+CMD ["tail", "-f", "/dev/null"]
