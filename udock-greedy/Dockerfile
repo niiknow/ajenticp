@@ -7,10 +7,8 @@ RUN echo "US/Central" > /etc/timezone \
 
 RUN echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
-RUN apt-get update && apt-get upgrade -yq
+RUN apt-get update && apt-get upgrade -yq && apt-get install -yq openssh-server
 
-# sftp 22
-RUN apt-get install -yq openssh-server 
 RUN grep -v "Subsystem sftp /usr/lib/openssh/sftp-server" /etc/ssh/sshd_config > /etc/ssh/sshd_config2 && mv /etc/ssh/sshd_config2 /etc/ssh/sshd_config && \
 	echo "Subsystem sftp internal-sftp" >> /etc/ssh/sshd_config && \
 	echo "Match group www-data" >> /etc/ssh/sshd_config && \
@@ -30,10 +28,10 @@ RUN easy_install pymongo
 RUN apt-get install -yq postgresql postgresql-contrib openvpn easy-rsa bind9 bind9utils bind9-doc
 
 # swap out with newer nodejs
-RUN rm -f /bin/node
 RUN apt-get remove -yq nodejs npm && \
 	dpkg --configure -a && \
 	apt-get update && apt-get -yq upgrade && apt-get install -yf
+
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 RUN apt-get install -y nodejs
 RUN npm install --quiet -g gulp express bower mocha karma-cli pm2 && npm cache clean
