@@ -9,10 +9,11 @@ apt-get -o Acquire::GzipIndexes=false update
 
 echo "1. apt updating for the first time" 1>&2
 apt-get update && apt-get -yq upgrade 
-apt-get install -yqf wget apt-show-versions apt-utils software-properties-common build-essential  \
-	python-dev python-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev \
-	sudo git curl nano vim mariadb-server mariadb-client libmagickwand-dev imagemagick \
-	php-dev php-pear mcrypt pwgen backupninja duplicity tcl redis-server
+apt-get install -yqf wget curl apt-show-versions apt-utils software-properties-common build-essential  \
+	python-dev python-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev vim git \
+	nano sudo mariadb-server mariadb-client libmagickwand-dev imagemagick perl netcat \
+	php-dev php-pear mcrypt pwgen backupninja duplicity tcl redis-server netcat \
+	openssl libpcre3 dnsmasq procps
 
 pecl install imagick 
 
