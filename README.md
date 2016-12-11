@@ -3,15 +3,17 @@ Ajenti Docker web panel with Ubuntu 16.04 LTS.
 
 RUN
 ```
-docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -p 8001:8001 -v /opt/ajenti-udock/data:/data -d niiknow/ajenti-udock
+docker run -p 9000:9000 -p 80:80 -p 443:443 -p 3306:3306 -p 9001:9001 -v /opt/ajenti-udock/data:/data -d niiknow/ajenti-udock
 ```
 
 It is important that you have the data volume mounted externally or to a data container.  This will be your data persistent folder
 
 BROWSER
 ```
-https://yourip:8000
+https://yourip:9000
 ```
+
+Ajenti was changed from 8000 to 9000 for better compatibility with other/future apps.
 
 VOLUME "/data"
 ```
@@ -40,7 +42,7 @@ This script can be use to install Ajenti on Ubuntu 16.04 LTS.  It provides basic
 5. Also include tools that you need to be productive in a terminal like wget, curl, git, sudo, and nano.
 6. Modify Ajenti default website folder from /srv/new-website to /data/sites/new-website.
 7. Rework ajenti-v/vh-nginx plugin to provide better stability and reuse.  This is an experiment of mine, and if it work, then I will try to get a change request to Ajenti.
-8. phpMyAdmin is setup as a Website on port 8001.  In order to use phpMyAdmin for the first time, you will need to go to Ajenti Websites tab, apply the config so that Ajenti generate the nginx config for this site.  Then restart php7.0-fpm service and start nginx service.  Goto MySQL tab and create a new user, let say 'ajenti'@'localhost' with your own password and "RUN" the statement: "GRANT ALL PRIVILEGES ON *.* TO 'ajenti'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;" and now you can login with user ajenti on port 8001.
+8. phpMyAdmin is setup as a Website on port 9001.  In order to use phpMyAdmin for the first time, you will need to go to Ajenti Websites tab, apply the config so that Ajenti generate the nginx config for this site.  Then restart php7.0-fpm service and start nginx service.  Goto MySQL tab and create a new user, let say 'ajenti'@'localhost' with your own password and "RUN" the statement: "GRANT ALL PRIVILEGES ON *.* TO 'ajenti'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;" and now you can login with user ajenti on port 9001.
 9. For backup conveniences, almost everything has been redirected to your "/data" VOLUME.  Just backup your mounted volume on a regular basis and you are good to go.  Or create a data container and run regular snapshot on the container for easy rollback.  Backupninja has also been configured to send file to /backup volume with daily default schedule at 1AM.  Just mount the volume externally to get access.
 
 That should be enough for you to start your website hosting.  MySql is included for convienence, but it's best to host mysql on a separate container.
@@ -49,13 +51,9 @@ That should be enough for you to start your website hosting.  MySql is included 
 This is the base docker image of ajenti-udock with basic requirements:
 
 1. Set timezone to UTC as default but you should be able to configure your timezone in your own Dockerfile (see udock-greedy).
-2. Trigger *ajenti-install.sh* and expose 80/http, 443/https, 3306/mysql, 6379/redis, 8000/ajenti, and 8001/phpMyAdmin.
+2. Trigger *ajenti-install.sh* and expose 80/http, 443/https, 3306/mysql, 6379/redis, 9000/ajenti, and 9001/phpMyAdmin.
 
 This image expect all management through the web panel.  There is no ssh.  If you need terminal access then use the web panel, docker cloud, or even running with rancher.
-
-```
-https://yourip:8000
-```
 
 ## ajenti-udock:greedy
 So you want everything?  This demonstrate the greedy udock setup with: ajenti-udock + sftp, postgresql, mongodb, openvpn, and bind9.  Also swap out with latest nodejs 6.x with npm install gulp and express.
@@ -65,7 +63,7 @@ From this image, you can figure out how to simply setup your own Dockerfile with
 Since we're running docker, you can choose to expose as much or as little port as you like with your docker port mapping.  Example below show the addition of openvpn.
 
 ```
-docker run -p 8000:8000 -p 80:80 -p 443:443 -p 3306:3306 -p 8001:8001 -p 1194:1194/udp -v /opt/ajenti-udock/data:/data -d niiknow/ajenti-udock-greedy
+docker run -p 9000:9000 -p 80:80 -p 443:443 -p 3306:3306 -p 9001:9001 -p 1194:1194/udp -v /opt/ajenti-udock/data:/data -d niiknow/ajenti-udock-greedy
 ```
 
 # Inspired by

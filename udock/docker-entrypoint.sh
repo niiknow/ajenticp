@@ -64,6 +64,8 @@ mv -n /var/spool/cron/** /data/cron
 rm -rf /var/spool/cron
 ln -sdf /data/cron /var/spool/cron
 
+sed -i -e "s/\"port\"\: 8000/\"port\"\: 9000/g" /data/ajenti/config.json
+
 # load php before supervisor start
 service cron start
 service php5.6-fpm start
