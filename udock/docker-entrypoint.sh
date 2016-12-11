@@ -10,7 +10,7 @@ mkdir -p /data/php/7.0/fpm/pool.d
 mkdir -p /data/php/7.1/fpm/pool.d
 mkdir -p /data/redis/db
 mkdir -p /data/sites
-mkdir -p /data/supervisor/supervisor.d
+mkdir -p /data/supervisor/conf.d
 
 # handle ajenti
 mv -n /etc/ajenti/** /data/ajenti
@@ -45,7 +45,7 @@ ln -sdf /data/backup.d /etc/backup.d
 
 # handle supervisor
 mv -n /etc/supervisor/conf.d/** /data/supervisor/conf.d
-rm -rf /data/supervisor/conf.d
+rm -rf /etc/supervisor/conf.d
 ln -sdf /data/supervisor/conf.d /etc/supervisor/conf.d
 
 # handle all php conf
@@ -105,10 +105,5 @@ fi
 # start mysql and then ajenti
 service mysql start
 service ajenti start
-
-# run child entrypoint
-if [ -f /usr/local/bin/docker-entrypoint-child.sh ];  then
-    /usr/local/bin/docker-entrypoint-child.sh
-fi
 
 exec "$@"

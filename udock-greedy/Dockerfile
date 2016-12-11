@@ -36,6 +36,8 @@ RUN apt-get remove -yq nodejs npm && \
 	apt-get update && apt-get -yq upgrade && apt-get install -yf
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 RUN apt-get install -y nodejs
-RUN npm install -g gulp express
+RUN npm install --quiet -g gulp express bower mocha karma-cli pm2 && npm cache clean
 
-EXPOSE 80 443 3306 8000 8001 6379 22 27017 5432 1194/udp 53
+EXPOSE 80 443 3306 8000 8001 6379 22 27017 28017 5432 1194/udp 53
+
+ENTRYPOINT ["docker-entrypoint-greedy.sh"]
