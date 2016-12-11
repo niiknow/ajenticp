@@ -28,13 +28,16 @@ RUN easy_install pymongo
 RUN apt-get install -yq postgresql postgresql-contrib openvpn easy-rsa bind9 bind9utils bind9-doc
 
 # swap out with newer nodejs
-RUN apt-get remove -yq nodejs npm && \
+RUN apt-get remove -yq nodejs npm && apt-get -y autoremove && \
 	dpkg --configure -a && \
 	apt-get update && apt-get -yq upgrade && apt-get install -yf
 
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 RUN apt-get install -y nodejs
 RUN npm install --quiet -g gulp express bower mocha karma-cli pm2 && npm cache clean
+
+ADD docker-entrypoint-greedy.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint-greedy.sh
 
 EXPOSE 80 443 3306 9000 9001 6379 22 27017 28017 5432 1194/udp 53
 
