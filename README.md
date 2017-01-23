@@ -18,10 +18,10 @@ Default Ajenti user/pass: root/admin
 
 For any issue or help with Ajenti: https://github.com/ajenti/ajenti
 
-phpMyAdmin is setup as a Website on port 9001.  In order to use phpMyAdmin for the first time, you will need to go to Ajenti Websites tab, apply the config so that Ajenti generate the nginx config for this site.  Then restart php7.0-fpm service and start nginx service.  Goto MySQL tab and create a new user, let say 'ajenti'@'localhost' with your own password and "RUN" the statement: "GRANT ALL PRIVILEGES ON *.* TO 'ajenti'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;" and now you can login with user ajenti on port 9001.
+phpMyAdmin is setup as a Website on port 9001.  Goto MySQL tab and create a new user logging in to phpMyAdmin, let say 'ajenti'@'localhost' with your own password.  Then in the "RUN" box, execute the statement: "GRANT ALL PRIVILEGES ON *.* TO 'ajenti'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 
 # Inspired by
-[WhatPanel] (https://github.com/paimpozhil/WhatPanel) - but instead of CentOS, I focus on simplifying deployment with latest Ubuntu LTS. 
+[WhatPanel](https://github.com/paimpozhil/WhatPanel) - but instead of CentOS, I focus on simplifying deployment with latest Ubuntu LTS. 
 
 # Benefits
 So you own a cheap VPS and has setuped your perfect server.  Your VPS provider doesn't have snapshot backup or provide little to no backup; and you don't want to mess with your server current configuration.  Docker comes to the rescue.  You can use this project or similar to provide a stable and secure environment for hosting.
