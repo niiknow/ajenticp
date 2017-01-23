@@ -3,7 +3,8 @@ FROM niiknow/docker-hostingbase:0.5.10
 MAINTAINER friends@niiknow.org
 
 ENV DEBIAN_FRONTEND=noninteractive
-# add files and run install
+
+#start
 RUN \
 	cd /tmp \
 	&& apt-get update && apt-get upgrade -y \
