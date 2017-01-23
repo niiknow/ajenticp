@@ -92,8 +92,10 @@ RUN \
     && chmod +x /etc/cron.hourly/ajenti-backup-etc \
     && chmod +x /etc/my_init.d/startup.sh \
 
+# increase memcache max size from 64m to 2g
+    && sed -i -e "s/^\-m 64/\-m 2048/g" /etc/memcached.conf \
+
 # mongodb stuff
-# 
     && mkdir -p /data/db \
     && chmod 0755 /data/db \
     && chown -R mongodb:mongodb /data/db \
@@ -196,9 +198,9 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && rm -rf /var/lib/ajenti \
     && ln -s /ajenti/var/lib/ajenti /var/lib/ajenti \
 
-#    && mv /etc/memcached.conf /ajenti-start/etc/memcached.conf \
-#    && rm -rf /etc/memcached.conf \
-#    && ln -s /ajenti/etc/memcached.conf /etc/memcached.conf \
+    && mv /etc/memcached.conf /ajenti-start/etc/memcached.conf \
+    && rm -rf /etc/memcached.conf \
+    && ln -s /ajenti/etc/memcached.conf /etc/memcached.conf \
 
     && mv /etc/timezone /ajenti-start/etc/timezone \
     && rm -rf /etc/timezone \
@@ -231,9 +233,6 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && mv /var/lib/couchdb /ajenti-start/var/lib/couchdb \
     && rm -rf /var/lib/couchdb \
     && ln -s /ajenti/var/lib/couchdb /var/lib/couchdb \
-
-# increase memcache max size from 64m to 2g
-#    && sed -i -e "s/^\-m 64/\-m 2048/g" /etc/memcached.conf \
 
 	&& rm -rf /tmp/*
 
