@@ -24,24 +24,6 @@ if [[ ! -d /ajenti/sites/phpMyAdmin ]]; then
     chown -R www-data:www-data /ajenti/sites
 fi
 
-# initialize mysql for the first time if required
-VOLUME_HOME="/ajenti/var/lib/mysql"
-export TERM=linux
-if [[ ! -d $VOLUME_HOME/mysql ]]; then
-    
-    echo "=> An empty or uninitialized MySQL volume is detected in $VOLUME_HOME" 1>&2
-    echo "=> Installing MySQL ..." 1>&2
-    mysql_install_db --user=mysql
-
-    # echo "GRANT ALL PRIVILEGES ON *.* TO 'ajenti'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;" | mysql
-    killall mysqld
-
-    # wait for mysql to stop before updating volume permission
-    echo "=> Waiting for mysqld to be ready ..." 1>&2
-    sleep 10s
-    chown -R mysql:mysql "$VOLUME_HOME"
-fi
-
 # required startup and of course ajenti
 cd /etc/init.d/
 

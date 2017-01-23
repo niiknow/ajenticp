@@ -68,8 +68,8 @@ ADD ./files /
 # update ajenti, install other things
 RUN \
 	cd /tmp \
-    && mkdir -p /ajenti/sites \
-    && chown -R www-data:www-data /ajenti/sites \
+    && mkdir -p /ajenti-start/sites \
+    && chown -R www-data:www-data /ajenti-start/sites \
 
 # no idea why 1000:1000 but that's the permission ajenti installed with
     && chown -R 1000:1000 /var/lib/ajenti \
