@@ -196,9 +196,9 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && rm -rf /var/lib/ajenti \
     && ln -s /ajenti/var/lib/ajenti /var/lib/ajenti \
 
-    && mv /etc/memcached.conf /ajenti-start/etc/memcached.conf \
-    && rm -rf /etc/memcached.conf \
-    && ln -s /ajenti/etc/memcached.conf /etc/memcached.conf \
+#    && mv /etc/memcached.conf /ajenti-start/etc/memcached.conf \
+#    && rm -rf /etc/memcached.conf \
+#    && ln -s /ajenti/etc/memcached.conf /etc/memcached.conf \
 
     && mv /etc/timezone /ajenti-start/etc/timezone \
     && rm -rf /etc/timezone \
@@ -233,7 +233,7 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && ln -s /ajenti/var/lib/couchdb /var/lib/couchdb \
 
 # increase memcache max size from 64m to 2g
-    && sed -i -e "s/^\-m 64/\-m 2048/g" /etc/memcached.conf \
+#    && sed -i -e "s/^\-m 64/\-m 2048/g" /etc/memcached.conf \
 
 	&& rm -rf /tmp/*
 
