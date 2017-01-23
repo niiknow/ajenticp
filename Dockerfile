@@ -12,16 +12,20 @@ RUN \
 	&& echo "deb http://repo.ajenti.org/debian main main ubuntu" > /etc/apt/sources.list.d/ajenti.list \
 
 	&& apt-get update && apt-get upgrade -y \
-	&& apt-get install -y mariadb-server mariadb-client redis-server \
+	&& apt-get install -y mariadb-server mariadb-client redis-server fail2ban \
 	&& dpkg --configure -a
 
 RUN \
 	cd /tmp \
 	&& apt-get install -yq ajenti php-all-dev pkg-php-tools \
     && apt-get install -yq ajenti-v ajenti-v-nginx ajenti-v-mysql ajenti-v-php5.6-fpm \
-	    ajenti-v-php7.0-fpm ajenti-v-mail ajenti-v-nodejs ajenti-v-python-gunicorn ajenti-v-ruby-unicorn
+	    ajenti-v-php7.0-fpm ajenti-v-mail ajenti-v-nodejs ajenti-v-python-gunicorn ajenti-v-ruby-unicorn \
+    && useradd -ms /bin/bash ajenti \
+    && usermod -aG sudo ajenti
+
 RUN \
 	cd /tmp \
+    && easy_install pymongo \
     && apt-get install -yq php5.6-fpm php5.6-mbstring php5.6-cgi php5.6-cli php5.6-dev php5.6-geoip php5.6-common php5.6-xmlrpc \
         php5.6-curl php5.6-enchant php5.6-imap php5.6-xsl php5.6-mysql php5.6-mysqlnd php5.6-pspell php5.6-gd \
         php5.6-tidy php5.6-opcache php5.6-json php5.6-bz2 php5.6-pgsql php5.6-mcrypt php5.6-readline  \
@@ -58,7 +62,11 @@ ADD ./files /
 # update ajenti, install other things
 RUN \
 	cd /tmp \
-	&& chown -R 1001:1001 /var/lib/ajenti \
+    && mkdir -p /ajenti/sites \
+    && chown -R www-data:www-data /ajenti/sites \
+
+# no idea why 1000:1000 but that's the permission ajenti installed with
+    && chown -R 1000:1000 /var/lib/ajenti \
 
 # change to more useful folder structure
 	&& sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py \
@@ -66,17 +74,9 @@ RUN \
 
 # https://github.com/Eugeny/ajenti-v/pull/185
 	&& sed -i -e "s/'reload'/'update'/g" /var/lib/ajenti/plugins/vh/processes.py \
-
-# update backupninja, supervisor, mysql, redis, fpm
-	&& sed -i -e "s/files = \/etc/files = \/data/g" /etc/supervisor/supervisord.conf \
-
-#	&& sed -i -e "s/\/var\/lib\/mysql/\/data\/mysql/g" /etc/mysql/mariadb.conf.d/50-server.cnf \
-
-	&& sed -i -e "s/dir \./dir \/data\/redis\/db/g" /etc/redis/redis.conf \
 	&& sed -i -e "s/\/etc\/php\/5\.6\/fpm\/pool\.d/\/data\/php\/5\.6\/fpm\/pool\.d/g" /etc/php/5.6/fpm/php-fpm.conf \
 	&& sed -i -e "s/\/etc\/php\/7\.0\/fpm\/pool\.d/\/data\/php\/7\.0\/fpm\/pool\.d/g" /etc/php/7.0/fpm/php-fpm.conf \
 	&& sed -i -e "s/\/etc\/php\/7\.1\/fpm\/pool\.d/\/data\/php\/7\.1\/fpm\/pool\.d/g" /etc/php/7.1/fpm/php-fpm.conf \
-	&& echo -e "\nDAEMON_OPTS=-c /data/nginx/nginx.conf\nDAEMON_ARGS=\$DAEMON_OPTS" >> /etc/default/nginx \
 
 # install other things
 	&& apt-get install -y mongodb-org php-mongodb couchdb nodejs memcached php-memcached redis-server openvpn \
@@ -167,9 +167,9 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && rm -rf /etc/openvpn \
     && ln -s /ajenti/etc/openvpn /etc/openvpn \
 
-    && mv /etc/supervisor /ajenti-start/etc/supervisor \
-    && rm -rf /etc/supervisor \
-    && ln -s /ajenti/etc/supervisor /etc/supervisor \
+    && mv /etc/fail2ban /ajenti-start/etc/fail2ban \
+    && rm -rf /etc/fail2ban \
+    && ln -s /ajenti/etc/fail2ban /etc/fail2ban \
 
     && mv /etc/ajenti /ajenti-start/etc/ajenti \
     && rm -rf /etc/ajenti \

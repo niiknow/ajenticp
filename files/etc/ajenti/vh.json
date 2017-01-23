@@ -33,7 +33,7 @@
         },
         "custom_conf": "",
         "domains": [],
-        "root": "/data/sites/phpMyAdmin",
+        "root": "/ajenti/sites/phpMyAdmin",
         "ports": [{
             "spdy": false,
             "ssl": false,

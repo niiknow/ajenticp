@@ -14,12 +14,24 @@ fi
 #     mv /etc/fail2ban/jail.new /etc/fail2ban/jail.local
 # fi
 
-# re-enable phpmyadmin and phppgadmin
-# rsync -a /ajenti-start/etc-bak/apache2/conf.d/php*.conf /etc/apache2/conf.d
+# install phpMyAdmin if not exists
+if [[ ! -d /ajenti/sites/phpMyAdmin ]]; then
+    curl -s -o /tmp/phpMyAdmin.tar.gz https://files.phpmyadmin.net/phpMyAdmin/4.6.5.2/phpMyAdmin-4.6.5.2-all-languages.tar.gz
+    tar -zxf /tmp/phpMyAdmin.tar.gz -C /ajenti/sites/
+    $blowfish = $(pwgen -s 80 -1 -v -c -0)
+    cp /sysprepz/sites/config.inc.php /ajenti/sites/phpMyAdmin/config.inc.php
+    sed -i -e "s/BLOWFISH_SECRET/$blowfish/g" /ajenti/sites/phpMyAdmin/config.inc.php
+    chown -R www-data:www-data /ajenti/sites
+fi
 
 # required startup and of course ajenti
 cd /etc/init.d/
-./disable-transparent-hugepages defaults \
-&& ./ssh start \
-&& ./supervisor start \
-&& ./ajenti start
+
+./disable-transparent-hugepages defaults
+./ssh start
+./ajenti start
+
+./php5.6-fpm start
+./php7.0-fpm start
+./php7.1-fpm start
+./nginx start
