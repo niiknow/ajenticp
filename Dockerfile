@@ -95,6 +95,9 @@ RUN \
 # increase memcache max size from 64m to 2g
     && sed -i -e "s/^\-m 64/\-m 2048/g" /etc/memcached.conf \
 
+# redirect ajenti default port
+    && sed -i -e "s/\"port\"\: 8000/\"port\"\: 9000/g" /etc/ajenti/config.json \
+
 # mongodb stuff
     && mkdir -p /data/db \
     && chmod 0755 /data/db \
@@ -143,16 +146,10 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && service mysql stop \
     && service postgresql stop \
     && service redis-server stop \
-#    && service fail2ban stop \
 
-#    && sed -i -e "s/\/var\/lib\/mysql/\/ajenti\/var\/mysql/g" /etc/mysql/my.cnf \
-
-    && sed -i -e "s/dir \./dir \/ajenti\/redis\/db/g" /etc/redis/redis.conf \
-    && sed -i -e "s/\/etc\/redis/\/ajenti\/redis/g" /etc/init.d/redis-server \
-
+    && mkdir -p /ajenti-start/etc-bak \
     && mkdir -p /ajenti-start/etc \
     && mkdir -p /ajenti-start/var/lib \
-    && mkdir -p /ajenti-start/redis/db \ 
 
     && mv /etc/php /ajenti-start/etc/php \
     && rm -rf /etc/php \

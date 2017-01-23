@@ -21,4 +21,5 @@ fi
 cd /etc/init.d/
 ./disable-transparent-hugepages defaults \
 && ./ssh start \
-&& ./supervisor start
+&& ./supervisor start \
+&& ./ajenti start
