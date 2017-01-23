@@ -12,7 +12,7 @@ RUN \
 	&& echo "deb http://repo.ajenti.org/debian main main ubuntu" > /etc/apt/sources.list.d/ajenti.list \
 
 	&& apt-get update && apt-get upgrade -y \
-	&& apt-get install -y mariadb-server mariadb-client \
+	&& apt-get install -y mariadb-server mariadb-client redis-server \
 	&& dpkg --configure -a
 
 RUN \
