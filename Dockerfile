@@ -78,6 +78,8 @@ RUN \
 	&& sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py \
 	&& sed -i -e "s/'php-fcgi'/'php7.1-fcgi'/g" /var/lib/ajenti/plugins/vh/api.py \
 
+    && sed -i -e "s/\/etc\/nginx\/nginx\.conf/\/ajenti\/etc\/nginx\/nginx\.conf/g" /etc/init.d/nginx \
+
 # https://github.com/Eugeny/ajenti-v/pull/185
 	&& sed -i -e "s/'reload'/'update'/g" /var/lib/ajenti/plugins/vh/processes.py \
 	&& sed -i -e "s/\/etc\/php\/5\.6\/fpm\/pool\.d/\/data\/php\/5\.6\/fpm\/pool\.d/g" /etc/php/5.6/fpm/php-fpm.conf \
