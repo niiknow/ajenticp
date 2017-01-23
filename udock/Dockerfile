@@ -148,6 +148,92 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && sed -i -e "s/dir \./dir \/ajenti\/redis\/db/g" /etc/redis/redis.conf \
     && sed -i -e "s/\/etc\/redis/\/ajenti\/redis/g" /etc/init.d/redis-server \
 
+    && mkdir -p /ajenti-start/etc \
+    && mkdir -p /ajenti-start/var/lib \
+    && mkdir -p /ajenti-start/redis/db \ 
+
+    && mv /etc/php /ajenti-start/etc/php \
+    && rm -rf /etc/php \
+    && ln -s /ajenti/etc/php /etc/php \
+
+    && mv /etc/nginx   /ajenti-start/etc/nginx \
+    && rm -rf /etc/nginx \
+    && ln -s /ajenti/etc/nginx /etc/nginx \
+
+    && mv /etc/redis   /ajenti-start/etc/redis \
+    && rm -rf /etc/redis \
+    && ln -s /ajenti/etc/redis /etc/redis \
+
+    && mv /etc/openvpn /ajenti-start/etc/openvpn \
+    && rm -rf /etc/openvpn \
+    && ln -s /ajenti/etc/openvpn /etc/openvpn \
+
+    && mv /etc/supervisor /ajenti-start/etc/supervisor \
+    && rm -rf /etc/supervisor \
+    && ln -s /ajenti/etc/supervisor /etc/supervisor \
+
+    && mv /etc/ajenti /ajenti-start/etc/ajenti \
+    && rm -rf /etc/ajenti \
+    && ln -s /ajenti/etc/ajenti /etc/ajenti \
+
+    && mv /etc/mysql   /ajenti-start/etc/mysql \
+    && rm -rf /etc/mysql \
+    && ln -s /ajenti/etc/mysql /etc/mysql \
+
+    && mv /var/lib/mysql /ajenti-start/var/mysql \
+    && rm -rf /var/lib/mysql \
+    && ln -s /ajenti/var/mysql /var/lib/mysql \
+    
+    && mv /var/lib/postgresql /ajenti-start/var/lib/postgresql \
+    && rm -rf /var/lib/postgresql \
+    && ln -s /ajenti/var/lib/postgresql /var/lib/postgresql \
+
+    && mv /root /ajenti-start/root \
+    && rm -rf /root \
+    && ln -s /ajenti/root /root \
+
+    && mv /var/lib/ajenti /ajenti-start/var/lib/ajenti \
+    && rm -rf /var/lib/ajenti \
+    && ln -s /ajenti/var/lib/ajenti /var/lib/ajenti \
+
+    && mv /etc/memcached.conf /ajenti-start/etc/memcached.conf \
+    && rm -rf /etc/memcached.conf \
+    && ln -s /ajenti/etc/memcached.conf /etc/memcached.conf \
+
+    && mv /etc/timezone /ajenti-start/etc/timezone \
+    && rm -rf /etc/timezone \
+    && ln -s /ajenti/etc/timezone /etc/timezone \
+
+    && mv /etc/bind /ajenti-start/etc/bind \
+    && rm -rf /etc/bind \
+    && ln -s /ajenti/etc/bind /etc/bind \
+
+    && mv /etc/profile /ajenti-start/etc/profile \
+    && rm -rf /etc/profile \
+    && ln -s /ajenti/etc/profile /etc/profile \
+
+    && mv /var/log /ajenti-start/var/log \
+    && rm -rf /var/log \
+    && ln -s /ajenti/var/log /var/log \
+
+    && mv /etc/mongod.conf /ajenti-start/etc/mongod.conf \
+    && rm -rf /etc/mongod.conf \
+    && ln -s /ajenti/etc/mongod.conf /etc/mongod.conf \
+
+    && mv /data /ajenti-start/data \
+    && rm -rf /ajenti \
+    && ln -s /ajenti/data /data \
+
+    && mv /etc/couchdb /ajenti-start/etc/couchdb \
+    && rm -rf /etc/couchdb \
+    && ln -s /ajenti/etc/couchdb /etc/couchdb \
+
+    && mv /var/lib/couchdb /ajenti-start/var/lib/couchdb \
+    && rm -rf /var/lib/couchdb \
+    && ln -s /ajenti/var/lib/couchdb /var/lib/couchdb \
+
+# increase memcache max size from 64m to 2g
+    && sed -i -e "s/^\-m 64/\-m 2048/g" /etc/memcached.conf \
 
 	&& rm -rf /tmp/*
 
