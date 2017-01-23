@@ -58,7 +58,7 @@ ADD ./files /
 # update ajenti, install other things
 RUN \
 	cd /tmp \
-	&& chown -R 1000:1000 /var/lib/ajenti \
+	&& chown -R 1001:1001 /var/lib/ajenti \
 
 # change to more useful folder structure
 	&& sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py \
