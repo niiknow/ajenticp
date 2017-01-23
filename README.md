@@ -15,6 +15,7 @@ https://yourip:9000
 Ajenti was changed from 8000 to 9000 for better compatibility with other/future apps.
 
 Default Ajenti user/pass: root/admin
+
 For any issue or help with Ajenti: https://github.com/ajenti/ajenti
 
 phpMyAdmin is setup as a Website on port 9001.  In order to use phpMyAdmin for the first time, you will need to go to Ajenti Websites tab, apply the config so that Ajenti generate the nginx config for this site.  Then restart php7.0-fpm service and start nginx service.  Goto MySQL tab and create a new user, let say 'ajenti'@'localhost' with your own password and "RUN" the statement: "GRANT ALL PRIVILEGES ON *.* TO 'ajenti'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;" and now you can login with user ajenti on port 9001.
