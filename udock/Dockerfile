@@ -37,6 +37,8 @@ RUN \
         php7.1-tidy php7.1-opcache php7.1-json php7.1-bz2 php7.1-pgsql php7.1-mcrypt php7.1-readline \
 		php7.1-intl php7.1-sqlite3 php7.1-ldap php7.1-xml php7.1-redis php7.1-imagick php7.1-zip \
 
+    && pecl install v8js \
+
 	&& sed -i -e "s/;always_populate_raw_post_data = -1/always_populate_raw_post_data = -1/g" /etc/php/5.6/fpm/php.ini \
     && rm -f /var/lib/ajenti/plugins/vh-nginx/ng*.* \
 	&& rm -f /var/lib/ajenti/plugins/vh-nginx/*.pyc \
@@ -67,7 +69,7 @@ RUN \
 
 # update backupninja, supervisor, mysql, redis, fpm
 	&& sed -i -e "s/files = \/etc/files = \/data/g" /etc/supervisor/supervisord.conf \
-	&& sed -i -e "s/\/var\/lib\/mysql/\/data\/mysql/g" /etc/mysql/mariadb.conf.d/50-server.cnf \
+#	&& sed -i -e "s/\/var\/lib\/mysql/\/data\/mysql/g" /etc/mysql/mariadb.conf.d/50-server.cnf \
 	&& sed -i -e "s/dir \./dir \/data\/redis\/db/g" /etc/redis/redis.conf \
 	&& sed -i -e "s/\/etc\/php\/5\.6\/fpm\/pool\.d/\/data\/php\/5\.6\/fpm\/pool\.d/g" /etc/php/5.6/fpm/php-fpm.conf \
 	&& sed -i -e "s/\/etc\/php\/7\.0\/fpm\/pool\.d/\/data\/php\/7\.0\/fpm\/pool\.d/g" /etc/php/7.0/fpm/php-fpm.conf \
