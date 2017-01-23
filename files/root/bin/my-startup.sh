@@ -16,8 +16,9 @@ fi
 
 # install phpMyAdmin if not exists
 if [[ ! -d /ajenti/sites/phpMyAdmin ]]; then
+    cd /tmp
     curl -s -o /tmp/phpMyAdmin.tar.gz https://files.phpmyadmin.net/phpMyAdmin/4.6.5.2/phpMyAdmin-4.6.5.2-all-languages.tar.gz
-    tar -zxf /tmp/phpMyAdmin.tar.gz
+    tar -zxf /tmp/phpMyAdmin.tar.gz -C /tmp/
     mv /tmp/phpMyAdmin-4.6.5.2-all-languages /ajenti/sites/phpMyAdmin
     $blowfish = $(pwgen -s 80 -1 -v -c -0)
     cp /sysprepz/sites/phpMyAdmin/config.inc.php /ajenti/sites/phpMyAdmin/config.inc.php
