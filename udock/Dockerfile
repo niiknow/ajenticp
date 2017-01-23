@@ -27,7 +27,6 @@ RUN apt-get update && apt-get upgrade -y \
         php7.1-tidy php7.1-opcache php7.1-json php7.1-bz2 php7.1-pgsql php7.1-mcrypt php7.1-readline \
 		php7.1-intl php7.1-sqlite3 php7.1-ldap php7.1-xml php7.1-redis php7.1-imagick php7.1-zip \
 
-# http://stackoverflow.com/questions/28278705/always-populate-raw-post-data-trouble-accessing-request-payload-from-backbone
 	&& sed -i -e "s/;always_populate_raw_post_data = -1/always_populate_raw_post_data = -1/g" /etc/php/5.6/fpm/php.ini \
     && rm -f /var/lib/ajenti/plugins/vh-nginx/ng*.* \
 	&& rm -f /var/lib/ajenti/plugins/vh-nginx/*.pyc \
@@ -40,27 +39,6 @@ RUN apt-get update && apt-get upgrade -y \
 	&& rm -f /var/lib/ajenti/plugins/vh/*.pyc \
 	&& rm -f /var/lib/ajenti/plugins/vh/api.pyc \
 	&& rm -f /var/lib/ajenti/plugins/vh/processes.pyc
-
-ADD ./files /
-RUN \
-	cd /tmp \
-	&& chown -R 1000:1000 /var/lib/ajenti
-
-# change to more useful folder structure
-	&& sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py \
-	&& sed -i -e "s/'php-fcgi'/'php7.1-fcgi'/g" /var/lib/ajenti/plugins/vh/api.py \
-
-# https://github.com/Eugeny/ajenti-v/pull/185
-	&& sed -i -e "s/'reload'/'update'/g" /var/lib/ajenti/plugins/vh/processes.py \
-
-# update backupninja, supervisor, mysql, redis, fpm
-	&& sed -i -e "s/files = \/etc/files = \/data/g" /etc/supervisor/supervisord.conf \
-	&& sed -i -e "s/\/var\/lib\/mysql/\/data\/mysql/g" /etc/mysql/mariadb.conf.d/50-server.cnf \
-	&& sed -i -e "s/dir \./dir \/data\/redis\/db/g" /etc/redis/redis.conf \
-	&& sed -i -e "s/\/etc\/php\/5\.6\/fpm\/pool\.d/\/data\/php\/5\.6\/fpm\/pool\.d/g" /etc/php/5.6/fpm/php-fpm.conf \
-	&& sed -i -e "s/\/etc\/php\/7\.0\/fpm\/pool\.d/\/data\/php\/7\.0\/fpm\/pool\.d/g" /etc/php/7.0/fpm/php-fpm.conf \
-	&& sed -i -e "s/\/etc\/php\/7\.1\/fpm\/pool\.d/\/data\/php\/7\.1\/fpm\/pool\.d/g" /etc/php/7.1/fpm/php-fpm.conf \
-	&& echo -e "\nDAEMON_OPTS=-c /data/nginx/nginx.conf\nDAEMON_ARGS=\$DAEMON_OPTS" >> /etc/default/nginx
 
 VOLUME ["/ajenti"]
 
