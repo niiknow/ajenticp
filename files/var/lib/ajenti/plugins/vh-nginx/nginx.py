@@ -15,7 +15,7 @@ class NginxConfigTest (SanityCheck):
         self.type = _('NGINX config test')
 
     def check(self):
-        p = subprocess.Popen(['nginx', '-t', '-c', '/data/nginx/nginx.conf'], stderr=subprocess.PIPE)
+        p = subprocess.Popen(['nginx', '-t', '-c', '/ajenti/etc/nginx/nginx.conf'], stderr=subprocess.PIPE)
         o, self.message = p.communicate()
         return p.returncode == 0
 
@@ -32,13 +32,13 @@ class NginxServiceTest (SanityCheck):
 @plugin
 class NginxWebserver (WebserverComponent):
     def init(self):
-        self.config_root = '/data/nginx'
-        self.config_file = '/data/nginx/nginx.conf'
-        self.config_file_mime = '/data/nginx/mime.conf'
-        self.config_file_fastcgi = '/data/nginx/fcgi.conf'
-        self.config_file_proxy = '/data/nginx/proxy.conf'
-        self.config_vhost_root = '/data/nginx/conf.d'
-        self.config_custom_root = '/data/nginx/nginx.custom.d'
+        self.config_root = '/ajenti/etc/nginx'
+        self.config_file = '/ajenti/etc/nginx/nginx.conf'
+        self.config_file_mime = '/ajenti/etc/nginx/mime.conf'
+        self.config_file_fastcgi = '/ajenti/etc/nginx/fcgi.conf'
+        self.config_file_proxy = '/ajenti/etc/nginx/proxy.conf'
+        self.config_vhost_root = '/ajenti/etc/nginx/conf.d'
+        self.config_custom_root = '/ajenti/etc/nginx/nginx.custom.d'
         self.lib_path = '/var/lib/nginx'
 
     def __generate_website_location(self, ws, location):

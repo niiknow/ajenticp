@@ -10,7 +10,7 @@ worker_processes %(workers)s;
 
 events {
     worker_connections  4096;
-    include /data/nginx/nginx.custom.events.d/*.conf;
+    include /ajenti/etc/nginx/nginx.custom.events.d/*.conf;
 }
 
 http {
@@ -39,7 +39,7 @@ http {
 
     server_names_hash_bucket_size 128;
 
-    include /data/nginx/mime.conf;
+    include /ajenti/etc/nginx/mime.conf;
     charset UTF-8;
 
     open_file_cache max=100000 inactive=20s;
@@ -50,14 +50,14 @@ http {
     server_tokens off;
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 
-    include /data/nginx/proxy.conf;
-    include /data/nginx/fcgi.conf;
+    include /ajenti/etc/nginx/proxy.conf;
+    include /ajenti/etc/nginx/fcgi.conf;
 
-    include /data/nginx/conf.d/*.conf;
-    include /data/nginx/nginx.custom.d/*.conf;
+    include /ajenti/etc/nginx/conf.d/*.conf;
+    include /ajenti/etc/nginx/nginx.custom.d/*.conf;
 }
 
-include /data/nginx/nginx.custom.global.d/*.conf;
+include /ajenti/etc/nginx/nginx.custom.global.d/*.conf;
 
 """ % {
     'workers': multiprocessing.cpu_count(),
@@ -230,7 +230,7 @@ TEMPLATE_LOCATION_CONTENT_PROXY = """
 """
 
 TEMPLATE_LOCATION_CONTENT_FCGI = """
-        include /data/nginx/fcgi.conf;
+        include /ajenti/etc/nginx/fcgi.conf;
         fastcgi_pass %(url)s;
 """
 
@@ -243,21 +243,21 @@ TEMPLATE_LOCATION_CONTENT_PHP_FCGI = """
 
 TEMPLATE_LOCATION_CONTENT_PHP56_FCGI = """
         fastcgi_index index.php;
-        include /data/nginx/fcgi.conf;
+        include /ajenti/etc/nginx/fcgi.conf;
         fastcgi_pass unix:/var/run/ajenti-v-php5.6-fcgi-%(id)s.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 """
 
 TEMPLATE_LOCATION_CONTENT_PHP70_FCGI = """
         fastcgi_index index.php;
-        include /data/nginx/fcgi.conf;
+        include /ajenti/etc/nginx/fcgi.conf;
         fastcgi_pass unix:/var/run/ajenti-v-php7.0-fcgi-%(id)s.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 """
 
 TEMPLATE_LOCATION_CONTENT_PHP71_FCGI = """
         fastcgi_index index.php;
-        include /data/nginx/fcgi.conf;
+        include /ajenti/etc/nginx/fcgi.conf;
         fastcgi_pass unix:/var/run/ajenti-v-php7.1-fcgi-%(id)s.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 """

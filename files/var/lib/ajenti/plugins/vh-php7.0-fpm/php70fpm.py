@@ -68,7 +68,7 @@ class PHP70FPM (ApplicationGatewayComponent):
 
     def init(self):
         self.config_file = '/etc/php/7.0/fpm/php-fpm.conf'
-        self.config_path = '/data/php/7.0/fpm/pool.d'
+        self.config_path = '/ajenti/etc/php/7.0/fpm/pool.d'
 
     def __generate_pool(self, location, backend, name):
         pm_min = backend.params.get('pm_min', 1) or 1
