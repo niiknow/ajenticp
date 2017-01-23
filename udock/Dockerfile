@@ -12,12 +12,14 @@ RUN \
 	&& echo "deb http://repo.ajenti.org/debian main main ubuntu" > /etc/apt/sources.list.d/ajenti.list \
 
 	&& apt-get update && apt-get upgrade -y \
-	&& apt-get install -yq ajenti php-all-dev pkg-php-tools \
-    && apt-get install -yq ajenti-v ajenti-v-nginx ajenti-v-mysql ajenti-v-php5.6-fpm \
-	    ajenti-v-php7.0-fpm ajenti-v-mail ajenti-v-nodejs ajenti-v-python-gunicorn ajenti-v-ruby-unicorn
+	&& apt-get install -y mariadb-server mariadb-client \
+	&& dpkg --configure -a
 
 RUN \
 	cd /tmp \
+	&& apt-get install -yq ajenti php-all-dev pkg-php-tools \
+    && apt-get install -yq ajenti-v ajenti-v-nginx ajenti-v-mysql ajenti-v-php5.6-fpm \
+	    ajenti-v-php7.0-fpm ajenti-v-mail ajenti-v-nodejs ajenti-v-python-gunicorn ajenti-v-ruby-unicorn
 	&& pecl install v8js \
     && apt-get install -yq php5.6-fpm php5.6-mbstring php5.6-cgi php5.6-cli php5.6-dev php5.6-geoip php5.6-common php5.6-xmlrpc \
         php5.6-curl php5.6-enchant php5.6-imap php5.6-xsl php5.6-mysql php5.6-mysqlnd php5.6-pspell php5.6-gd \
