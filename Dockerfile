@@ -144,12 +144,12 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && sed -i "s/max_execution_time = 30/max_execution_time = 3600/" /etc/php/7.0/fpm/php.ini \
     && sed -i "s/max_execution_time = 30/max_execution_time = 3600/" /etc/php/7.1/fpm/php.ini \
 
-    && echo "extension=v8js.so" > /etc/php/5.6/mods-available/v8js.ini \
-    && echo "extension=v8js.so" > /etc/php/7.0/mods-available/v8js.ini \
-    && echo "extension=v8js.so" > /etc/php/7.1/mods-available/v8js.ini \
-    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/5.6/fpm/conf.d/20-v8js.ini \
-    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/fpm/conf.d/20-v8js.ini \
-    && ln -sf /etc/php/7.1/mods-available/v8js.ini /etc/php/7.1/fpm/conf.d/20-v8js.ini \
+#    && echo "extension=v8js.so" > /etc/php/5.6/mods-available/v8js.ini \
+#    && echo "extension=v8js.so" > /etc/php/7.0/mods-available/v8js.ini \
+#    && echo "extension=v8js.so" > /etc/php/7.1/mods-available/v8js.ini \
+#    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/5.6/fpm/conf.d/20-v8js.ini \
+#    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/fpm/conf.d/20-v8js.ini \
+#    && ln -sf /etc/php/7.1/mods-available/v8js.ini /etc/php/7.1/fpm/conf.d/20-v8js.ini \
 
     && service mysql stop \
     && service postgresql stop \
