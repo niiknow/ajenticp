@@ -141,7 +141,7 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && service mysql stop \
     && service postgresql stop \
     && service redis-server stop \
-    && service fail2ban stop \
+#    && service fail2ban stop \
 
 #    && sed -i -e "s/\/var\/lib\/mysql/\/ajenti\/var\/mysql/g" /etc/mysql/my.cnf \
 
