@@ -239,4 +239,4 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
 
 VOLUME ["/ajenti"]
 
-EXPOSE 80 443 3306 9000 9001 6379
+EXPOSE 22 25 53 54 80 110 443 993 1194 3000 3306 5432 5984 6379 9000 9001 10022 11211 27017
