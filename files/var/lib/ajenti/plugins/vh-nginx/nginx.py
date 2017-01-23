@@ -35,7 +35,7 @@ class NginxWebserver (WebserverComponent):
         self.config_root = '/ajenti/etc/nginx'
         self.config_file = '/ajenti/etc/nginx/nginx.conf'
         self.config_file_mime = '/ajenti/etc/nginx/mime.conf'
-        self.config_file_fastcgi = '/ajenti/etc/nginx/fcgi.conf'
+        self.config_file_fastcgi = '/ajenti/etc/nginx/fastcgi.conf'
         self.config_file_proxy = '/ajenti/etc/nginx/proxy.conf'
         self.config_vhost_root = '/ajenti/etc/nginx/conf.d'
         self.config_custom_root = '/ajenti/etc/nginx/nginx.custom.d'

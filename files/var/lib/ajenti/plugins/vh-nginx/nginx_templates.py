@@ -51,7 +51,7 @@ http {
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 
     include /ajenti/etc/nginx/proxy.conf;
-    include /ajenti/etc/nginx/fcgi.conf;
+    include /ajenti/etc/nginx/fastcgi.conf;
 
     include /ajenti/etc/nginx/conf.d/*.conf;
     include /ajenti/etc/nginx/nginx.custom.d/*.conf;
@@ -230,34 +230,34 @@ TEMPLATE_LOCATION_CONTENT_PROXY = """
 """
 
 TEMPLATE_LOCATION_CONTENT_FCGI = """
-        include /ajenti/etc/nginx/fcgi.conf;
+        include /ajenti/etc/nginx/fastcgi.conf;
         fastcgi_pass %(url)s;
 """
 
 TEMPLATE_LOCATION_CONTENT_PHP_FCGI = """
         fastcgi_index index.php;
-        include fcgi.conf;
+        include /ajenti/etc/nginx/fastcgi.conf;
         fastcgi_pass unix:/var/run/ajenti-v-php-fcgi-%(id)s.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 """
 
 TEMPLATE_LOCATION_CONTENT_PHP56_FCGI = """
         fastcgi_index index.php;
-        include /ajenti/etc/nginx/fcgi.conf;
+        include /ajenti/etc/nginx/fastcgi.conf;
         fastcgi_pass unix:/var/run/ajenti-v-php5.6-fcgi-%(id)s.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 """
 
 TEMPLATE_LOCATION_CONTENT_PHP70_FCGI = """
         fastcgi_index index.php;
-        include /ajenti/etc/nginx/fcgi.conf;
+        include /ajenti/etc/nginx/fastcgi.conf;
         fastcgi_pass unix:/var/run/ajenti-v-php7.0-fcgi-%(id)s.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 """
 
 TEMPLATE_LOCATION_CONTENT_PHP71_FCGI = """
         fastcgi_index index.php;
-        include /ajenti/etc/nginx/fcgi.conf;
+        include /ajenti/etc/nginx/fastcgi.conf;
         fastcgi_pass unix:/var/run/ajenti-v-php7.1-fcgi-%(id)s.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 """
