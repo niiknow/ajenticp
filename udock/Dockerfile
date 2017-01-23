@@ -48,7 +48,26 @@ RUN \
 # add files
 ADD ./files /
 
+# round 2
+RUN \
+	cd /tmp \
+	&& chown -R 1000:1000 /var/lib/ajenti \
 
+# change to more useful folder structure
+	&& sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py \
+	&& sed -i -e "s/'php-fcgi'/'php7.1-fcgi'/g" /var/lib/ajenti/plugins/vh/api.py \
+
+# https://github.com/Eugeny/ajenti-v/pull/185
+	&& sed -i -e "s/'reload'/'update'/g" /var/lib/ajenti/plugins/vh/processes.py \
+
+# update backupninja, supervisor, mysql, redis, fpm
+	&& sed -i -e "s/files = \/etc/files = \/data/g" /etc/supervisor/supervisord.conf \
+	&& sed -i -e "s/\/var\/lib\/mysql/\/data\/mysql/g" /etc/mysql/mariadb.conf.d/50-server.cnf \
+	&& sed -i -e "s/dir \./dir \/data\/redis\/db/g" /etc/redis/redis.conf \
+	&& sed -i -e "s/\/etc\/php\/5\.6\/fpm\/pool\.d/\/data\/php\/5\.6\/fpm\/pool\.d/g" /etc/php/5.6/fpm/php-fpm.conf \
+	&& sed -i -e "s/\/etc\/php\/7\.0\/fpm\/pool\.d/\/data\/php\/7\.0\/fpm\/pool\.d/g" /etc/php/7.0/fpm/php-fpm.conf \
+	&& sed -i -e "s/\/etc\/php\/7\.1\/fpm\/pool\.d/\/data\/php\/7\.1\/fpm\/pool\.d/g" /etc/php/7.1/fpm/php-fpm.conf \
+	&& echo -e "\nDAEMON_OPTS=-c /data/nginx/nginx.conf\nDAEMON_ARGS=\$DAEMON_OPTS" >> /etc/default/nginx
 
 VOLUME ["/ajenti"]
 
