@@ -82,9 +82,6 @@ RUN \
 
 # https://github.com/Eugeny/ajenti-v/pull/185
 	&& sed -i -e "s/'reload'/'update'/g" /var/lib/ajenti/plugins/vh/processes.py \
-	&& sed -i -e "s/\/etc\/php\/5\.6\/fpm\/pool\.d/\/data\/php\/5\.6\/fpm\/pool\.d/g" /etc/php/5.6/fpm/php-fpm.conf \
-	&& sed -i -e "s/\/etc\/php\/7\.0\/fpm\/pool\.d/\/data\/php\/7\.0\/fpm\/pool\.d/g" /etc/php/7.0/fpm/php-fpm.conf \
-	&& sed -i -e "s/\/etc\/php\/7\.1\/fpm\/pool\.d/\/data\/php\/7\.1\/fpm\/pool\.d/g" /etc/php/7.1/fpm/php-fpm.conf \
 
 # install other things
 	&& apt-get install -y mongodb-org php-mongodb couchdb nodejs memcached php-memcached redis-server openvpn \
