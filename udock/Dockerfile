@@ -114,6 +114,42 @@ RUN \
     && sed -i -e "s/^#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.5/main/postgresql.conf \
     && sed -i -e "s/^#PermitRootLogin yes/PermitRootLogin no/g" /etc/ssh/sshd_config
 
+# php stuff - after ajenti because of ajenti-php installs
+RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6/php-fpm/php.ini \
+    && sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/7.0/php-fpm/php.ini \
+    && sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/7.1/php-fpm/php.ini \
+
+    && sed -i "s/post_max_size = 8M/post_max_size = 600M/" /etc/php/5.6/php-fpm/php.ini \
+    && sed -i "s/post_max_size = 8M/post_max_size = 600M/" /etc/php/7.0/php-fpm/php.ini \
+    && sed -i "s/post_max_size = 8M/post_max_size = 600M/" /etc/php/7.1/php-fpm/php.ini \
+
+    && sed -i "s/max_input_time = 60/max_input_time = 3600/" /etc/php/5.6/php-fpm/php.ini \
+    && sed -i "s/max_input_time = 60/max_input_time = 3600/" /etc/php/7.0/php-fpm/php.ini \
+    && sed -i "s/max_input_time = 60/max_input_time = 3600/" /etc/php/7.1/php-fpm/php.ini \
+
+    && sed -i "s/max_execution_time = 30/max_execution_time = 3600/" /etc/php/5.6/php-fpm/php.ini \
+    && sed -i "s/max_execution_time = 30/max_execution_time = 3600/" /etc/php/7.0/php-fpm/php.ini \
+    && sed -i "s/max_execution_time = 30/max_execution_time = 3600/" /etc/php/7.1/php-fpm/php.ini \
+
+    && echo "extension=v8js.so" > /etc/php/5.6/mods-available/v8js.ini \
+    && echo "extension=v8js.so" > /etc/php/7.0/mods-available/v8js.ini \
+    && echo "extension=v8js.so" > /etc/php/7.1/mods-available/v8js.ini \
+    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/5.6/php-fpm/conf.d/20-v8js.ini \
+    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/php-fpm/conf.d/20-v8js.ini \
+    && ln -sf /etc/php/7.1/mods-available/v8js.ini /etc/php/7.1/php-fpm/conf.d/20-v8js.ini \
+
+    && service mysql stop \
+    && service postgresql stop \
+    && service redis-server stop \
+    && service fail2ban stop \
+
+#    && sed -i -e "s/\/var\/lib\/mysql/\/ajenti\/var\/mysql/g" /etc/mysql/my.cnf \
+
+    && sed -i -e "s/dir \./dir \/ajenti\/redis\/db/g" /etc/redis/redis.conf \
+    && sed -i -e "s/\/etc\/redis/\/ajenti\/redis/g" /etc/init.d/redis-server \
+
+
+	&& rm -rf /tmp/*
 
 VOLUME ["/ajenti"]
 
