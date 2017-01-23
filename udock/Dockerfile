@@ -148,10 +148,6 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && mkdir -p /ajenti-start/var/lib \
     && mkdir -p /ajenti-start/redis/db \ 
 
-    && mv /etc/php-fpm /ajenti-start/etc/php-fpm \
-    && rm -rf /etc/php-fpm \
-    && ln -s /ajenti/etc/php-fpm /etc/php-fpm \
-
     && mv /etc/php /ajenti-start/etc/php \
     && rm -rf /etc/php \
     && ln -s /ajenti/etc/php /etc/php \
