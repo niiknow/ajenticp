@@ -4,10 +4,8 @@ MAINTAINER friends@niiknow.org
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-#start
-RUN \
-	cd /tmp \
-	&& apt-get update && apt-get upgrade -y \
+# start
+RUN apt-get update && apt-get upgrade -y \
 	&& apt-get install -yq ajenti php-all-dev pkg-php-tools \
     && apt-get install -yq ajenti-v ajenti-v-nginx ajenti-v-mysql ajenti-v-php5.6-fpm \
 	    ajenti-v-php7.0-fpm ajenti-v-mail ajenti-v-nodejs ajenti-v-python-gunicorn ajenti-v-ruby-unicorn \
