@@ -7,6 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # start
 RUN \
 	cd /tmp \
+	&& apt-get -o Acquire::GzipIndexes=false update \
 	&& wget http://repo.ajenti.org/debian/key -O- | apt-key add - \
 	&& echo "deb http://repo.ajenti.org/debian main main ubuntu" > /etc/apt/sources.list.d/ajenti.list \
 
