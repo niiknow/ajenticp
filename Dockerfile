@@ -50,8 +50,8 @@ RUN \
 # switch php7.0 version before pecl install
     && update-alternatives --set php /usr/bin/php7.0 \
     && pecl config-set php_ini /etc/php/7.0/cli/php.ini \
-    && pecl config-set ext_dir /usr/lib/php/20151012/ \
-    && pecl config-set bin_dir /usr/bin/ \
+    && pecl config-set ext_dir /usr/lib/php/20151012 \
+    && pecl config-set bin_dir /usr/bin \
     && pecl config-set php_bin /usr/bin/php7.0 \
     && pecl config-set php_suffix 7.0 \
 
