@@ -45,4 +45,13 @@ if [[ ! -d /ajenti/sites/phpMyAdmin ]]; then
     sleep 10s
     # apply config
     ajenti-ipc v apply
+
+    # restart nginx
+    cd /etc/init.d/
+
+    # start php before nginx
+    ./php5.6-fpm restart
+    ./php7.0-fpm restart
+    ./php7.1-fpm restart
+    ./nginx reload
 fi
