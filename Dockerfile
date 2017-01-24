@@ -62,7 +62,7 @@ RUN \
     && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/cli/conf.d/20-v8js.ini \
     && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/cgi/conf.d/20-v8js.ini \
 
-	&& sed -i -e "s/;always_populate_raw_post_data = -1/always_populate_raw_post_data = -1/g" /etc/php/5.6/fpm/php.ini \
+    && sed -i -e "s/;always_populate_raw_post_data = -1/always_populate_raw_post_data = -1/g" /etc/php/5.6/fpm/php.ini \
     && rm -f /var/lib/ajenti/plugins/vh-nginx/ng*.* \
 	&& rm -f /var/lib/ajenti/plugins/vh-nginx/*.pyc \
 	&& rm -f /var/lib/ajenti/plugins/vh-php5.6-fpm/php*.* \
@@ -88,20 +88,20 @@ RUN \
     && chown -R 1000:1000 /var/lib/ajenti \
 
 # change to more useful folder structure
-	&& sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py \
-	&& sed -i -e "s/'php-fcgi'/'php7.1-fcgi'/g" /var/lib/ajenti/plugins/vh/api.py \
+    && sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py \
+    && sed -i -e "s/'php-fcgi'/'php7.1-fcgi'/g" /var/lib/ajenti/plugins/vh/api.py \
 
     && sed -i -e "s/\/etc\/nginx\/nginx\.conf/\/ajenti\/etc\/nginx\/nginx\.conf/g" /etc/init.d/nginx \
 
 # https://github.com/Eugeny/ajenti-v/pull/185
-	&& sed -i -e "s/'reload'/'update'/g" /var/lib/ajenti/plugins/vh/processes.py \
+    && sed -i -e "s/'reload'/'update'/g" /var/lib/ajenti/plugins/vh/processes.py \
 
 # install other things
-	&& apt-get install -y mongodb-org php-mongodb couchdb nodejs memcached php-memcached redis-server openvpn \
-		postgresql postgresql-contrib easy-rsa bind9 bind9utils bind9-doc \
-	&& npm install --quiet -g gulp express bower pm2 webpack webpack-dev-server karma protractor typings typescript \
+    && apt-get install -y mongodb-org php-mongodb couchdb nodejs memcached php-memcached redis-server openvpn \
+    	postgresql postgresql-contrib easy-rsa bind9 bind9utils bind9-doc \
+    && npm install --quiet -g gulp express bower pm2 webpack webpack-dev-server karma protractor typings typescript \
     && npm cache clean \
-	&& ln -sf "$(which nodejs)" /usr/bin/node
+    && ln -sf "$(which nodejs)" /usr/bin/node
 
 # tweaks
 RUN \
@@ -242,7 +242,7 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && rm -rf /var/lib/couchdb \
     && ln -s /ajenti/var/lib/couchdb /var/lib/couchdb \
 
-	&& rm -rf /tmp/*
+    && rm -rf /tmp/*
 
 VOLUME ["/ajenti"]
 
