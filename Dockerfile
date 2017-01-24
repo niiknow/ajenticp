@@ -1,4 +1,4 @@
-FROM niiknow/docker-hostingbase:0.5.10
+FROM niiknow/docker-hostingbase:0.5.11
 
 MAINTAINER friends@niiknow.org
 
@@ -6,23 +6,23 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # start
 RUN \
-	cd /tmp \
-	&& apt-get -o Acquire::GzipIndexes=false update \
-	&& wget http://repo.ajenti.org/debian/key -O- | apt-key add - \
-	&& echo "deb http://repo.ajenti.org/debian main main ubuntu" > /etc/apt/sources.list.d/ajenti.list \
+    cd /tmp \
+    && apt-get -o Acquire::GzipIndexes=false update \
+    && wget http://repo.ajenti.org/debian/key -O- | apt-key add - \
+    && echo "deb http://repo.ajenti.org/debian main main ubuntu" > /etc/apt/sources.list.d/ajenti.list \
 
-	&& apt-get update && apt-get upgrade -y \
-	&& apt-get install -y mariadb-server mariadb-client redis-server fail2ban \
-	&& dpkg --configure -a
+    && apt-get update && apt-get upgrade -y \
+    && apt-get install -y mariadb-server mariadb-client redis-server fail2ban \
+    && dpkg --configure -a
 
 RUN \
-	cd /tmp \
-	&& apt-get install -yq ajenti php-all-dev pkg-php-tools \
+    cd /tmp \
+    && apt-get install -yq ajenti php-all-dev pkg-php-tools \
     && apt-get install -yq ajenti-v ajenti-v-nginx ajenti-v-mysql ajenti-v-php5.6-fpm \
-	    ajenti-v-php7.0-fpm ajenti-v-mail ajenti-v-nodejs ajenti-v-python-gunicorn ajenti-v-ruby-unicorn 
+        ajenti-v-php7.0-fpm ajenti-v-mail ajenti-v-nodejs ajenti-v-python-gunicorn ajenti-v-ruby-unicorn 
 
 RUN \
-	cd /tmp \
+    cd /tmp \
 
 # awscli
     && curl -O https://bootstrap.pypa.io/get-pip.py \
@@ -47,7 +47,20 @@ RUN \
         php7.1-tidy php7.1-opcache php7.1-json php7.1-bz2 php7.1-pgsql php7.1-mcrypt php7.1-readline \
 		php7.1-intl php7.1-sqlite3 php7.1-ldap php7.1-xml php7.1-redis php7.1-imagick php7.1-zip \
 
+# switch php7.0 version before pecl install
+    && update-alternatives --set php /usr/bin/php7.0 \
+    && pecl config-set php_ini /etc/php/7.0/cli/php.ini \
+    && pecl config-set ext_dir /usr/lib/php/20151012/ \
+    && pecl config-set bin_dir /usr/bin/ \
+    && pecl config-set php_bin /usr/bin/php7.0 \
+    && pecl config-set php_suffix 7.0 \
+
     && pecl install v8js \
+
+    && echo "extension=v8js.so" > /etc/php/7.0/mods-available/v8js.ini \
+    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/fpm/conf.d/20-v8js.ini \
+    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/cli/conf.d/20-v8js.ini \
+    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/cgi/conf.d/20-v8js.ini \
 
 	&& sed -i -e "s/;always_populate_raw_post_data = -1/always_populate_raw_post_data = -1/g" /etc/php/5.6/fpm/php.ini \
     && rm -f /var/lib/ajenti/plugins/vh-nginx/ng*.* \
@@ -67,7 +80,7 @@ ADD ./files /
 
 # update ajenti, install other things
 RUN \
-	cd /tmp \
+    cd /tmp \
     && mkdir -p /ajenti-start/sites \
     && chown -R www-data:www-data /ajenti-start/sites \
 
@@ -140,13 +153,6 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && sed -i "s/max_execution_time = 30/max_execution_time = 3600/" /etc/php/5.6/fpm/php.ini \
     && sed -i "s/max_execution_time = 30/max_execution_time = 3600/" /etc/php/7.0/fpm/php.ini \
     && sed -i "s/max_execution_time = 30/max_execution_time = 3600/" /etc/php/7.1/fpm/php.ini \
-
-#    && echo "extension=v8js.so" > /etc/php/5.6/mods-available/v8js.ini \
-#    && echo "extension=v8js.so" > /etc/php/7.0/mods-available/v8js.ini \
-#    && echo "extension=v8js.so" > /etc/php/7.1/mods-available/v8js.ini \
-#    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/5.6/fpm/conf.d/20-v8js.ini \
-#    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/fpm/conf.d/20-v8js.ini \
-#    && ln -sf /etc/php/7.1/mods-available/v8js.ini /etc/php/7.1/fpm/conf.d/20-v8js.ini \
 
     && service mysql stop \
     && service postgresql stop \
