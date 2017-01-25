@@ -166,6 +166,10 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && rm -rf /etc/php \
     && ln -s /ajenti/etc/php /etc/php \
 
+    && mv /etc/ssh /ajenti-start/etc/ssh \
+    && rm -rf /etc/ssh \
+    && ln -s /ajenti/etc/ssh /etc/ssh \
+
     && mv /etc/nginx   /ajenti-start/etc/nginx \
     && rm -rf /etc/nginx \
     && ln -s /ajenti/etc/nginx /etc/nginx \
