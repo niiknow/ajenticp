@@ -48,19 +48,19 @@ RUN \
         php7.1-intl php7.1-sqlite3 php7.1-ldap php7.1-xml php7.1-redis php7.1-imagick php7.1-zip \
 
 # switch php7.0 version before pecl install
-    && update-alternatives --set php /usr/bin/php7.0 \
-    && pecl config-set php_ini /etc/php/7.0/cli/php.ini \
-    && pecl config-set ext_dir /usr/lib/php/20151012 \
-    && pecl config-set bin_dir /usr/bin \
-    && pecl config-set php_bin /usr/bin/php7.0 \
-    && pecl config-set php_suffix 7.0 \
+#    && update-alternatives --set php /usr/bin/php7.0 \
+#    && pecl config-set php_ini /etc/php/7.0/cli/php.ini \
+#    && pecl config-set ext_dir /usr/lib/php/20151012 \
+#    && pecl config-set bin_dir /usr/bin \
+#    && pecl config-set php_bin /usr/bin/php7.0 \
+#    && pecl config-set php_suffix 7.0 \
 
     && pecl install v8js \
 
-    && echo "extension=v8js.so" > /etc/php/7.0/mods-available/v8js.ini \
-    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/fpm/conf.d/20-v8js.ini \
-    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/cli/conf.d/20-v8js.ini \
-    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/cgi/conf.d/20-v8js.ini \
+    && echo "extension=v8js.so" > /etc/php/7.1/mods-available/v8js.ini \
+    && ln -sf /etc/php/7.1/mods-available/v8js.ini /etc/php/7.0/fpm/conf.d/20-v8js.ini \
+    && ln -sf /etc/php/7.1/mods-available/v8js.ini /etc/php/7.0/cli/conf.d/20-v8js.ini \
+    && ln -sf /etc/php/7.1/mods-available/v8js.ini /etc/php/7.0/cgi/conf.d/20-v8js.ini \
 
     && sed -i -e "s/;always_populate_raw_post_data = -1/always_populate_raw_post_data = -1/g" /etc/php/5.6/fpm/php.ini \
     && rm -f /var/lib/ajenti/plugins/vh-nginx/ng*.* \
