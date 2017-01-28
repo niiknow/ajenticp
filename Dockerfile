@@ -179,9 +179,9 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && sed -i "s/max_execution_time = 30/max_execution_time = 3600/" /etc/php/7.0/fpm/php.ini \
     && sed -i "s/max_execution_time = 30/max_execution_time = 3600/" /etc/php/7.1/fpm/php.ini \
 
-    && sed -i "s/;sendmail_path =/sendmail_path = /usr/sbin/exim -t/" /etc/php/7.0/apache2/php.ini \
-    && sed -i "s/;sendmail_path =/sendmail_path = /usr/sbin/exim -t/" /etc/php/7.0/cli/php.ini \
-    && sed -i "s/;sendmail_path =/sendmail_path = /usr/sbin/exim -t/" /etc/php/7.1/cgi/php.ini \
+    && sed -i -e "s/;sendmail_path =/sendmail_path = \/usr\/sbin\/exim \-t/g" /etc/php/7.0/apache2/php.ini \
+    && sed -i -e "s/;sendmail_path =/sendmail_path = \/usr\/sbin\/exim \-t/g" /etc/php/7.0/cli/php.ini \
+    && sed -i -e "s/;sendmail_path =/sendmail_path = \/usr\/sbin\/exim \-t/g" /etc/php/7.1/cgi/php.ini \
 
     && service mysql stop \
     && service postgresql stop \
