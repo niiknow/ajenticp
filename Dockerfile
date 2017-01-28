@@ -1,4 +1,4 @@
-FROM niiknow/docker-hostingbase:0.5.12
+FROM niiknow/docker-hostingbase:0.5.13
 
 MAINTAINER friends@niiknow.org
 
@@ -27,40 +27,65 @@ RUN \
 # awscli
     && curl -O https://bootstrap.pypa.io/get-pip.py \
     && python get-pip.py \
+    && pip install bunch \
     && pip install awscli \
 
 # pymongo
     && pip install pymongo \
 
     && apt-get install -yq php5.6-fpm php5.6-mbstring php5.6-cgi php5.6-cli php5.6-dev php5.6-geoip php5.6-common php5.6-xmlrpc \
-        php5.6-curl php5.6-enchant php5.6-imap php5.6-xsl php5.6-mysql php5.6-mysqlnd php5.6-pspell php5.6-gd \
+        php5.6-dev php5.6-curl php5.6-enchant php5.6-imap php5.6-xsl php5.6-mysql php5.6-mysqlnd php5.6-pspell php5.6-gd \
         php5.6-tidy php5.6-opcache php5.6-json php5.6-bz2 php5.6-pgsql php5.6-mcrypt php5.6-readline  \
         php5.6-intl php5.6-sqlite3 php5.6-ldap php5.6-xml php5.6-redis php5.6-imagick php5.6-zip \
 
     && apt-get install -yq php7.0-fpm php7.0-mbstring php7.0-cgi php7.0-cli php7.0-dev php7.0-geoip php7.0-common php7.0-xmlrpc \
-        php7.0-curl php7.0-enchant php7.0-imap php7.0-xsl php7.0-mysql php7.0-mysqlnd php7.0-pspell php7.0-gd \
+        php7.0-dev php7.0-curl php7.0-enchant php7.0-imap php7.0-xsl php7.0-mysql php7.0-mysqlnd php7.0-pspell php7.0-gd \
         php7.0-tidy php7.0-opcache php7.0-json php7.0-bz2 php7.0-pgsql php7.0-mcrypt php7.0-readline  \
         php7.0-intl php7.0-sqlite3 php7.0-ldap php7.0-xml php7.0-redis php7.0-imagick php7.0-zip \
 
     && apt-get install -yq php7.1-fpm php7.1-mbstring php7.1-cgi php7.1-cli php7.1-dev php7.1-geoip php7.1-common php7.1-xmlrpc \
-        php7.1-curl php7.1-enchant php7.1-imap php7.1-xsl php7.1-mysql php7.1-mysqlnd php7.1-pspell php7.1-gd \
+        php7.1-dev php7.1-curl php7.1-enchant php7.1-imap php7.1-xsl php7.1-mysql php7.1-mysqlnd php7.1-pspell php7.1-gd \
         php7.1-tidy php7.1-opcache php7.1-json php7.1-bz2 php7.1-pgsql php7.1-mcrypt php7.1-readline \
         php7.1-intl php7.1-sqlite3 php7.1-ldap php7.1-xml php7.1-redis php7.1-imagick php7.1-zip \
 
 # switch php7.0 version before pecl install
-#    && update-alternatives --set php /usr/bin/php7.0 \
-#    && pecl config-set php_ini /etc/php/7.0/cli/php.ini \
-#    && pecl config-set ext_dir /usr/lib/php/20151012 \
-#    && pecl config-set bin_dir /usr/bin \
-#    && pecl config-set php_bin /usr/bin/php7.0 \
-#    && pecl config-set php_suffix 7.0 \
+    && update-alternatives --set php /usr/bin/php7.0 \
+    && pecl config-set php_ini /etc/php/7.0/cli/php.ini \
+    && pecl config-set ext_dir /usr/lib/php/20151012 \
+    && pecl config-set bin_dir /usr/bin \
+    && pecl config-set php_bin /usr/bin/php7.0 \
+    && pecl config-set php_suffix 7.0 \
 
-    && pecl install v8js \
+    && echo "extension=v8js.so" > /etc/php/7.0/mods-available/v8js.ini \
+    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/fpm/conf.d/20-v8js.ini \
+    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/cli/conf.d/20-v8js.ini \
+    && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/cgi/conf.d/20-v8js.ini \
+
+    && echo "extension=pcs.so" > /etc/php/7.0/mods-available/pcs.ini \
+    && ln -sf /etc/php/7.0/mods-available/pcs.ini /etc/php/7.0/fpm/conf.d/20-pcs.ini \
+    && ln -sf /etc/php/7.0/mods-available/pcs.ini /etc/php/7.0/cli/conf.d/20-pcs.ini \
+    && ln -sf /etc/php/7.0/mods-available/pcs.ini /etc/php/7.0/cgi/conf.d/20-pcs.ini \
+
+    && echo "extension=couchbase.so" > /etc/php/7.0/mods-available/couchbase.ini \
+    && ln -sf /etc/php/7.0/mods-available/couchbase.ini /etc/php/7.0/fpm/conf.d/20-couchbase.ini \
+    && ln -sf /etc/php/7.0/mods-available/couchbase.ini /etc/php/7.0/cli/conf.d/20-couchbase.ini \
+    && ln -sf /etc/php/7.0/mods-available/couchbase.ini /etc/php/7.0/cgi/conf.d/20-couchbase.ini \
+
 
     && echo "extension=v8js.so" > /etc/php/7.1/mods-available/v8js.ini \
     && ln -sf /etc/php/7.1/mods-available/v8js.ini /etc/php/7.1/fpm/conf.d/20-v8js.ini \
     && ln -sf /etc/php/7.1/mods-available/v8js.ini /etc/php/7.1/cli/conf.d/20-v8js.ini \
     && ln -sf /etc/php/7.1/mods-available/v8js.ini /etc/php/7.1/cgi/conf.d/20-v8js.ini \
+
+    && echo "extension=pcs.so" > /etc/php/7.1/mods-available/pcs.ini \
+    && ln -sf /etc/php/7.1/mods-available/pcs.ini /etc/php/7.1/fpm/conf.d/20-pcs.ini \
+    && ln -sf /etc/php/7.1/mods-available/pcs.ini /etc/php/7.1/cli/conf.d/20-pcs.ini \
+    && ln -sf /etc/php/7.1/mods-available/pcs.ini /etc/php/7.1/cgi/conf.d/20-pcs.ini \
+
+    && echo "extension=couchbase.so" > /etc/php/7.1/mods-available/couchbase.ini \
+    && ln -sf /etc/php/7.1/mods-available/couchbase.ini /etc/php/7.1/fpm/conf.d/20-couchbase.ini \
+    && ln -sf /etc/php/7.1/mods-available/couchbase.ini /etc/php/7.1/cli/conf.d/20-couchbase.ini \
+    && ln -sf /etc/php/7.1/mods-available/couchbase.ini /etc/php/7.1/cgi/conf.d/20-couchbase.ini \
 
     && sed -i -e "s/;always_populate_raw_post_data = -1/always_populate_raw_post_data = -1/g" /etc/php/5.6/fpm/php.ini \
     && rm -f /var/lib/ajenti/plugins/vh-nginx/ng*.* \
@@ -153,6 +178,10 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && sed -i "s/max_execution_time = 30/max_execution_time = 3600/" /etc/php/5.6/fpm/php.ini \
     && sed -i "s/max_execution_time = 30/max_execution_time = 3600/" /etc/php/7.0/fpm/php.ini \
     && sed -i "s/max_execution_time = 30/max_execution_time = 3600/" /etc/php/7.1/fpm/php.ini \
+
+    && sed -i "s/;sendmail_path =/sendmail_path = /usr/sbin/exim -t/" /etc/php/7.0/apache2/php.ini \
+    && sed -i "s/;sendmail_path =/sendmail_path = /usr/sbin/exim -t/" /etc/php/7.0/cli/php.ini \
+    && sed -i "s/;sendmail_path =/sendmail_path = /usr/sbin/exim -t/" /etc/php/7.1/cgi/php.ini \
 
     && service mysql stop \
     && service postgresql stop \
