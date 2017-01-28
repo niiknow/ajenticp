@@ -58,9 +58,9 @@ RUN \
     && pecl install v8js \
 
     && echo "extension=v8js.so" > /etc/php/7.1/mods-available/v8js.ini \
-    && ln -sf /etc/php/7.1/mods-available/v8js.ini /etc/php/7.0/fpm/conf.d/20-v8js.ini \
-    && ln -sf /etc/php/7.1/mods-available/v8js.ini /etc/php/7.0/cli/conf.d/20-v8js.ini \
-    && ln -sf /etc/php/7.1/mods-available/v8js.ini /etc/php/7.0/cgi/conf.d/20-v8js.ini \
+    && ln -sf /etc/php/7.1/mods-available/v8js.ini /etc/php/7.1/fpm/conf.d/20-v8js.ini \
+    && ln -sf /etc/php/7.1/mods-available/v8js.ini /etc/php/7.1/cli/conf.d/20-v8js.ini \
+    && ln -sf /etc/php/7.1/mods-available/v8js.ini /etc/php/7.1/cgi/conf.d/20-v8js.ini \
 
     && sed -i -e "s/;always_populate_raw_post_data = -1/always_populate_raw_post_data = -1/g" /etc/php/5.6/fpm/php.ini \
     && rm -f /var/lib/ajenti/plugins/vh-nginx/ng*.* \
