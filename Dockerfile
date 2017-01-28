@@ -1,4 +1,4 @@
-FROM niiknow/docker-hostingbase:0.5.13
+FROM niiknow/docker-hostingbase:0.6.2
 
 MAINTAINER friends@niiknow.org
 
@@ -56,6 +56,22 @@ RUN \
     && pecl config-set php_bin /usr/bin/php7.0 \
     && pecl config-set php_suffix 7.0 \
 
+    && echo "extension=v8js.so" > /etc/php/5.6/mods-available/v8js.ini \
+    && ln -sf /etc/php/5.6/mods-available/v8js.ini /etc/php/5.6/fpm/conf.d/20-v8js.ini \
+    && ln -sf /etc/php/5.6/mods-available/v8js.ini /etc/php/5.6/cli/conf.d/20-v8js.ini \
+    && ln -sf /etc/php/5.6/mods-available/v8js.ini /etc/php/5.6/cgi/conf.d/20-v8js.ini \
+
+    && echo "extension=pcs.so" > /etc/php/5.6/mods-available/pcs.ini \
+    && ln -sf /etc/php/5.6/mods-available/pcs.ini /etc/php/5.6/fpm/conf.d/20-pcs.ini \
+    && ln -sf /etc/php/5.6/mods-available/pcs.ini /etc/php/5.6/cli/conf.d/20-pcs.ini \
+    && ln -sf /etc/php/5.6/mods-available/pcs.ini /etc/php/5.6/cgi/conf.d/20-pcs.ini \
+
+    && echo "extension=couchbase.so" > /etc/php/5.6/mods-available/couchbase.ini \
+    && ln -sf /etc/php/5.6/mods-available/couchbase.ini /etc/php/5.6/fpm/conf.d/20-couchbase.ini \
+    && ln -sf /etc/php/5.6/mods-available/couchbase.ini /etc/php/5.6/cli/conf.d/20-couchbase.ini \
+    && ln -sf /etc/php/5.6/mods-available/couchbase.ini /etc/php/5.6/cgi/conf.d/20-couchbase.ini \
+
+
     && echo "extension=v8js.so" > /etc/php/7.0/mods-available/v8js.ini \
     && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/fpm/conf.d/20-v8js.ini \
     && ln -sf /etc/php/7.0/mods-available/v8js.ini /etc/php/7.0/cli/conf.d/20-v8js.ini \
@@ -86,6 +102,7 @@ RUN \
     && ln -sf /etc/php/7.1/mods-available/couchbase.ini /etc/php/7.1/fpm/conf.d/20-couchbase.ini \
     && ln -sf /etc/php/7.1/mods-available/couchbase.ini /etc/php/7.1/cli/conf.d/20-couchbase.ini \
     && ln -sf /etc/php/7.1/mods-available/couchbase.ini /etc/php/7.1/cgi/conf.d/20-couchbase.ini \
+
 
     && sed -i -e "s/;always_populate_raw_post_data = -1/always_populate_raw_post_data = -1/g" /etc/php/5.6/fpm/php.ini \
     && rm -f /var/lib/ajenti/plugins/vh-nginx/ng*.* \
@@ -226,6 +243,10 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && mv /var/lib/mysql /ajenti-start/var/mysql \
     && rm -rf /var/lib/mysql \
     && ln -s /ajenti/var/mysql /var/lib/mysql \
+    
+    && mv /etc/postgresql   /ajenti-start/etc/postgresql \
+    && rm -rf /etc/postgresql \
+    && ln -s /ajenti/etc/postgresql /etc/postgresql \
     
     && mv /var/lib/postgresql /ajenti-start/var/lib/postgresql \
     && rm -rf /var/lib/postgresql \
