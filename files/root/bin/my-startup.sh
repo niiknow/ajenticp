@@ -19,7 +19,6 @@ fi
 cd /etc/init.d/
 
 ./disable-transparent-hugepages defaults
-./ssh start
 ./ajenti start
 ./mysql start
 
@@ -39,6 +38,7 @@ if [[ ! -d /ajenti/sites/phpMyAdmin ]]; then
     cp /sysprepz/sites/phpMyAdmin/config.inc.php /ajenti/sites/phpMyAdmin/config.inc.php
     sed -i -e "s/BLOWFISH_SECRET/$BLOWFISH/g" /ajenti/sites/phpMyAdmin/config.inc.php
     chown -R www-data:www-data /ajenti/sites
+    rm -f /tmp/phpMyAdmin.tar.gz
 
      # wait for ajenti to start before applying phpMyAdmin config
     echo "=> Waiting for ajenti to be ready ..." 1>&2

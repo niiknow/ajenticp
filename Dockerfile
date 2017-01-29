@@ -243,9 +243,9 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && rm -rf /etc/mysql \
     && ln -s /ajenti/etc/mysql /etc/mysql \
 
-    && mv /var/lib/mysql /ajenti-start/var/mysql \
+    && mv /var/lib/mysql /ajenti-start/var/lib/mysql \
     && rm -rf /var/lib/mysql \
-    && ln -s /ajenti/var/mysql /var/lib/mysql \
+    && ln -s /ajenti/var/lib/mysql /var/lib/mysql \
     
     && mv /etc/postgresql   /ajenti-start/etc/postgresql \
     && rm -rf /etc/postgresql \

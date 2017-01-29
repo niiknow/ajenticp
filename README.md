@@ -3,7 +3,7 @@ Ajenti Docker web panel with Ubuntu 16.04 LTS.
 
 mkdir -p /opt/ajenti
 
-docker run -p 9000:9000 -p 80:80 -p 443:443 -p 3306:3306 -p 9001:9001 -v /opt/ajenti:/ajenti -d niiknow/ajenti-udock
+docker run -p 80:80 -p 443:443 -p 3306:3306 -p 9000:9000 -p 9001:9001 -v /opt/ajenti:/ajenti -d niiknow/ajenti-udock
 
 It is important that you have the data volume mounted externally or to a data container.  This will be your data persistent folder
 
@@ -18,13 +18,13 @@ Default Ajenti user/pass: root/admin
 
 For any issue or help with Ajenti: https://github.com/ajenti/ajenti
 
-phpMyAdmin is setup as a Website on port 9001.  Goto MySQL tab and create a new user logging in to phpMyAdmin, let say 'ajenti'@'localhost' with your own password.  Then in the "RUN" box, execute the statement: "GRANT ALL PRIVILEGES ON *.* TO 'ajenti'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+phpMyAdmin is setup as a Website on port 9001.  Use MySQL tab to create a user so you can login.  After creating the user, remember to grant access.  Hint: use the "RUN" box to execute your SQL.
 
 # Inspired by
 [WhatPanel](https://github.com/paimpozhil/WhatPanel) - but instead of CentOS, I focus on simplifying deployment with latest Ubuntu LTS. 
 
 # Benefits
-So you own a cheap VPS and has setuped your perfect server.  Your VPS provider doesn't have snapshot backup or provide little to no backup; and you don't want to mess with your server current configuration.  Docker comes to the rescue.  You can use this project or similar to provide a stable and secure environment for hosting.
+So you own a cheap VPS and has setuped your perfect server.  Your VPS provider doesn't have snapshot backup or provide little to no backup; and you don't want to mess with your server current configuration.  Docker comes to the rescue.  You can use this project or similar Docker project to provide a stable and secure environment for hosting.
 
 # LICENSE
 
