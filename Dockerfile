@@ -44,7 +44,7 @@ RUN \
     && curl -SL $GOLANG_DOWNLOAD_URL --output /tmp/golang.tar.gz \
     && tar -zxf golang.tar.gz \
     && mv go /usr/local \
-    && echo "\nGOROOT=/usr/local/go\nexport GOROOT\n" >> /root/.profile
+    && echo "\nGOROOT=/usr/local/go\nexport GOROOT\n" >> /root/.profile \
 
 # pymongo
     && pip install pymongo \
