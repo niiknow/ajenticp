@@ -243,6 +243,12 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && rm -rf /etc/redis \
     && ln -s /ajenti/etc/redis /etc/redis \
 
+    && mkdir -p /var/lib/redis \
+    && chown -R redis:redis /var/lib/redis \
+    && mv /var/lib/redis /vesta-start/var/lib/redis \
+    && rm -rf /var/lib/redis \
+    && ln -s /vesta/var/lib/redis /var/lib/redis \
+
     && mv /etc/openvpn /ajenti-start/etc/openvpn \
     && rm -rf /etc/openvpn \
     && ln -s /ajenti/etc/openvpn /etc/openvpn \
