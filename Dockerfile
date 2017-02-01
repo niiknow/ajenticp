@@ -1,4 +1,4 @@
-FROM niiknow/docker-hostingbase:0.7.0
+FROM niiknow/docker-hostingbase:0.7.1
 
 MAINTAINER friends@niiknow.org
 

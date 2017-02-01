@@ -1,11 +1,11 @@
 # ajenti docker
-Ajenti Docker web panel with Ubuntu 16.04 LTS.
+Ajenti Docker control panel with Ubuntu 16.04 LTS
 
 mkdir -p /opt/ajenti
 
 docker run -p 80:80 -p 443:443 -p 3306:3306 -p 9000:9000 -p 9001:9001 -v /opt/ajenti:/ajenti -d niiknow/ajenti-udock
 
-It is important that you have the data volume mounted externally or to a data container.  This will be your data persistent folder
+It is important that you have the data volume mounted externally or with a data container.  This will be your data persistent folder
 
 BROWSER
 ```
