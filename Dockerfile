@@ -3,6 +3,9 @@ FROM niiknow/docker-hostingbase:0.7.0
 MAINTAINER friends@niiknow.org
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV DOTNET_VERSION=1.1.0 GOLANG_VERSION=1.7.5
+ENV DOTNET_DOWNLOAD_URL=https://dotnetcli.blob.core.windows.net/dotnet/release/$DOTNET_VERSION/Binaries/$DOTNET_VERSION/dotnet-debian-x64.$DOTNET_VERSION.tar.gz
+ENV GOLANG_DOWNLOAD_URL=https://storage.googleapis.com/golang/go$GOLANG_VERSION.linux-amd64.tar.gz
 
 # start
 RUN \
@@ -24,11 +27,24 @@ RUN \
 RUN \
     cd /tmp \
 
+# dotnet
+    && curl -SL $DOTNET_DOWNLOAD_URL --output /tmp/dotnet.tar.gz \
+    && mkdir -p /usr/share/dotnet \
+    && tar -zxf /tmp/dotnet.tar.gz -C /usr/share/dotnet \
+    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
+
 # awscli
     && curl -O https://bootstrap.pypa.io/get-pip.py \
     && python get-pip.py \
     && pip install bunch \
     && pip install awscli \
+
+# getting golang
+    && cd /tmp \
+    && curl -SL $GOLANG_DOWNLOAD_URL --output /tmp/golang.tar.gz \
+    && tar -zxf golang.tar.gz \
+    && mv go /usr/local \
+    && echo "\nGOROOT=/usr/local/go\nexport GOROOT\n" >> /root/.profile
 
 # pymongo
     && pip install pymongo \
