@@ -222,6 +222,10 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && service mysql stop \
     && service postgresql stop \
     && service redis-server stop \
+    && service fail2ban stop \
+    && sed -i -e "s/\/var\/lib\/mysql/\/ajenti\/var\/lib\/mysql/g" /etc/mysql/my.cnf \
+    && sed -i -e "s/127\.0\.0\.1/\*/g" /etc/redis/redis.conf \
+    && sed -i -e "s/\/etc\/redis/\/ajenti\/etc\/redis/g" /etc/init.d/redis-server \
 
     && mkdir -p /ajenti-start/etc-bak \
     && mkdir -p /ajenti-start/etc \
