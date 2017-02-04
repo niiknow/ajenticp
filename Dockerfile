@@ -168,7 +168,6 @@ RUN \
 RUN \
     cd /tmp \
     && chmod +x /etc/init.d/mongod \
-    && chmod +x /etc/cron.hourly/ajenti-backup-etc \
     && chmod +x /etc/my_init.d/startup.sh \
 
 # increase memcache max size from 64m to 2g
