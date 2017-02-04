@@ -1,7 +1,0 @@
-#!/bin/sh
-# backup current users
-mkdir -p /ajenti/etc-bak
-rsync -a /etc/passwd /ajenti/etc-bak/passwd
-rsync -a /etc/shadow /ajenti/etc-bak/shadow
-rsync -a /etc/gshadow /ajenti/etc-bak/gshadow
-rsync -a /etc/group /ajenti/etc-bak/group

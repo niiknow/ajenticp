@@ -15,7 +15,7 @@ fi
 #     mv /etc/fail2ban/jail.new /etc/fail2ban/jail.local
 # fi
 
-# required startup and of course ajenti
+# exec required startup and of course ajenti
 cd /etc/init.d/
 
 ./disable-transparent-hugepages defaults
@@ -35,7 +35,7 @@ if [[ ! -d /ajenti/sites/phpMyAdmin ]]; then
     tar -zxf /tmp/phpMyAdmin.tar.gz -C /tmp/
     mv /tmp/phpMyAdmin-4.6.5.2-all-languages /ajenti/sites/phpMyAdmin
     BLOWFISH=$(pwgen -s 80 -1 -v -c -0)
-    cp /sysprepz/sites/phpMyAdmin/config.inc.php /ajenti/sites/phpMyAdmin/config.inc.php
+    cp /root/phpMyAdmin.config.inc.php /ajenti/sites/phpMyAdmin/config.inc.php
     sed -i -e "s/BLOWFISH_SECRET/$BLOWFISH/g" /ajenti/sites/phpMyAdmin/config.inc.php
     chown -R www-data:www-data /ajenti/sites
     rm -f /tmp/phpMyAdmin.tar.gz

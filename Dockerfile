@@ -327,6 +327,6 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
 
     && rm -rf /tmp/*
 
-VOLUME ["/ajenti"]
+VOLUME ["/backup", "/ajenti"]
 
 EXPOSE 22 25 53 54 80 110 443 993 1194 3000 3306 5432 5984 6379 9000 9001 10022 11211 27017
