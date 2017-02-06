@@ -1,4 +1,4 @@
-FROM niiknow/docker-hostingbase:0.8.2
+FROM niiknow/docker-hostingbase:0.8.3
 
 MAINTAINER friends@niiknow.org
 
@@ -226,7 +226,6 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && sed -i -e "s/127\.0\.0\.1/\*/g" /etc/redis/redis.conf \
     && sed -i -e "s/\/etc\/redis/\/ajenti\/etc\/redis/g" /etc/init.d/redis-server \
 
-    && mkdir -p /ajenti-start/etc-bak \
     && mkdir -p /ajenti-start/etc \
     && mkdir -p /ajenti-start/var/lib \
 
