@@ -323,10 +323,6 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && mv /var/lib/couchdb /ajenti-start/var/lib/couchdb \
     && rm -rf /var/lib/couchdb \
     && ln -s /ajenti/var/lib/couchdb /var/lib/couchdb \
-
-    && mv /var/spool/cron   /app-start/var/spool/cron \
-    && rm -rf /var/spool/cron \
-    && ln -s /app/var/spool/cron /var/spool/cron \
     
     && rm -rf /tmp/*
 
