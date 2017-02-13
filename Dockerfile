@@ -324,7 +324,7 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && rm -rf /var/lib/couchdb \
     && ln -s /ajenti/var/lib/couchdb /var/lib/couchdb \
     
-    && rm -rf /backup \
+    && rm -rf /backup/.etc \
     && rm -rf /tmp/*
 
 VOLUME ["/backup", "/ajenti"]
