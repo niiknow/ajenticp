@@ -31,9 +31,9 @@ cd /etc/init.d/
 # install phpMyAdmin if not exists, remove this if you don't want phpMyAdmin
 if [[ ! -d /ajenti/sites/phpMyAdmin ]]; then
     cd /tmp
-    curl -s -o /tmp/phpMyAdmin.tar.gz https://files.phpmyadmin.net/phpMyAdmin/4.6.5.2/phpMyAdmin-4.6.5.2-all-languages.tar.gz
+    curl -s -o /tmp/phpMyAdmin.tar.gz https://files.phpmyadmin.net/phpMyAdmin/4.7.3/phpMyAdmin-4.7.3-all-languages.tar.gz
     tar -zxf /tmp/phpMyAdmin.tar.gz -C /tmp/
-    mv /tmp/phpMyAdmin-4.6.5.2-all-languages /ajenti/sites/phpMyAdmin
+    mv /tmp/phpMyAdmin-4.7.3-all-languages /ajenti/sites/phpMyAdmin
     BLOWFISH=$(pwgen -s 80 -1 -v -c -0)
     cp /root/phpMyAdmin.config.inc.php /ajenti/sites/phpMyAdmin/config.inc.php
     sed -i -e "s/BLOWFISH_SECRET/$BLOWFISH/g" /ajenti/sites/phpMyAdmin/config.inc.php

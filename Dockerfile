@@ -1,34 +1,99 @@
-FROM niiknow/docker-hostingbase:0.8.4
+FROM niiknow/docker-hostingbase:0.9.1
 
 MAINTAINER friends@niiknow.org
 
-ENV DEBIAN_FRONTEND=noninteractive
-ENV DOTNET_VERSION=1.1.0 GOLANG_VERSION=1.7.5
-ENV DOTNET_DOWNLOAD_URL=https://dotnetcli.blob.core.windows.net/dotnet/release/$DOTNET_VERSION/Binaries/$DOTNET_VERSION/dotnet-debian-x64.$DOTNET_VERSION.tar.gz
-ENV GOLANG_DOWNLOAD_URL=https://storage.googleapis.com/golang/go$GOLANG_VERSION.linux-amd64.tar.gz
+ENV DEBIAN_FRONTEND=noninteractive \
+    GOLANG_VERSION=1.8.3 \
+    DOTNET_DOWNLOAD_URL=https://download.microsoft.com/download/D/7/A/D7A9E4E9-5D25-4F0C-B071-210CB8267943/dotnet-ubuntu.16.04-x64.1.1.2.tar.gz  \
+    NGINX_BUILD_DIR=/usr/src/nginx \
+    NGINX_VERSION=1.13.3 \
+    NGINX_PAGESPEED_VERSION=1.12.34.2 \
+    NGINX_PAGESPEED_DIR=/usr/src/nginx/ngx_pagespeed-latest-stable/ \
+    IMAGE_FILTER_URL=https://raw.githubusercontent.com/niiknow/docker-nginx-image-proxy/master/build/src/ngx_http_image_filter_module.c
 
 # start
 RUN \
     cd /tmp \
+
+# add our user and group first to make sure their IDs get assigned consistently
+    && echo "nginx mysql bind clamav ssl-cert dovecot dovenull Debian-exim postgres debian-spamd epmd couchdb memcache mongodb redis" | xargs -n1 groupadd -K GID_MIN=100 -K GID_MAX=999 ${g} \
+    && echo "nginx nginx mysql mysql bind bind clamav clamav dovecot dovecot dovenull dovenull Debian-exim Debian-exim postgres postgres debian-spamd debian-spamd epmd epmd couchdb couchdb memcache memcache mongodb mongodb redis redis" | xargs -n2 useradd -d /nonexistent -s /bin/false -K UID_MIN=100 -K UID_MAX=999 -g ${g} \
+    && usermod -d /var/lib/mysql mysql \
+    && usermod -d /var/cache/bind bind \
+    && usermod -d /var/lib/clamav -a -G Debian-exim clamav && usermod -a -G mail clamav \
+    && usermod -d /usr/lib/dovecot -a -G mail dovecot \
+    && usermod -d /var/spool/exim4 -a -G mail Debian-exim \
+    && usermod -d /var/lib/postgresql -s /bin/bash -a -G ssl-cert postgres \
+    && usermod -d /var/lib/spamassassin -s /bin/sh -a -G mail debian-spamd \
+    && usermod -d /var/run/epmd epmd \
+    && usermod -d /var/lib/couchdb -s /bin/bash couchdb \
+    && usermod -d /var/lib/mongodb -a -G nogroup mongodb \
+    && usermod -d /var/lib/redis redis \
+
     && apt-get -o Acquire::GzipIndexes=false update \
+
+# add nginx repo
+    && curl -s https://nginx.org/keys/nginx_signing.key | apt-key add - \
+    && cp /etc/apt/sources.list /etc/apt/sources.list.bak \
+    && echo "deb http://nginx.org/packages/mainline/ubuntu/ xenial nginx" | tee -a /etc/apt/sources.list \
+    && echo "deb-src http://nginx.org/packages/mainline/ubuntu/ xenial nginx" | tee -a /etc/apt/sources.list \
+
+
     && wget http://repo.ajenti.org/debian/key -O- | apt-key add - \
     && echo "deb http://repo.ajenti.org/debian main main ubuntu" > /etc/apt/sources.list.d/ajenti.list \
 
     && apt-get update && apt-get upgrade -y \
-    && apt-get install -y mariadb-server mariadb-client redis-server fail2ban \
-    && dpkg --configure -a
 
-RUN \
-    cd /tmp \
+    && apt-get install -y mariadb-server mariadb-client redis-server fail2ban \
+    && dpkg --configure -a \
+
+# update
+    && apt-get update && apt-get -y --no-install-recommends upgrade \
+    && apt-get install -y --no-install-recommends libpcre3-dev libssl-dev dpkg-dev libgd-dev \
+
+# install nginx with pagespeed first so vesta config can override
+    && mkdir -p ${NGINX_BUILD_DIR} \
+
+# Load Pagespeed module, PSOL and nginx
+    && cd ${NGINX_BUILD_DIR} \
+    && curl -SL https://github.com/pagespeed/ngx_pagespeed/archive/latest-stable.zip  -o ${NGINX_BUILD_DIR}/latest-stable.zip \
+    && unzip latest-stable.zip \
+    && cd ${NGINX_PAGESPEED_DIR} \
+    && curl -SL https://dl.google.com/dl/page-speed/psol/${NGINX_PAGESPEED_VERSION}-x64.tar.gz -o ${NGINX_PAGESPEED_VERSION}.tar.gz \
+    && tar -xzf ${NGINX_PAGESPEED_VERSION}.tar.gz \
+
+# get the source
+    && cd ${NGINX_BUILD_DIR}; apt-get source nginx -y \
+    && mv ${NGINX_BUILD_DIR}/nginx-${NGINX_VERSION}/src/http/modules/ngx_http_image_filter_module.c ${NGINX_BUILD_DIR}/nginx-${NGINX_VERSION}/src/http/modules/ngx_http_image_filter_module.bak \
+
+# apply patch
+    && curl -SL $IMAGE_FILTER_URL --output ${NGINX_BUILD_DIR}/nginx-${NGINX_VERSION}/src/http/modules/ngx_http_image_filter_module.c \
+    && sed -i "s/--with-http_ssl_module/--with-http_ssl_module --with-http_image_filter_module --add-module=\/usr\/src\/nginx\/ngx_pagespeed-latest-stable\//g" ${NGINX_BUILD_DIR}/nginx-${NGINX_VERSION}/debian/rules \
+
+# get build dependencies
+    && cd ${NGINX_BUILD_DIR}; apt-get build-dep nginx -y \
+    && cd ${NGINX_BUILD_DIR}/nginx-${NGINX_VERSION}; dpkg-buildpackage -uc -us -b \
+
+# install new nginx package
+    && cd ${NGINX_BUILD_DIR}; dpkg -i nginx_${NGINX_VERSION}-1~xenial_amd64.deb \
+
+# put nginx on hold so it doesn't get updates with apt-get upgrade
+    && echo "nginx hold" | dpkg --set-selections \
+
     && apt-get install -yq ajenti php-all-dev pkg-php-tools \
     && apt-get install -yq ajenti-v ajenti-v-nginx ajenti-v-mysql ajenti-v-php5.6-fpm \
-        ajenti-v-php7.0-fpm ajenti-v-mail ajenti-v-nodejs ajenti-v-python-gunicorn ajenti-v-ruby-unicorn 
+        ajenti-v-php7.0-fpm ajenti-v-mail ajenti-v-nodejs ajenti-v-python-gunicorn ajenti-v-ruby-unicorn \
 
-RUN \
-    cd /tmp \
+# install other things
+    && apt-get install -yf mongodb-org php-mongodb couchdb nodejs memcached php-memcached redis-server openvpn \
+        postgresql postgresql-contrib easy-rsa bind9 bind9utils bind9-doc \
 
+# relink nodejs
+    && ln -sf "$(which nodejs)" /usr/bin/node \
+
+# setting up dotnet, awscli, golang
 # dotnet
-    && curl -SL $DOTNET_DOWNLOAD_URL --output /tmp/dotnet.tar.gz \
+    && curl -SL $DOTNET_DOWNLOAD_URL -o /tmp/dotnet.tar.gz \
     && mkdir -p /usr/share/dotnet \
     && tar -zxf /tmp/dotnet.tar.gz -C /usr/share/dotnet \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
@@ -36,12 +101,11 @@ RUN \
 # awscli
     && curl -O https://bootstrap.pypa.io/get-pip.py \
     && python get-pip.py \
-    && pip install bunch \
     && pip install awscli \
 
 # getting golang
     && cd /tmp \
-    && curl -SL $GOLANG_DOWNLOAD_URL --output /tmp/golang.tar.gz \
+    && curl -SL https://storage.googleapis.com/golang/go$GOLANG_VERSION.linux-amd64.tar.gz -o /tmp/golang.tar.gz \
     && tar -zxf golang.tar.gz \
     && mv go /usr/local \
     && echo "\nGOROOT=/usr/local/go\nexport GOROOT\n" >> /root/.profile \
@@ -64,16 +128,66 @@ RUN \
         php7.1-tidy php7.1-opcache php7.1-json php7.1-bz2 php7.1-pgsql php7.1-mcrypt php7.1-readline php7.1-sybase \
         php7.1-intl php7.1-sqlite3 php7.1-ldap php7.1-xml php7.1-redis php7.1-imagick php7.1-zip \
 
+# exclude geoip, redis, imagick and of course: mcrypt
+#    && apt-get install -yq php7.2-fpm php7.2-mbstring php7.2-cgi php7.2-cli php7.2-dev php7.2-common php7.2-xmlrpc \
+#        php7.2-dev php7.2-curl php7.2-enchant php7.2-imap php7.2-xsl php7.2-mysql php7.2-mysqlnd php7.2-pspell php7.2-gd \
+#        php7.2-tidy php7.2-opcache php7.2-json php7.2-bz2 php7.2-pgsql php7.2-readline php7.2-sybase \
+#        php7.2-intl php7.2-sqlite3 php7.2-ldap php7.2-xml php7.2-zip \
+
+# patch before adding new files
+    && rm -f /var/lib/ajenti/plugins/vh-nginx/ng*.* \
+    && rm -f /var/lib/ajenti/plugins/vh-nginx/*.pyc \
+    && rm -f /var/lib/ajenti/plugins/vh-php5.6-fpm/php*.* \
+    && rm -f /var/lib/ajenti/plugins/vh-php5.6-fpm/*.pyc \
+    && rm -f /var/lib/ajenti/plugins/vh-php7.0-fpm/php*.* \
+    && rm -f /var/lib/ajenti/plugins/vh-php7.0-fpm/*.pyc \
+    && mkdir -p /var/lib/ajenti/plugins/vh-php7.1-fpm \
+    && rm -f /var/lib/ajenti/plugins/vh/main.* \
+    && rm -f /var/lib/ajenti/plugins/vh/*.pyc \
+    && rm -f /var/lib/ajenti/plugins/vh/api.pyc \
+    && rm -f /var/lib/ajenti/plugins/vh/processes.pyc \
+
+# finish cleaning up
+    && dpkg --configure -a \
+    && rm -rf /usr/src/nginx \
+    && rm -rf /tmp/.spam* \
+    && rm -rf /tmp/* \
+    && apt-get -yf autoremove \
+    && apt-get clean 
+
+# add files
+ADD ./files /
+
+# update ajenti, install other things
+RUN \
+    cd /tmp \
+    && mkdir -p /ajenti-start/sites \
+    && chown -R www-data:www-data /ajenti-start/sites \
+
+# no idea why 1000:1000 but that's the permission ajenti installed with
+    && chown -R 1000:1000 /var/lib/ajenti \
+
+# change to more useful folder structure
+    && sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py \
+    && sed -i -e "s/'php-fcgi'/'php7.1-fcgi'/g" /var/lib/ajenti/plugins/vh/api.py \
+
+    && sed -i -e "s/\/etc\/nginx\/nginx\.conf/\/ajenti\/etc\/nginx\/nginx\.conf/g" /etc/init.d/nginx \
+
+# https://github.com/Eugeny/ajenti-v/pull/185
+    && sed -i -e "s/'reload'/'update'/g" /var/lib/ajenti/plugins/vh/processes.py \
+
+# activate mongodb
+    && chmod +x /etc/init.d/mongod \
+    && chmod +x /etc/my_init.d/startup.sh \
+
+# increase memcache max size from 64m to 2g
+    && sed -i -e "s/^\-m 64/\-m 2048/g" /etc/memcached.conf \
+
+# redirect ajenti default port
+    && sed -i -e "s/\"port\"\: 8000/\"port\"\: 9000/g" /etc/ajenti/config.json \
+
 # fix v8js reference of json first
     && mv /etc/php/5.6/fpm/conf.d/20-json.ini /etc/php/5.6/fpm/conf.d/15-json.ini \
-
-# switch php7.0 version before pecl install
-    && update-alternatives --set php /usr/bin/php7.0 \
-    && pecl config-set php_ini /etc/php/7.0/cli/php.ini \
-    && pecl config-set ext_dir /usr/lib/php/20151012 \
-    && pecl config-set bin_dir /usr/bin \
-    && pecl config-set php_bin /usr/bin/php7.0 \
-    && pecl config-set php_suffix 7.0 \
 
     && echo "extension=v8js.so" > /etc/php/5.6/mods-available/v8js.ini \
     && ln -sf /etc/php/5.6/mods-available/v8js.ini /etc/php/5.6/fpm/conf.d/20-v8js.ini \
@@ -124,63 +238,12 @@ RUN \
 
 
     && sed -i -e "s/;always_populate_raw_post_data = -1/always_populate_raw_post_data = -1/g" /etc/php/5.6/fpm/php.ini \
-    && rm -f /var/lib/ajenti/plugins/vh-nginx/ng*.* \
-    && rm -f /var/lib/ajenti/plugins/vh-nginx/*.pyc \
-    && rm -f /var/lib/ajenti/plugins/vh-php5.6-fpm/php*.* \
-    && rm -f /var/lib/ajenti/plugins/vh-php5.6-fpm/*.pyc \
-    && rm -f /var/lib/ajenti/plugins/vh-php7.0-fpm/php*.* \
-    && rm -f /var/lib/ajenti/plugins/vh-php7.0-fpm/*.pyc \
-    && mkdir -p /var/lib/ajenti/plugins/vh-php7.1-fpm \
-    && rm -f /var/lib/ajenti/plugins/vh/main.* \
-    && rm -f /var/lib/ajenti/plugins/vh/*.pyc \
-    && rm -f /var/lib/ajenti/plugins/vh/api.pyc \
-    && rm -f /var/lib/ajenti/plugins/vh/processes.pyc
 
-# add files
-ADD ./files /
-
-# update ajenti, install other things
-RUN \
-    cd /tmp \
-    && mkdir -p /ajenti-start/sites \
-    && chown -R www-data:www-data /ajenti-start/sites \
-
-# no idea why 1000:1000 but that's the permission ajenti installed with
-    && chown -R 1000:1000 /var/lib/ajenti \
-
-# change to more useful folder structure
-    && sed -i -e "s/\/srv\/new\-website/\/ajenti\/sites\/new\-website/g" /var/lib/ajenti/plugins/vh/api.py \
-    && sed -i -e "s/'php-fcgi'/'php7.1-fcgi'/g" /var/lib/ajenti/plugins/vh/api.py \
-
-    && sed -i -e "s/\/etc\/nginx\/nginx\.conf/\/ajenti\/etc\/nginx\/nginx\.conf/g" /etc/init.d/nginx \
-
-# https://github.com/Eugeny/ajenti-v/pull/185
-    && sed -i -e "s/'reload'/'update'/g" /var/lib/ajenti/plugins/vh/processes.py \
-
-# install other things
-    && apt-get install -y mongodb-org php-mongodb couchdb nodejs memcached php-memcached redis-server openvpn \
-    	postgresql postgresql-contrib easy-rsa bind9 bind9utils bind9-doc \
-    && npm install --quiet -g gulp express bower pm2 webpack webpack-dev-server karma protractor typings typescript \
-    && npm cache clean \
-    && ln -sf "$(which nodejs)" /usr/bin/node
-
-# tweaks
-RUN \
-    cd /tmp \
-    && chmod +x /etc/init.d/mongod \
-    && chmod +x /etc/my_init.d/startup.sh \
-
-# increase memcache max size from 64m to 2g
-    && sed -i -e "s/^\-m 64/\-m 2048/g" /etc/memcached.conf \
-
-# redirect ajenti default port
-    && sed -i -e "s/\"port\"\: 8000/\"port\"\: 9000/g" /etc/ajenti/config.json \
-
-# mongodb stuff
-    && mkdir -p /data/db \
-    && chmod 0755 /data/db \
-    && chown -R mongodb:mongodb /data/db \
+# performance tweaks
     && chmod 0755 /etc/init.d/disable-transparent-hugepages \
+
+# increase memcache max size from 64m to 256m
+    && sed -i -e "s/^\-m 64/\-m 256/g" /etc/memcached.conf \
 
 # couchdb stuff
     && mkdir -p /var/lib/couchdb \
@@ -195,10 +258,10 @@ RUN \
     && sed -i -e "s/^shared_buffers = 128MB/shared_buffers = 2048MB/g" /etc/postgresql/9.5/main/postgresql.conf \
     && sed -i -e "s/%q%u@%d '/%q%u@%d %r '/g" /etc/postgresql/9.5/main/postgresql.conf \
     && sed -i -e "s/^#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.5/main/postgresql.conf \
-    && sed -i -e "s/^#PermitRootLogin yes/PermitRootLogin no/g" /etc/ssh/sshd_config
+    && sed -i -e "s/^#PermitRootLogin yes/PermitRootLogin no/g" /etc/ssh/sshd_config \
 
 # php stuff - after ajenti because of ajenti-php installs
-RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6/fpm/php.ini \
+    && sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6/fpm/php.ini \
     && sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/7.0/fpm/php.ini \
     && sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/7.1/fpm/php.ini \
 
@@ -218,12 +281,25 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && sed -i -e "s/;sendmail_path =/sendmail_path = \/usr\/sbin\/exim \-t/g" /etc/php/7.0/fpm/php.ini \
     && sed -i -e "s/;sendmail_path =/sendmail_path = \/usr\/sbin\/exim \-t/g" /etc/php/7.1/fpm/php.ini \
 
+# increase open file limit for nginx and apache
+    && echo "\n\n* soft nofile 800000\n* hard nofile 800000\n\n" >> /etc/security/limits.conf \
+
     && service mysql stop \
     && service postgresql stop \
     && service redis-server stop \
     && service fail2ban stop \
+
     && sed -i -e "s/\/var\/lib\/mysql/\/ajenti\/var\/lib\/mysql/g" /etc/mysql/my.cnf \
+
+# setup redis like memcache
     && sed -i -e "s/127\.0\.0\.1/\*/g" /etc/redis/redis.conf \
+    && sed -i -e 's:^save:# save:g' \
+      -e 's:^bind:# bind:g' \
+      -e 's:^logfile:# logfile:' \
+      -e 's:daemonize yes:daemonize no:' \
+      -e 's:# maxmemory \(.*\)$:maxmemory 256mb:' \
+      -e 's:# maxmemory-policy \(.*\)$:maxmemory-policy allkeys-lru:' \
+      /etc/redis/redis.conf \
     && sed -i -e "s/\/etc\/redis/\/ajenti\/etc\/redis/g" /etc/init.d/redis-server \
 
     && mkdir -p /ajenti-start/etc \
@@ -251,6 +327,12 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && mv /var/lib/redis /ajenti-start/var/lib/redis \
     && rm -rf /var/lib/redis \
     && ln -s /ajenti/var/lib/redis /var/lib/redis \
+
+    && mkdir -p /var/lib/mongodb \
+    && chown -R mongodb:mongodb /var/lib/mongodb \
+    && mv /var/lib/mongodb /ajenti-start/var/lib/mongodb \
+    && rm -rf /var/lib/mongodb \
+    && ln -s /vesta/var/lib/mongodb /var/lib/mongodb \
 
     && mv /etc/openvpn /ajenti-start/etc/openvpn \
     && rm -rf /etc/openvpn \
@@ -312,10 +394,6 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && rm -rf /etc/mongod.conf \
     && ln -s /ajenti/etc/mongod.conf /etc/mongod.conf \
 
-    && mv /data /ajenti-start/data \
-    && rm -rf /ajenti \
-    && ln -s /ajenti/data /data \
-
     && mv /etc/couchdb /ajenti-start/etc/couchdb \
     && rm -rf /etc/couchdb \
     && ln -s /ajenti/etc/couchdb /etc/couchdb \
@@ -324,9 +402,17 @@ RUN sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 600M/" /etc/php/5.6
     && rm -rf /var/lib/couchdb \
     && ln -s /ajenti/var/lib/couchdb /var/lib/couchdb \
     
+# pagespeed stuff
+    && mkdir -p /var/ngx_pagespeed_cache \
+    && chmod 755 /var/ngx_pagespeed_cache \
+    && chown www-data:www-data /var/ngx_pagespeed_cache \
+
+# finish cleaning up
     && rm -rf /backup/.etc \
-    && rm -rf /tmp/*
+    && rm -rf /tmp/* \
+    && apt-get -yf autoremove \
+    && apt-get clean 
 
-VOLUME ["/backup", "/ajenti"]
+VOLUME ["/backup", "/home", "/ajenti"]
 
-EXPOSE 22 25 53 54 80 110 443 993 1194 3000 3306 5432 5984 6379 9000 9001 10022 11211 27017
+EXPOSE 22 25 53 54 80 110 143 443 465 587 993 995 1194 3000 3306 5432 5984 6379 9000 9001 10022 11211 27017
