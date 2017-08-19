@@ -1,4 +1,4 @@
-FROM niiknow/docker-hostingbase:0.9.1
+FROM niiknow/docker-hostingbase:0.9.2
 
 MAINTAINER friends@niiknow.org
 
@@ -141,11 +141,11 @@ RUN \
     && rm -f /var/lib/ajenti/plugins/vh-php5.6-fpm/*.pyc \
     && rm -f /var/lib/ajenti/plugins/vh-php7.0-fpm/php*.* \
     && rm -f /var/lib/ajenti/plugins/vh-php7.0-fpm/*.pyc \
-    && mkdir -p /var/lib/ajenti/plugins/vh-php7.1-fpm \
     && rm -f /var/lib/ajenti/plugins/vh/main.* \
     && rm -f /var/lib/ajenti/plugins/vh/*.pyc \
     && rm -f /var/lib/ajenti/plugins/vh/api.pyc \
     && rm -f /var/lib/ajenti/plugins/vh/processes.pyc \
+    && mkdir -p /var/lib/ajenti/plugins/vh-php7.1-fpm \
 
 # finish cleaning up
     && dpkg --configure -a \
@@ -156,7 +156,7 @@ RUN \
     && apt-get clean 
 
 # add files
-ADD ./files /
+COPY rootfs/. /
 
 # update ajenti, install other things
 RUN \
