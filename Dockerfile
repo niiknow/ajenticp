@@ -63,7 +63,7 @@ RUN \
     && tar -xzf ${NGINX_PAGESPEED_VERSION}.tar.gz \
 
 # get the source
-    && cd ${NGINX_BUILD_DIR}; apt-get source nginx -y \
+    && cd ${NGINX_BUILD_DIR}; apt-get source nginx=${NGINX_VERSION} -y \
     && mv ${NGINX_BUILD_DIR}/nginx-${NGINX_VERSION}/src/http/modules/ngx_http_image_filter_module.c ${NGINX_BUILD_DIR}/nginx-${NGINX_VERSION}/src/http/modules/ngx_http_image_filter_module.bak \
 
 # apply patch
@@ -182,9 +182,6 @@ RUN \
 
 # increase memcache max size from 64m to 2g
     && sed -i -e "s/^\-m 64/\-m 2048/g" /etc/memcached.conf \
-
-# redirect ajenti default port
-    && sed -i -e "s/\"port\"\: 8000/\"port\"\: 9000/g" /etc/ajenti/config.json \
 
 # fix v8js reference of json first
     && mv /etc/php/5.6/fpm/conf.d/20-json.ini /etc/php/5.6/fpm/conf.d/15-json.ini \
@@ -415,4 +412,4 @@ RUN \
 
 VOLUME ["/backup", "/home", "/ajenti"]
 
-EXPOSE 22 25 53 54 80 110 143 443 465 587 993 995 1194 3000 3306 5432 5984 6379 9000 9001 10022 11211 27017
+EXPOSE 22 25 53 54 80 110 143 443 465 587 993 995 1194 3000 3306 5432 5984 6379 8000 8001 10022 11211 27017
