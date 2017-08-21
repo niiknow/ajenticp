@@ -38,7 +38,7 @@
       "spdy": false,
       "ssl": false,
       "host": "*",
-      "port": 9001,
+      "port": 8001,
       "default": true
     }],
     "enabled": true
