@@ -5,8 +5,6 @@ services:
     image: niiknow/ajenticp
     container_name: ajenti
     cap_add: ['NET_RAW', 'NET_ADMIN']
-    environment:
-      - "VESTA_DOMAIN=your-ajenti.panel-dns.com"
     volumes:
       - "/opt/ajenticp/ajenti:/ajenti"
       - "/opt/ajenticp/backup:/backup"
