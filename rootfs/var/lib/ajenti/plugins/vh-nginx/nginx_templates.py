@@ -50,6 +50,8 @@ http {
     server_tokens off;
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 
+    pagespeed FileCachePath /var/ngx_pagespeed_cache;
+
     include /ajenti/etc/nginx/proxy.conf;
     include /ajenti/etc/nginx/fastcgi.conf;
 
