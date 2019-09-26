@@ -1,6 +1,9 @@
 # ajenti docker
 Ajenti Docker control panel with Ubuntu 16.04 LTS
 
+# NOTICE
+> This repo is no longer being maintained and will be removed shortly.  If you have forked the repo, I will not delete it.   I'm simply just deleting only this repo.
+
 mkdir -p /opt/ajenticp/{backup,ajenti}
 
 docker run -p 80:80 -p 443:443 -p 8000:8000 -p 8001:8001 -v /opt/ajenticp/ajenti:/ajenti -v /opt/ajenticp/backup:/backup -d niiknow/ajenticp
